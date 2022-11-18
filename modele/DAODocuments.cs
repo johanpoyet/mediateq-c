@@ -161,11 +161,54 @@ namespace Mediateq_AP_SIO2
 
         }
 
+        public static void creerLivre(Livre livre)
+        {
+
+
+
+
+
+            string req2 = "INSERT INTO document(id, titre, image, idCategorie) VALUES ('" + livre.IdDoc + "','" + livre.Titre + "','" + livre.Image + "','" + livre.LaCategorie.Id + "')";
+            string req = "INSERT INTO livre(id, ISBN, auteur, collection) VALUES ('" + livre.IdDoc + "', '" + livre.ISBN1 + "','" + livre.Auteur + "','" + livre.LaCollection + "')";
+
+            DAOFactory.connecter();
+
+            DAOFactory.execSQLWrite(req2);
+            DAOFactory.execSQLWrite(req);
+
+
+
+
+            DAOFactory.deconnecter();
+
+
+        }
+
         public static void supprimerDvd(Dvd dvd)
         {
 
             string req2 = "DELETE FROM document WHERE id = '"+ dvd.IdDoc +"'";
             string req = "DELETE FROM dvd WHERE id = '" + dvd.IdDoc + "'";
+
+            DAOFactory.connecter();
+
+            DAOFactory.execSQLWrite(req);
+            DAOFactory.execSQLWrite(req2);
+
+
+
+
+            DAOFactory.deconnecter();
+
+
+        }
+
+
+        public static void supprimerLivre(Livre livre)
+        {
+
+            string req2 = "DELETE FROM document WHERE id = '" + livre.IdDoc + "'";
+            string req = "DELETE FROM livre WHERE id = '" + livre.IdDoc + "'";
 
             DAOFactory.connecter();
 
@@ -203,18 +246,16 @@ namespace Mediateq_AP_SIO2
 
         }
 
-        
 
-
-        public static void creerLivre(Livre livre)
+        public static void modifierLivre(Livre livre)
         {
 
 
 
 
 
-            string req2 = "INSERT INTO document(id, titre, image, idCategorie) VALUES ('" + livre.IdDoc + "','" + livre.Titre + "','" + livre.Image + "','" + livre.LaCategorie.Id + "')";
-            string req = "INSERT INTO livre(id, ISBN, auteur, collection) VALUES ('" + livre.IdDoc + "','" + livre.ISBN1 + "','" + livre.Auteur + "','" + livre.LaCollection + "')";
+            string req2 = "UPDATE document SET id = '" + livre.IdDoc + "', titre='" + livre.Titre + "', image= '" + livre.Image + "', idCategorie='" + livre.LaCategorie.Id + "' WHERE id = '" + livre.IdDoc + "'";
+            string req = "UPDATE livre SET id='" + livre.IdDoc + "', ISBN='" + livre.ISBN1 + "', auteur='" + livre.Auteur + "', collection='" + livre.LaCollection + "' WHERE id= '" + livre.IdDoc + "'";
 
             DAOFactory.connecter();
 
@@ -228,6 +269,12 @@ namespace Mediateq_AP_SIO2
 
 
         }
+
+
+
+
+
+
 
         public static void setDescripteurs(List<Livre> lesLivres)
         {
