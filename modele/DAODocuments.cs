@@ -49,9 +49,9 @@ namespace Mediateq_AP_SIO2
         public static List<Livre> getAllLivres()
         {
             List<Livre> lesLivres = new List<Livre>();
-            string req = "Select l.id, l.ISBN, l.auteur, d.titre, d.image, l.collection, d.idPublic, c.libelle from livre l ";
+            string req = "Select l.id, l.ISBN, l.auteur, d.titre, d.image, l.collection, d.idCategorie, c.libelle from livre l ";
             req += " join document d on l.id=d.id";
-            req += " join categorie c on d.idPublic = c.id";
+            req += " join categorie c on d.idCategorie = c.id";
 
             DAOFactory.connecter();
 
@@ -147,6 +147,74 @@ namespace Mediateq_AP_SIO2
 
             string req2 = "INSERT INTO document(id, titre, image, idCategorie) VALUES ('" + dvd.IdDoc + "','" + dvd.Titre + "','" + dvd.Image + "','" + dvd.LaCategorie.Id + "')";
             string req = "INSERT INTO dvd(id, synopsis, réalisateur,duree) VALUES ('" + dvd.IdDoc + "','" + dvd.synopsis + "','" + dvd.realisateur + "','" + dvd.duree + "')";
+
+            DAOFactory.connecter();
+
+            DAOFactory.execSQLWrite(req2);
+            DAOFactory.execSQLWrite(req);
+
+
+
+
+            DAOFactory.deconnecter();
+
+
+        }
+
+        public static void supprimerDvd(Dvd dvd)
+        {
+
+            string req2 = "DELETE FROM document WHERE id = '"+ dvd.IdDoc +"'";
+            string req = "DELETE FROM dvd WHERE id = '" + dvd.IdDoc + "'";
+
+            DAOFactory.connecter();
+
+            DAOFactory.execSQLWrite(req);
+            DAOFactory.execSQLWrite(req2);
+
+
+
+
+            DAOFactory.deconnecter();
+
+
+        }
+
+        public static void modifierDvd(Dvd dvd)
+        {
+
+
+
+
+
+            string req2 = "UPDATE document SET id = '" + dvd.IdDoc + "', titre='" + dvd.Titre + "',image= '" + dvd.Image + "',idCategorie='" + dvd.LaCategorie.Id + "' WHERE id = '" + dvd.IdDoc + "'";
+            string req = "UPDATE dvd SET id='" + dvd.IdDoc + "', synopsis='" + dvd.synopsis + "', réalisateur='" + dvd.realisateur + "',duree='" + dvd.duree + "' WHERE id= '" + dvd.IdDoc + "'";
+
+            DAOFactory.connecter();
+
+            DAOFactory.execSQLWrite(req2);
+            DAOFactory.execSQLWrite(req);
+
+
+
+
+            DAOFactory.deconnecter();
+
+
+        }
+
+        
+
+
+        public static void creerLivre(Livre livre)
+        {
+
+
+
+
+
+            string req2 = "INSERT INTO document(id, titre, image, idCategorie) VALUES ('" + livre.IdDoc + "','" + livre.Titre + "','" + livre.Image + "','" + livre.LaCategorie.Id + "')";
+            string req = "INSERT INTO livre(id, ISBN, auteur, collection) VALUES ('" + livre.IdDoc + "','" + livre.ISBN1 + "','" + livre.Auteur + "','" + livre.LaCollection + "')";
 
             DAOFactory.connecter();
 

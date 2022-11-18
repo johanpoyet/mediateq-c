@@ -40,7 +40,11 @@ namespace Mediateq_AP_SIO2
             // Chargement des objets en mémoire
             lesDescripteurs = DAODocuments.getAllDescripteurs();
             lesTitres = DAOPresse.getAllTitre();
-                     
+            lesCategories = DAODocuments.getAllCategories();
+            lesDvd = DAODocuments.getAllDvd();
+            lesLivres = DAODocuments.getAllLivres();
+
+
 
         }
 
@@ -207,6 +211,15 @@ namespace Mediateq_AP_SIO2
 
             Dvd dvd1 = new Dvd(id, titre, synopsis, realisateur, duree, image, categ);
             DAODocuments.creerDvd(dvd1);
+
+            lesDvd = DAODocuments.getAllDvd();
+            dtDvd.Rows.Clear();
+
+            foreach (Dvd d in lesDvd)
+            {
+
+                dtDvd.Rows.Add(d.IdDoc, d.synopsis, d.realisateur, d.duree, d.Titre, d.Image, d.LaCategorie);
+            }
         }
 
         private void btnAfficherCreation_Click(object sender, EventArgs e)
@@ -225,17 +238,20 @@ namespace Mediateq_AP_SIO2
 
         private void tabDVD_Enter_1(object sender, EventArgs e)
         {
-            lesCategories = DAODocuments.getAllCategories();
-            lesDvd = DAODocuments.getAllDvd();
+            dtDvd.Rows.Clear();
+
+
             cbxDvd.DataSource = lesDvd;
             cbxDvd.DisplayMember = "titre";
             cbxCategorie.DataSource = lesCategories;
             cbxCategorie.DisplayMember = "libelle";
-            
-            
-           
+            cbxCategorieDvdModif.DataSource = lesCategories;
+            cbxCategorieDvdModif.DisplayMember = "libelle";
 
-             foreach (Dvd d in lesDvd)
+
+
+
+            foreach (Dvd d in lesDvd)
              {
                  
                  dtDvd.Rows.Add(d.IdDoc, d.synopsis, d.realisateur, d.duree, d.Titre, d.Image, d.LaCategorie);
@@ -243,6 +259,107 @@ namespace Mediateq_AP_SIO2
 
 
             
+        }
+
+        private void tabPage1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tabCrudLivre_Click(object sender, EventArgs e)
+        {
+            
+           
+        }
+
+        private void tabCrudLivre_Enter(object sender, EventArgs e)
+        {
+            cbxLivres.DataSource = lesLivres;
+            cbxLivres.DisplayMember = "titre";
+            cbxCategorieLivre.DataSource = lesCategories;
+            cbxCategorieLivre.DisplayMember = "libelle";
+
+            foreach (Livre l in lesLivres)
+            {
+
+                dtCrudLivre.Rows.Add(l.IdDoc, l.Titre, l.Auteur, l.LaCollection, l.Image, l.LaCategorie);
+            }
+        }
+
+        private void cbxDvd_SelectedIndexChanged_1(object sender, EventArgs e)
+        {
+            Dvd DvdSelection = (Dvd)cbxDvd.SelectedItem;
+            foreach (Dvd d in lesDvd)
+            {
+                if (d.IdDoc == DvdSelection.IdDoc)
+                {
+                    txIdModifDvd.Text = d.IdDoc;
+                    txTitreModifDvd.Text = d.Titre;
+                    txSynopsisModifDvd.Text = d.synopsis;
+                    txRealisateurModifDvd.Text = d.realisateur;
+                    txDureeModifDvd.Text = d.duree.ToString();
+                    txImageModifDvd.Text = d.Image;
+                    cbxCategorieDvdModif.Text = d.LaCategorie.Libelle;
+                }
+
+            }
+        }
+
+        private void btnModifDvd_Click(object sender, EventArgs e)
+        {
+           
+            
+            Dvd DvdSelection = (Dvd)cbxDvd.SelectedItem;           
+            string idModif= txIdModifDvd.Text;
+            string titreModif = txTitreModifDvd.Text;
+            string synopsisModif = txSynopsisModifDvd.Text;
+            string realisateurModif = txRealisateurModifDvd.Text;
+            int dureeModif = Int32.Parse(txDureeModifDvd.Text);
+            string imageModif = txImageModifDvd.Text;
+            Categorie categorieModif = (Categorie)cbxCategorieDvdModif.SelectedItem;
+
+            Dvd dvdModif = new Dvd(idModif, titreModif, synopsisModif, realisateurModif, dureeModif, imageModif, categorieModif);
+            DAODocuments.modifierDvd(dvdModif);
+
+            lesDvd = DAODocuments.getAllDvd();
+            dtDvd.Rows.Clear();
+
+            foreach (Dvd d in lesDvd)
+            {
+
+                dtDvd.Rows.Add(d.IdDoc, d.synopsis, d.realisateur, d.duree, d.Titre, d.Image, d.LaCategorie);
+            }
+
+
+
+
+
+
+        }
+
+        private void btnSupprimerDvd_Click(object sender, EventArgs e)
+        {
+            Dvd dvdSelection = (Dvd)cbxDvd.SelectedItem;
+            string idModif = txIdModifDvd.Text;
+            string titreModif = txTitreModifDvd.Text;
+            string synopsisModif = txSynopsisModifDvd.Text;
+            string realisateurModif = txRealisateurModifDvd.Text;
+            int dureeModif = Int32.Parse(txDureeModifDvd.Text);
+            string imageModif = txImageModifDvd.Text;
+            Categorie categorieModif = (Categorie)cbxCategorieDvdModif.SelectedItem;
+
+            Dvd dvdSuppr = new Dvd(idModif, titreModif, synopsisModif, realisateurModif, dureeModif, imageModif, categorieModif);
+
+
+            DAODocuments.supprimerDvd(dvdSuppr);
+            lesDvd = DAODocuments.getAllDvd();
+            dtDvd.Rows.Clear(); 
+
+            foreach (Dvd d in lesDvd)
+            {
+
+                dtDvd.Rows.Add(d.IdDoc, d.synopsis, d.realisateur, d.duree, d.Titre, d.Image, d.LaCategorie);
+            }
         }
     }
 }
