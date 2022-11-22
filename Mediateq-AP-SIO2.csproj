@@ -92,6 +92,9 @@
     <Compile Include="bdd\DAOFactory.cs" />
     <Compile Include="divers\ExceptionSio.cs" />
     <Compile Include="metier\Categorie.cs" />
+    <Compile Include="metier\Rayon.cs" />
+    <Compile Include="metier\Etat.cs" />
+    <Compile Include="metier\Exemplaire.cs" />
     <Compile Include="metier\Dvd.cs" />
     <Compile Include="metier\Document.cs" />
     <Compile Include="metier\Descripteur.cs" />

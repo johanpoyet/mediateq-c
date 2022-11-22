@@ -78,6 +78,7 @@ namespace Mediateq_AP_SIO2
             this.label9 = new System.Windows.Forms.Label();
             this.tabDVD = new System.Windows.Forms.TabPage();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label41 = new System.Windows.Forms.Label();
             this.cbxCategorie = new System.Windows.Forms.ComboBox();
             this.txId = new System.Windows.Forms.TextBox();
             this.btnCreerDvd = new System.Windows.Forms.Button();
@@ -121,19 +122,8 @@ namespace Mediateq_AP_SIO2
             this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.categorie = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabCrudLivre = new System.Windows.Forms.TabPage();
-            this.btnModifierLivre = new System.Windows.Forms.Button();
-            this.btnSupprimerLivre = new System.Windows.Forms.Button();
-            this.label40 = new System.Windows.Forms.Label();
             this.label39 = new System.Windows.Forms.Label();
-            this.dtCrudLivre = new System.Windows.Forms.DataGridView();
-            this.dataGridViewTextBoxColumn7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn13 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cbxCategorieLivre = new System.Windows.Forms.ComboBox();
-            this.txIdLivre = new System.Windows.Forms.TextBox();
             this.label33 = new System.Windows.Forms.Label();
             this.label34 = new System.Windows.Forms.Label();
             this.txTitreLivre = new System.Windows.Forms.TextBox();
@@ -145,26 +135,36 @@ namespace Mediateq_AP_SIO2
             this.txAuteurLivre = new System.Windows.Forms.TextBox();
             this.label38 = new System.Windows.Forms.Label();
             this.txISBNLivre = new System.Windows.Forms.TextBox();
-            this.txIdModifLivre = new System.Windows.Forms.TextBox();
-            this.label26 = new System.Windows.Forms.Label();
-            this.label27 = new System.Windows.Forms.Label();
-            this.txTitreLivreModif = new System.Windows.Forms.TextBox();
-            this.txImageLivreModif = new System.Windows.Forms.TextBox();
-            this.label28 = new System.Windows.Forms.Label();
-            this.label29 = new System.Windows.Forms.Label();
-            this.label30 = new System.Windows.Forms.Label();
-            this.txCollectionLivreModif = new System.Windows.Forms.TextBox();
-            this.txAuteurLivreModif = new System.Windows.Forms.TextBox();
-            this.label31 = new System.Windows.Forms.Label();
-            this.txISBNLivreModif = new System.Windows.Forms.TextBox();
             this.label32 = new System.Windows.Forms.Label();
-            this.cbxLivre = new System.Windows.Forms.ComboBox();
-            this.btnCreerLivre = new System.Windows.Forms.Button();
-            this.cbxCategorieLivreModif = new System.Windows.Forms.ComboBox();
-            this.label41 = new System.Windows.Forms.Label();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.txIdLivre = new System.Windows.Forms.TextBox();
+            this.btnCreerLivre = new System.Windows.Forms.Button();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.cbxCategorieLivreModif = new System.Windows.Forms.ComboBox();
+            this.txIdModifLivre = new System.Windows.Forms.TextBox();
+            this.btnModifierLivre = new System.Windows.Forms.Button();
+            this.label26 = new System.Windows.Forms.Label();
+            this.btnSupprimerLivre = new System.Windows.Forms.Button();
+            this.txTitreLivreModif = new System.Windows.Forms.TextBox();
+            this.label40 = new System.Windows.Forms.Label();
+            this.txAuteurLivreModif = new System.Windows.Forms.TextBox();
+            this.txISBNLivreModif = new System.Windows.Forms.TextBox();
+            this.label29 = new System.Windows.Forms.Label();
+            this.label31 = new System.Windows.Forms.Label();
+            this.label30 = new System.Windows.Forms.Label();
+            this.label28 = new System.Windows.Forms.Label();
+            this.txCollectionLivreModif = new System.Windows.Forms.TextBox();
+            this.label27 = new System.Windows.Forms.Label();
+            this.cbxLivre = new System.Windows.Forms.ComboBox();
+            this.txImageLivreModif = new System.Windows.Forms.TextBox();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.dtCrudLivre = new System.Windows.Forms.DataGridView();
+            this.dataGridViewTextBoxColumn7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn13 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabOngletsApplication.SuspendLayout();
             this.tabParutions.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvParutions)).BeginInit();
@@ -180,10 +180,10 @@ namespace Mediateq_AP_SIO2
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dtDvd)).BeginInit();
             this.tabCrudLivre.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dtCrudLivre)).BeginInit();
             this.groupBox4.SuspendLayout();
             this.groupBox5.SuspendLayout();
             this.groupBox6.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dtCrudLivre)).BeginInit();
             this.SuspendLayout();
             // 
             // tabOngletsApplication
@@ -671,6 +671,15 @@ namespace Mediateq_AP_SIO2
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Création de DVD";
             // 
+            // label41
+            // 
+            this.label41.AutoSize = true;
+            this.label41.Location = new System.Drawing.Point(80, 197);
+            this.label41.Name = "label41";
+            this.label41.Size = new System.Drawing.Size(51, 13);
+            this.label41.TabIndex = 42;
+            this.label41.Text = "categorie";
+            // 
             // cbxCategorie
             // 
             this.cbxCategorie.FormattingEnabled = true;
@@ -1054,35 +1063,6 @@ namespace Mediateq_AP_SIO2
             this.tabCrudLivre.Click += new System.EventHandler(this.tabCrudLivre_Click);
             this.tabCrudLivre.Enter += new System.EventHandler(this.tabCrudLivre_Enter);
             // 
-            // btnModifierLivre
-            // 
-            this.btnModifierLivre.Location = new System.Drawing.Point(49, 268);
-            this.btnModifierLivre.Name = "btnModifierLivre";
-            this.btnModifierLivre.Size = new System.Drawing.Size(120, 40);
-            this.btnModifierLivre.TabIndex = 102;
-            this.btnModifierLivre.Text = "Modifier Livre";
-            this.btnModifierLivre.UseVisualStyleBackColor = true;
-            this.btnModifierLivre.Click += new System.EventHandler(this.btnModifierLivre_Click);
-            // 
-            // btnSupprimerLivre
-            // 
-            this.btnSupprimerLivre.Location = new System.Drawing.Point(227, 268);
-            this.btnSupprimerLivre.Name = "btnSupprimerLivre";
-            this.btnSupprimerLivre.Size = new System.Drawing.Size(120, 40);
-            this.btnSupprimerLivre.TabIndex = 101;
-            this.btnSupprimerLivre.Text = "Supprimer Livre";
-            this.btnSupprimerLivre.UseVisualStyleBackColor = true;
-            this.btnSupprimerLivre.Click += new System.EventHandler(this.btnSupprimerLivre_Click);
-            // 
-            // label40
-            // 
-            this.label40.AutoSize = true;
-            this.label40.Location = new System.Drawing.Point(69, 235);
-            this.label40.Name = "label40";
-            this.label40.Size = new System.Drawing.Size(51, 13);
-            this.label40.TabIndex = 100;
-            this.label40.Text = "categorie";
-            // 
             // label39
             // 
             this.label39.AutoSize = true;
@@ -1092,51 +1072,6 @@ namespace Mediateq_AP_SIO2
             this.label39.TabIndex = 99;
             this.label39.Text = "categorie";
             // 
-            // dtCrudLivre
-            // 
-            this.dtCrudLivre.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dtCrudLivre.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.dataGridViewTextBoxColumn7,
-            this.dataGridViewTextBoxColumn8,
-            this.dataGridViewTextBoxColumn9,
-            this.dataGridViewTextBoxColumn10,
-            this.dataGridViewTextBoxColumn11,
-            this.dataGridViewTextBoxColumn13});
-            this.dtCrudLivre.Location = new System.Drawing.Point(41, 23);
-            this.dtCrudLivre.Name = "dtCrudLivre";
-            this.dtCrudLivre.Size = new System.Drawing.Size(701, 155);
-            this.dtCrudLivre.TabIndex = 97;
-            // 
-            // dataGridViewTextBoxColumn7
-            // 
-            this.dataGridViewTextBoxColumn7.HeaderText = "idDocument";
-            this.dataGridViewTextBoxColumn7.Name = "dataGridViewTextBoxColumn7";
-            // 
-            // dataGridViewTextBoxColumn8
-            // 
-            this.dataGridViewTextBoxColumn8.HeaderText = "titre";
-            this.dataGridViewTextBoxColumn8.Name = "dataGridViewTextBoxColumn8";
-            // 
-            // dataGridViewTextBoxColumn9
-            // 
-            this.dataGridViewTextBoxColumn9.HeaderText = "auteur";
-            this.dataGridViewTextBoxColumn9.Name = "dataGridViewTextBoxColumn9";
-            // 
-            // dataGridViewTextBoxColumn10
-            // 
-            this.dataGridViewTextBoxColumn10.HeaderText = "collection";
-            this.dataGridViewTextBoxColumn10.Name = "dataGridViewTextBoxColumn10";
-            // 
-            // dataGridViewTextBoxColumn11
-            // 
-            this.dataGridViewTextBoxColumn11.HeaderText = "image";
-            this.dataGridViewTextBoxColumn11.Name = "dataGridViewTextBoxColumn11";
-            // 
-            // dataGridViewTextBoxColumn13
-            // 
-            this.dataGridViewTextBoxColumn13.HeaderText = "categorie";
-            this.dataGridViewTextBoxColumn13.Name = "dataGridViewTextBoxColumn13";
-            // 
             // cbxCategorieLivre
             // 
             this.cbxCategorieLivre.FormattingEnabled = true;
@@ -1144,13 +1079,6 @@ namespace Mediateq_AP_SIO2
             this.cbxCategorieLivre.Name = "cbxCategorieLivre";
             this.cbxCategorieLivre.Size = new System.Drawing.Size(132, 21);
             this.cbxCategorieLivre.TabIndex = 96;
-            // 
-            // txIdLivre
-            // 
-            this.txIdLivre.Location = new System.Drawing.Point(188, 24);
-            this.txIdLivre.Name = "txIdLivre";
-            this.txIdLivre.Size = new System.Drawing.Size(132, 20);
-            this.txIdLivre.TabIndex = 94;
             // 
             // label33
             // 
@@ -1241,103 +1169,6 @@ namespace Mediateq_AP_SIO2
             this.txISBNLivre.Size = new System.Drawing.Size(132, 20);
             this.txISBNLivre.TabIndex = 85;
             // 
-            // txIdModifLivre
-            // 
-            this.txIdModifLivre.Enabled = false;
-            this.txIdModifLivre.Location = new System.Drawing.Point(137, 61);
-            this.txIdModifLivre.Name = "txIdModifLivre";
-            this.txIdModifLivre.Size = new System.Drawing.Size(129, 20);
-            this.txIdModifLivre.TabIndex = 81;
-            // 
-            // label26
-            // 
-            this.label26.AutoSize = true;
-            this.label26.Location = new System.Drawing.Point(70, 64);
-            this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(15, 13);
-            this.label26.TabIndex = 82;
-            this.label26.Text = "id";
-            // 
-            // label27
-            // 
-            this.label27.AutoSize = true;
-            this.label27.Location = new System.Drawing.Point(69, 206);
-            this.label27.Name = "label27";
-            this.label27.Size = new System.Drawing.Size(35, 13);
-            this.label27.TabIndex = 80;
-            this.label27.Text = "image";
-            // 
-            // txTitreLivreModif
-            // 
-            this.txTitreLivreModif.Location = new System.Drawing.Point(137, 87);
-            this.txTitreLivreModif.Name = "txTitreLivreModif";
-            this.txTitreLivreModif.Size = new System.Drawing.Size(129, 20);
-            this.txTitreLivreModif.TabIndex = 71;
-            // 
-            // txImageLivreModif
-            // 
-            this.txImageLivreModif.Location = new System.Drawing.Point(137, 203);
-            this.txImageLivreModif.Name = "txImageLivreModif";
-            this.txImageLivreModif.Size = new System.Drawing.Size(129, 20);
-            this.txImageLivreModif.TabIndex = 75;
-            // 
-            // label28
-            // 
-            this.label28.AutoSize = true;
-            this.label28.Location = new System.Drawing.Point(70, 173);
-            this.label28.Name = "label28";
-            this.label28.Size = new System.Drawing.Size(52, 13);
-            this.label28.TabIndex = 79;
-            this.label28.Text = "collection";
-            // 
-            // label29
-            // 
-            this.label29.AutoSize = true;
-            this.label29.Location = new System.Drawing.Point(70, 90);
-            this.label29.Name = "label29";
-            this.label29.Size = new System.Drawing.Size(24, 13);
-            this.label29.TabIndex = 76;
-            this.label29.Text = "titre";
-            // 
-            // label30
-            // 
-            this.label30.AutoSize = true;
-            this.label30.Location = new System.Drawing.Point(70, 142);
-            this.label30.Name = "label30";
-            this.label30.Size = new System.Drawing.Size(32, 13);
-            this.label30.TabIndex = 78;
-            this.label30.Text = "ISBN";
-            // 
-            // txCollectionLivreModif
-            // 
-            this.txCollectionLivreModif.Location = new System.Drawing.Point(137, 170);
-            this.txCollectionLivreModif.Name = "txCollectionLivreModif";
-            this.txCollectionLivreModif.Size = new System.Drawing.Size(129, 20);
-            this.txCollectionLivreModif.TabIndex = 74;
-            // 
-            // txAuteurLivreModif
-            // 
-            this.txAuteurLivreModif.Location = new System.Drawing.Point(137, 113);
-            this.txAuteurLivreModif.Name = "txAuteurLivreModif";
-            this.txAuteurLivreModif.Size = new System.Drawing.Size(129, 20);
-            this.txAuteurLivreModif.TabIndex = 72;
-            // 
-            // label31
-            // 
-            this.label31.AutoSize = true;
-            this.label31.Location = new System.Drawing.Point(70, 116);
-            this.label31.Name = "label31";
-            this.label31.Size = new System.Drawing.Size(37, 13);
-            this.label31.TabIndex = 77;
-            this.label31.Text = "auteur";
-            // 
-            // txISBNLivreModif
-            // 
-            this.txISBNLivreModif.Location = new System.Drawing.Point(137, 139);
-            this.txISBNLivreModif.Name = "txISBNLivreModif";
-            this.txISBNLivreModif.Size = new System.Drawing.Size(129, 20);
-            this.txISBNLivreModif.TabIndex = 73;
-            // 
             // label32
             // 
             this.label32.AutoSize = true;
@@ -1346,42 +1177,6 @@ namespace Mediateq_AP_SIO2
             this.label32.Size = new System.Drawing.Size(44, 13);
             this.label32.TabIndex = 70;
             this.label32.Text = "LIVRE :";
-            // 
-            // cbxLivre
-            // 
-            this.cbxLivre.FormattingEnabled = true;
-            this.cbxLivre.Location = new System.Drawing.Point(137, 29);
-            this.cbxLivre.Name = "cbxLivre";
-            this.cbxLivre.Size = new System.Drawing.Size(129, 21);
-            this.cbxLivre.TabIndex = 69;
-            this.cbxLivre.SelectedIndexChanged += new System.EventHandler(this.cbxLivre_SelectedIndexChanged);
-            // 
-            // btnCreerLivre
-            // 
-            this.btnCreerLivre.Location = new System.Drawing.Point(161, 230);
-            this.btnCreerLivre.Name = "btnCreerLivre";
-            this.btnCreerLivre.Size = new System.Drawing.Size(120, 40);
-            this.btnCreerLivre.TabIndex = 103;
-            this.btnCreerLivre.Text = "créer livre";
-            this.btnCreerLivre.UseVisualStyleBackColor = true;
-            this.btnCreerLivre.Click += new System.EventHandler(this.btnCreerLivre_Click);
-            // 
-            // cbxCategorieLivreModif
-            // 
-            this.cbxCategorieLivreModif.FormattingEnabled = true;
-            this.cbxCategorieLivreModif.Location = new System.Drawing.Point(137, 232);
-            this.cbxCategorieLivreModif.Name = "cbxCategorieLivreModif";
-            this.cbxCategorieLivreModif.Size = new System.Drawing.Size(129, 21);
-            this.cbxCategorieLivreModif.TabIndex = 104;
-            // 
-            // label41
-            // 
-            this.label41.AutoSize = true;
-            this.label41.Location = new System.Drawing.Point(80, 197);
-            this.label41.Name = "label41";
-            this.label41.Size = new System.Drawing.Size(51, 13);
-            this.label41.TabIndex = 42;
-            this.label41.Text = "categorie";
             // 
             // groupBox4
             // 
@@ -1393,6 +1188,23 @@ namespace Mediateq_AP_SIO2
             this.groupBox4.TabIndex = 105;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Création de Livre";
+            // 
+            // txIdLivre
+            // 
+            this.txIdLivre.Location = new System.Drawing.Point(188, 24);
+            this.txIdLivre.Name = "txIdLivre";
+            this.txIdLivre.Size = new System.Drawing.Size(132, 20);
+            this.txIdLivre.TabIndex = 94;
+            // 
+            // btnCreerLivre
+            // 
+            this.btnCreerLivre.Location = new System.Drawing.Point(161, 230);
+            this.btnCreerLivre.Name = "btnCreerLivre";
+            this.btnCreerLivre.Size = new System.Drawing.Size(120, 40);
+            this.btnCreerLivre.TabIndex = 103;
+            this.btnCreerLivre.Text = "créer livre";
+            this.btnCreerLivre.UseVisualStyleBackColor = true;
+            this.btnCreerLivre.Click += new System.EventHandler(this.btnCreerLivre_Click);
             // 
             // groupBox5
             // 
@@ -1420,6 +1232,149 @@ namespace Mediateq_AP_SIO2
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Modifier/Suprimer des Livres";
             // 
+            // cbxCategorieLivreModif
+            // 
+            this.cbxCategorieLivreModif.FormattingEnabled = true;
+            this.cbxCategorieLivreModif.Location = new System.Drawing.Point(137, 232);
+            this.cbxCategorieLivreModif.Name = "cbxCategorieLivreModif";
+            this.cbxCategorieLivreModif.Size = new System.Drawing.Size(129, 21);
+            this.cbxCategorieLivreModif.TabIndex = 104;
+            // 
+            // txIdModifLivre
+            // 
+            this.txIdModifLivre.Enabled = false;
+            this.txIdModifLivre.Location = new System.Drawing.Point(137, 61);
+            this.txIdModifLivre.Name = "txIdModifLivre";
+            this.txIdModifLivre.Size = new System.Drawing.Size(129, 20);
+            this.txIdModifLivre.TabIndex = 81;
+            // 
+            // btnModifierLivre
+            // 
+            this.btnModifierLivre.Location = new System.Drawing.Point(49, 268);
+            this.btnModifierLivre.Name = "btnModifierLivre";
+            this.btnModifierLivre.Size = new System.Drawing.Size(120, 40);
+            this.btnModifierLivre.TabIndex = 102;
+            this.btnModifierLivre.Text = "Modifier Livre";
+            this.btnModifierLivre.UseVisualStyleBackColor = true;
+            this.btnModifierLivre.Click += new System.EventHandler(this.btnModifierLivre_Click);
+            // 
+            // label26
+            // 
+            this.label26.AutoSize = true;
+            this.label26.Location = new System.Drawing.Point(70, 64);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(15, 13);
+            this.label26.TabIndex = 82;
+            this.label26.Text = "id";
+            // 
+            // btnSupprimerLivre
+            // 
+            this.btnSupprimerLivre.Location = new System.Drawing.Point(227, 268);
+            this.btnSupprimerLivre.Name = "btnSupprimerLivre";
+            this.btnSupprimerLivre.Size = new System.Drawing.Size(120, 40);
+            this.btnSupprimerLivre.TabIndex = 101;
+            this.btnSupprimerLivre.Text = "Supprimer Livre";
+            this.btnSupprimerLivre.UseVisualStyleBackColor = true;
+            this.btnSupprimerLivre.Click += new System.EventHandler(this.btnSupprimerLivre_Click);
+            // 
+            // txTitreLivreModif
+            // 
+            this.txTitreLivreModif.Location = new System.Drawing.Point(137, 87);
+            this.txTitreLivreModif.Name = "txTitreLivreModif";
+            this.txTitreLivreModif.Size = new System.Drawing.Size(129, 20);
+            this.txTitreLivreModif.TabIndex = 71;
+            // 
+            // label40
+            // 
+            this.label40.AutoSize = true;
+            this.label40.Location = new System.Drawing.Point(69, 235);
+            this.label40.Name = "label40";
+            this.label40.Size = new System.Drawing.Size(51, 13);
+            this.label40.TabIndex = 100;
+            this.label40.Text = "categorie";
+            // 
+            // txAuteurLivreModif
+            // 
+            this.txAuteurLivreModif.Location = new System.Drawing.Point(137, 113);
+            this.txAuteurLivreModif.Name = "txAuteurLivreModif";
+            this.txAuteurLivreModif.Size = new System.Drawing.Size(129, 20);
+            this.txAuteurLivreModif.TabIndex = 72;
+            // 
+            // txISBNLivreModif
+            // 
+            this.txISBNLivreModif.Location = new System.Drawing.Point(137, 139);
+            this.txISBNLivreModif.Name = "txISBNLivreModif";
+            this.txISBNLivreModif.Size = new System.Drawing.Size(129, 20);
+            this.txISBNLivreModif.TabIndex = 73;
+            // 
+            // label29
+            // 
+            this.label29.AutoSize = true;
+            this.label29.Location = new System.Drawing.Point(70, 90);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(24, 13);
+            this.label29.TabIndex = 76;
+            this.label29.Text = "titre";
+            // 
+            // label31
+            // 
+            this.label31.AutoSize = true;
+            this.label31.Location = new System.Drawing.Point(70, 116);
+            this.label31.Name = "label31";
+            this.label31.Size = new System.Drawing.Size(37, 13);
+            this.label31.TabIndex = 77;
+            this.label31.Text = "auteur";
+            // 
+            // label30
+            // 
+            this.label30.AutoSize = true;
+            this.label30.Location = new System.Drawing.Point(70, 142);
+            this.label30.Name = "label30";
+            this.label30.Size = new System.Drawing.Size(32, 13);
+            this.label30.TabIndex = 78;
+            this.label30.Text = "ISBN";
+            // 
+            // label28
+            // 
+            this.label28.AutoSize = true;
+            this.label28.Location = new System.Drawing.Point(70, 173);
+            this.label28.Name = "label28";
+            this.label28.Size = new System.Drawing.Size(52, 13);
+            this.label28.TabIndex = 79;
+            this.label28.Text = "collection";
+            // 
+            // txCollectionLivreModif
+            // 
+            this.txCollectionLivreModif.Location = new System.Drawing.Point(137, 170);
+            this.txCollectionLivreModif.Name = "txCollectionLivreModif";
+            this.txCollectionLivreModif.Size = new System.Drawing.Size(129, 20);
+            this.txCollectionLivreModif.TabIndex = 74;
+            // 
+            // label27
+            // 
+            this.label27.AutoSize = true;
+            this.label27.Location = new System.Drawing.Point(69, 206);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(35, 13);
+            this.label27.TabIndex = 80;
+            this.label27.Text = "image";
+            // 
+            // cbxLivre
+            // 
+            this.cbxLivre.FormattingEnabled = true;
+            this.cbxLivre.Location = new System.Drawing.Point(137, 29);
+            this.cbxLivre.Name = "cbxLivre";
+            this.cbxLivre.Size = new System.Drawing.Size(129, 21);
+            this.cbxLivre.TabIndex = 69;
+            this.cbxLivre.SelectedIndexChanged += new System.EventHandler(this.cbxLivre_SelectedIndexChanged);
+            // 
+            // txImageLivreModif
+            // 
+            this.txImageLivreModif.Location = new System.Drawing.Point(137, 203);
+            this.txImageLivreModif.Name = "txImageLivreModif";
+            this.txImageLivreModif.Size = new System.Drawing.Size(129, 20);
+            this.txImageLivreModif.TabIndex = 75;
+            // 
             // groupBox6
             // 
             this.groupBox6.Controls.Add(this.dtCrudLivre);
@@ -1429,6 +1384,51 @@ namespace Mediateq_AP_SIO2
             this.groupBox6.TabIndex = 107;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Visualisation des Livres";
+            // 
+            // dtCrudLivre
+            // 
+            this.dtCrudLivre.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dtCrudLivre.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dataGridViewTextBoxColumn7,
+            this.dataGridViewTextBoxColumn8,
+            this.dataGridViewTextBoxColumn9,
+            this.dataGridViewTextBoxColumn10,
+            this.dataGridViewTextBoxColumn11,
+            this.dataGridViewTextBoxColumn13});
+            this.dtCrudLivre.Location = new System.Drawing.Point(41, 23);
+            this.dtCrudLivre.Name = "dtCrudLivre";
+            this.dtCrudLivre.Size = new System.Drawing.Size(701, 155);
+            this.dtCrudLivre.TabIndex = 97;
+            // 
+            // dataGridViewTextBoxColumn7
+            // 
+            this.dataGridViewTextBoxColumn7.HeaderText = "idDocument";
+            this.dataGridViewTextBoxColumn7.Name = "dataGridViewTextBoxColumn7";
+            // 
+            // dataGridViewTextBoxColumn8
+            // 
+            this.dataGridViewTextBoxColumn8.HeaderText = "titre";
+            this.dataGridViewTextBoxColumn8.Name = "dataGridViewTextBoxColumn8";
+            // 
+            // dataGridViewTextBoxColumn9
+            // 
+            this.dataGridViewTextBoxColumn9.HeaderText = "auteur";
+            this.dataGridViewTextBoxColumn9.Name = "dataGridViewTextBoxColumn9";
+            // 
+            // dataGridViewTextBoxColumn10
+            // 
+            this.dataGridViewTextBoxColumn10.HeaderText = "collection";
+            this.dataGridViewTextBoxColumn10.Name = "dataGridViewTextBoxColumn10";
+            // 
+            // dataGridViewTextBoxColumn11
+            // 
+            this.dataGridViewTextBoxColumn11.HeaderText = "image";
+            this.dataGridViewTextBoxColumn11.Name = "dataGridViewTextBoxColumn11";
+            // 
+            // dataGridViewTextBoxColumn13
+            // 
+            this.dataGridViewTextBoxColumn13.HeaderText = "categorie";
+            this.dataGridViewTextBoxColumn13.Name = "dataGridViewTextBoxColumn13";
             // 
             // FrmMediateq
             // 
@@ -1461,12 +1461,12 @@ namespace Mediateq_AP_SIO2
             ((System.ComponentModel.ISupportInitialize)(this.dtDvd)).EndInit();
             this.tabCrudLivre.ResumeLayout(false);
             this.tabCrudLivre.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dtCrudLivre)).EndInit();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
             this.groupBox6.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dtCrudLivre)).EndInit();
             this.ResumeLayout(false);
 
         }

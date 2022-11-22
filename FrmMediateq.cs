@@ -203,19 +203,6 @@ namespace Mediateq_AP_SIO2
             DialogResult dialogResult = MessageBox.Show("Etes-vous sur de vouloir créer ce DVD ?", "Validation !", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
             {
-                // On recherche le dvd correspondant a l'id
-                // S'il existe deja : on affiche un popup message d'erreur
-                bool trouve = false;
-                foreach (Dvd d in lesDvd)
-                {
-                    if (d.IdDoc == txId.Text)
-                    {
-                        trouve = true;
-                    }
-                }
-                if (!trouve)
-                    MessageBox.Show("Un dvd avec l'id : '" + txId.Text + "' existe deja");
-
                 // on remplit les variables a l'aide des champs textes et combo box 
                 string titre = txTitre.Text;
                 string id = txId.Text;
@@ -227,34 +214,65 @@ namespace Mediateq_AP_SIO2
 
                 // création du nouveau dvd
                 Dvd dvd1 = new Dvd(id, titre, synopsis, realisateur, duree, image, categ);
-                DAODocuments.creerDvd(dvd1);
 
-                lesDvd = DAODocuments.getAllDvd();
 
-                // ré-initialisation du dataGridView
-                dtDvd.Rows.Clear();
-
-                // Parcours de la collection des dvd et alimentation du datagridview
+                // On recherche le dvd correspondant a l'id
+                // S'il existe deja : on affiche un popup message d'erreur
+                // si il n'existe pas on créer le DVD
+                bool trouve = false;
                 foreach (Dvd d in lesDvd)
                 {
+                    if (d.IdDoc.Equals(id))
+                    {
+                        trouve = true;
+                    }
+                }
+                if (trouve)
+                {
+                    MessageBox.Show("Un dvd avec l'id : '" + id + "' existe deja");
+                }
+                else if (!trouve)
+                {
+                    DAODocuments.creerDvd(dvd1);
 
-                    dtDvd.Rows.Add(d.IdDoc, d.synopsis, d.realisateur, d.duree, d.Titre, d.Image, d.LaCategorie);
+                    lesDvd = DAODocuments.getAllDvd();
+
+                    
+                    // alimentation des différentes combo box lors de l'entrée dans la page dvd
+                    cbxDvd.DataSource = lesDvd;
+                    cbxDvd.DisplayMember = "titre";
+
+                    // ré-initialisation du dataGridView
+                    dtDvd.Rows.Clear();
+
+                    // Parcours de la collection des dvd et alimentation du datagridview
+                    foreach (Dvd d in lesDvd)
+                    {
+
+                        dtDvd.Rows.Add(d.IdDoc, d.synopsis, d.realisateur, d.duree, d.Titre, d.Image, d.LaCategorie.Libelle);
+                    }
+
+                    // vidage des champs texte
+                    txTitre.Text = "";
+                    txId.Text = "";
+                    txSynopsis.Text = "";
+                    txRealisateur.Text = "";
+                    txDuree.Text = "";
+                    txImage.Text = "";
+
+                    MessageBox.Show("Le dvd '" + titre + "' a été créé avec succès !");
+
                 }
                 
-                // vidage des champs texte
-                txTitre.Text = "";
-                txId.Text = "";
-                txSynopsis.Text = "";
-                txRealisateur.Text = "";
-                txDuree.Text = "";
-                txImage.Text = "";
-
             }
             else if (dialogResult == DialogResult.No)
             {
-                
+
             }
-            
+
+
+
+
         }
 
         private void btnAfficherCreation_Click(object sender, EventArgs e)
@@ -273,6 +291,8 @@ namespace Mediateq_AP_SIO2
             // ré-initialisation du dataGridView
             dtDvd.Rows.Clear();
 
+            lesDvd = DAODocuments.getAllDvd();
+
             // alimentation des différentes combo box lors de l'entrée dans la page dvd
             cbxDvd.DataSource = lesDvd;
             cbxDvd.DisplayMember = "titre";
@@ -287,7 +307,7 @@ namespace Mediateq_AP_SIO2
             foreach (Dvd d in lesDvd)
              {
                  
-                 dtDvd.Rows.Add(d.IdDoc, d.synopsis, d.realisateur, d.duree, d.Titre, d.Image, d.LaCategorie);
+                 dtDvd.Rows.Add(d.IdDoc, d.synopsis, d.realisateur, d.duree, d.Titre, d.Image, d.LaCategorie.Libelle);
              }
 
 
@@ -310,6 +330,8 @@ namespace Mediateq_AP_SIO2
             // ré-initialisation du dataGridView
             dtCrudLivre.Rows.Clear();
 
+            lesLivres = DAODocuments.getAllLivres();
+
             // alimentation des différentes combo box lors de l'entrée dans la page crud livre
             cbxLivre.DataSource = lesLivres;
             cbxLivre.DisplayMember = "titre";
@@ -322,7 +344,7 @@ namespace Mediateq_AP_SIO2
             foreach (Livre l in lesLivres)
             {
 
-                dtCrudLivre.Rows.Add(l.IdDoc, l.Titre, l.Auteur, l.LaCollection, l.Image, l.LaCategorie);
+                dtCrudLivre.Rows.Add(l.IdDoc, l.Titre, l.Auteur, l.LaCollection, l.Image, l.LaCategorie.Libelle);
             }
         }
 
@@ -373,6 +395,11 @@ namespace Mediateq_AP_SIO2
 
                 lesDvd = DAODocuments.getAllDvd();
 
+                
+                // alimentation des différentes combo box lors de l'entrée dans la page dvd
+                cbxDvd.DataSource = lesDvd;
+                cbxDvd.DisplayMember = "titre";
+
                 // ré-initialisation du dataGridView
                 dtDvd.Rows.Clear();
 
@@ -380,8 +407,10 @@ namespace Mediateq_AP_SIO2
                 foreach (Dvd d in lesDvd)
                 {
 
-                    dtDvd.Rows.Add(d.IdDoc, d.synopsis, d.realisateur, d.duree, d.Titre, d.Image, d.LaCategorie);
+                    dtDvd.Rows.Add(d.IdDoc, d.synopsis, d.realisateur, d.duree, d.Titre, d.Image, d.LaCategorie.Libelle);
                 }
+
+                
             }
             else if (dialogResult == DialogResult.No)
             {
@@ -426,11 +455,17 @@ namespace Mediateq_AP_SIO2
                 // ré-initialisation du dataGridView
                 dtDvd.Rows.Clear();
 
+                lesDvd = DAODocuments.getAllDvd();
+
+                // alimentation des différentes combo box lors de l'entrée dans la page dvd
+                cbxDvd.DataSource = lesDvd;
+                cbxDvd.DisplayMember = "titre";
+
                 // Parcours de la collection des dvd et alimentation du datagridview
                 foreach (Dvd d in lesDvd)
                 {
 
-                    dtDvd.Rows.Add(d.IdDoc, d.synopsis, d.realisateur, d.duree, d.Titre, d.Image, d.LaCategorie);
+                    dtDvd.Rows.Add(d.IdDoc, d.synopsis, d.realisateur, d.duree, d.Titre, d.Image, d.LaCategorie.Libelle);
                 }
             }
             else if (dialogResult == DialogResult.No)
@@ -448,32 +483,12 @@ namespace Mediateq_AP_SIO2
         }
 
         private void btnCreerLivre_Click(object sender, EventArgs e)
-        {
-
-            // On recherche le livre correspondant a l'id
-            // S'il existe deja : on affiche un popup message d'erreur
-            bool trouve = false;
-            foreach (Livre l in lesLivres)
-            {
-                if (l.IdDoc == txIdLivre.Text)
-                {
-                    trouve = true;
-                }
-                else
-                {
-
-                }
-            }
-            if (!trouve)
-                MessageBox.Show("Un livre avec l'id : '" + txIdLivre.Text + "' existe deja");
-
+        {       
 
             // mise en place d'un message box pour que l'utilisateurs valide sa création 
             DialogResult dialogResult = MessageBox.Show("Etes-vous sur de vouloir créer ce Livre ?", "Validation !", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
             {
-                
-
                 // on remplit les variables a l'aide des champs textes et combo box 
                 string titre = txTitreLivre.Text;
                 string id = txIdLivre.Text;
@@ -486,27 +501,51 @@ namespace Mediateq_AP_SIO2
 
                 // création du nouveau livre
                 Livre livre1 = new Livre(id, titre, ISBN, auteur, collection, image, categ);
-                DAODocuments.creerLivre(livre1);
 
-                lesLivres = DAODocuments.getAllLivres();
-
-                // ré-initialisation du dataGridView
-                dtCrudLivre.Rows.Clear();
-
-                // Parcours de la collection des livres et alimentation du datagridview
+                // On recherche le livre correspondant a l'id
+                // S'il existe deja : on affiche un popup message d'erreur
+                bool trouve = false;
                 foreach (Livre l in lesLivres)
                 {
+                    if (l.IdDoc == txIdLivre.Text)
+                    {
+                        trouve = true;
+                    }
+                    else
+                    {
 
-                    dtCrudLivre.Rows.Add(l.IdDoc, l.Titre, l.Auteur, l.LaCollection, l.Image, l.LaCategorie);
+                    }
                 }
+                if (trouve) 
+                {
+                    MessageBox.Show("Un livre avec l'id : '" + txIdLivre.Text + "' existe deja");
+                }
+                else if (!trouve)
+                {
+                    DAODocuments.creerLivre(livre1);
 
-                // vidage des champs texte
-                txTitreLivre.Text = "";
-                txIdLivre.Text = "";
-                txAuteurLivre.Text = "";
-                txISBNLivre.Text = "";
-                txCollectionLivre.Text = "";
-                txImageLivre.Text = "";
+                    lesLivres = DAODocuments.getAllLivres();
+
+                    // ré-initialisation du dataGridView
+                    dtCrudLivre.Rows.Clear();
+
+                    // Parcours de la collection des livres et alimentation du datagridview
+                    foreach (Livre l in lesLivres)
+                    {
+
+                        dtCrudLivre.Rows.Add(l.IdDoc, l.Titre, l.Auteur, l.LaCollection, l.Image, l.LaCategorie.Libelle);
+                    }
+
+                    // vidage des champs texte
+                    txTitreLivre.Text = "";
+                    txIdLivre.Text = "";
+                    txAuteurLivre.Text = "";
+                    txISBNLivre.Text = "";
+                    txCollectionLivre.Text = "";
+                    txImageLivre.Text = "";
+
+                    MessageBox.Show("Le livre '" + titre + "' a été créé avec succès !");
+                }                
             }
             else if (dialogResult == DialogResult.No)
             {
@@ -544,10 +583,16 @@ namespace Mediateq_AP_SIO2
                 // ré-initialisation du dataGridView
                 dtDvd.Rows.Clear();
 
+                lesLivres = DAODocuments.getAllLivres();
+
+                // alimentation des différentes combo box lors de l'entrée dans la page crud livre
+                cbxLivre.DataSource = lesLivres;
+                cbxLivre.DisplayMember = "titre";
+
                 // Parcours de la collection des livres et alimentation du datagridview
                 foreach (Livre l in lesLivres)
                 {
-                    dtCrudLivre.Rows.Add(l.IdDoc, l.Titre, l.Auteur, l.LaCollection, l.Image, l.LaCategorie);
+                    dtCrudLivre.Rows.Add(l.IdDoc, l.Titre, l.Auteur, l.LaCollection, l.Image, l.LaCategorie.Libelle);
                 }
             }
             else if (dialogResult == DialogResult.No)
@@ -607,10 +652,16 @@ namespace Mediateq_AP_SIO2
                 // ré-initialisation du dataGridView
                 dtCrudLivre.Rows.Clear();
 
+                lesLivres = DAODocuments.getAllLivres();
+
+                // alimentation des différentes combo box lors de l'entrée dans la page crud livre
+                cbxLivre.DataSource = lesLivres;
+                cbxLivre.DisplayMember = "titre";
+
                 // Parcours de la collection des livres et alimentation du datagridview
                 foreach (Livre l in lesLivres)
                 {
-                    dtCrudLivre.Rows.Add(l.IdDoc, l.Titre, l.Auteur, l.LaCollection, l.Image, l.LaCategorie);
+                    dtCrudLivre.Rows.Add(l.IdDoc, l.Titre, l.Auteur, l.LaCollection, l.Image, l.LaCategorie.Libelle);
                 }
             }
             else if (dialogResult == DialogResult.No)
