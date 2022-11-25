@@ -93,6 +93,29 @@ namespace Mediateq_AP_SIO2
             return categorie;
         }
 
+        public static List<Document> getAllDocuments()
+        {
+            List<Document> lesDocuments = new List<Document>();
+            string req = "Select d.id, d.titre, d.image, c.id, c.libelle FROM document d JOIN categorie c ON d.idCategorie = c.id";
+
+            DAOFactory.connecter();
+
+            MySqlDataReader reader = DAOFactory.execSQLRead(req);
+
+            while (reader.Read())
+            {
+                Categorie categ = new Categorie(reader[3].ToString(), reader[4].ToString());
+                Document document = new Document(reader[0].ToString(), reader[1].ToString(), reader[2].ToString(), categ);
+
+                lesDocuments.Add(document);
+
+            }
+
+            DAOFactory.deconnecter();
+
+            return lesDocuments;
+        }
+
         public static List<Dvd> getAllDvd()
         {
             List<Dvd> lesDvd = new List<Dvd>();
@@ -272,10 +295,6 @@ namespace Mediateq_AP_SIO2
 
 
 
-
-
-
-
         public static void setDescripteurs(List<Livre> lesLivres)
         {
             DAOFactory.connecter();
@@ -297,7 +316,31 @@ namespace Mediateq_AP_SIO2
             DAOFactory.deconnecter();
         }
 
-        
+
+        public static void creerCommande(Commande  com)
+        {
+
+
+
+
+
+            string req = "INSERT INTO commande(id, nbExemplaire, dateCommande, montant, idDoc, idEtat) VALUES ('" + com.Id + "','" + com.NbExemplaire + "','" + com.DateCommande + "','" + com.Montant + "', '" + com.Doc.IdDoc + "', '" + com.Etat.ID + "')";
+          
+
+            DAOFactory.connecter();
+
+            
+            DAOFactory.execSQLWrite(req);
+
+
+
+
+            DAOFactory.deconnecter();
+
+
+        }
+
+
 
     }
 

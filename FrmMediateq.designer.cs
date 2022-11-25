@@ -165,6 +165,20 @@ namespace Mediateq_AP_SIO2
             this.dataGridViewTextBoxColumn10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn13 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tabCrudCommande = new System.Windows.Forms.TabPage();
+            this.label47 = new System.Windows.Forms.Label();
+            this.label46 = new System.Windows.Forms.Label();
+            this.label45 = new System.Windows.Forms.Label();
+            this.txNumero = new System.Windows.Forms.TextBox();
+            this.btnCreerCommande = new System.Windows.Forms.Button();
+            this.label44 = new System.Windows.Forms.Label();
+            this.cbxDocument = new System.Windows.Forms.ComboBox();
+            this.label42 = new System.Windows.Forms.Label();
+            this.txPrixUnitaire = new System.Windows.Forms.TextBox();
+            this.label43 = new System.Windows.Forms.Label();
+            this.txNbExemplaire = new System.Windows.Forms.TextBox();
+            this.label48 = new System.Windows.Forms.Label();
+            this.cbxEtat = new System.Windows.Forms.ComboBox();
             this.tabOngletsApplication.SuspendLayout();
             this.tabParutions.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvParutions)).BeginInit();
@@ -184,6 +198,7 @@ namespace Mediateq_AP_SIO2
             this.groupBox5.SuspendLayout();
             this.groupBox6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dtCrudLivre)).BeginInit();
+            this.tabCrudCommande.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabOngletsApplication
@@ -193,6 +208,7 @@ namespace Mediateq_AP_SIO2
             this.tabOngletsApplication.Controls.Add(this.tabLivres);
             this.tabOngletsApplication.Controls.Add(this.tabDVD);
             this.tabOngletsApplication.Controls.Add(this.tabCrudLivre);
+            this.tabOngletsApplication.Controls.Add(this.tabCrudCommande);
             this.tabOngletsApplication.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabOngletsApplication.Location = new System.Drawing.Point(0, 0);
             this.tabOngletsApplication.Name = "tabOngletsApplication";
@@ -1430,6 +1446,138 @@ namespace Mediateq_AP_SIO2
             this.dataGridViewTextBoxColumn13.HeaderText = "categorie";
             this.dataGridViewTextBoxColumn13.Name = "dataGridViewTextBoxColumn13";
             // 
+            // tabCrudCommande
+            // 
+            this.tabCrudCommande.Controls.Add(this.cbxEtat);
+            this.tabCrudCommande.Controls.Add(this.label48);
+            this.tabCrudCommande.Controls.Add(this.label47);
+            this.tabCrudCommande.Controls.Add(this.label46);
+            this.tabCrudCommande.Controls.Add(this.label45);
+            this.tabCrudCommande.Controls.Add(this.txNumero);
+            this.tabCrudCommande.Controls.Add(this.btnCreerCommande);
+            this.tabCrudCommande.Controls.Add(this.label44);
+            this.tabCrudCommande.Controls.Add(this.cbxDocument);
+            this.tabCrudCommande.Controls.Add(this.label42);
+            this.tabCrudCommande.Controls.Add(this.txPrixUnitaire);
+            this.tabCrudCommande.Controls.Add(this.label43);
+            this.tabCrudCommande.Controls.Add(this.txNbExemplaire);
+            this.tabCrudCommande.Location = new System.Drawing.Point(4, 22);
+            this.tabCrudCommande.Name = "tabCrudCommande";
+            this.tabCrudCommande.Padding = new System.Windows.Forms.Padding(3);
+            this.tabCrudCommande.Size = new System.Drawing.Size(792, 523);
+            this.tabCrudCommande.TabIndex = 5;
+            this.tabCrudCommande.Text = "Commandes";
+            this.tabCrudCommande.UseVisualStyleBackColor = true;
+            this.tabCrudCommande.Enter += new System.EventHandler(this.tabPage1_Enter);
+            // 
+            // label47
+            // 
+            this.label47.AutoSize = true;
+            this.label47.Location = new System.Drawing.Point(71, 217);
+            this.label47.Name = "label47";
+            this.label47.Size = new System.Drawing.Size(0, 13);
+            this.label47.TabIndex = 35;
+            // 
+            // label46
+            // 
+            this.label46.AutoSize = true;
+            this.label46.Location = new System.Drawing.Point(71, 188);
+            this.label46.Name = "label46";
+            this.label46.Size = new System.Drawing.Size(0, 13);
+            this.label46.TabIndex = 33;
+            // 
+            // label45
+            // 
+            this.label45.AutoSize = true;
+            this.label45.Location = new System.Drawing.Point(71, 82);
+            this.label45.Name = "label45";
+            this.label45.Size = new System.Drawing.Size(44, 13);
+            this.label45.TabIndex = 31;
+            this.label45.Text = "Numéro";
+            // 
+            // txNumero
+            // 
+            this.txNumero.Location = new System.Drawing.Point(177, 79);
+            this.txNumero.Name = "txNumero";
+            this.txNumero.Size = new System.Drawing.Size(132, 20);
+            this.txNumero.TabIndex = 30;
+            // 
+            // btnCreerCommande
+            // 
+            this.btnCreerCommande.Location = new System.Drawing.Point(172, 300);
+            this.btnCreerCommande.Name = "btnCreerCommande";
+            this.btnCreerCommande.Size = new System.Drawing.Size(137, 54);
+            this.btnCreerCommande.TabIndex = 29;
+            this.btnCreerCommande.Text = "Créer la commande";
+            this.btnCreerCommande.UseVisualStyleBackColor = true;
+            this.btnCreerCommande.Click += new System.EventHandler(this.btnCreerComande_Click);
+            // 
+            // label44
+            // 
+            this.label44.AutoSize = true;
+            this.label44.Location = new System.Drawing.Point(71, 161);
+            this.label44.Name = "label44";
+            this.label44.Size = new System.Drawing.Size(56, 13);
+            this.label44.TabIndex = 28;
+            this.label44.Text = "Document";
+            // 
+            // cbxDocument
+            // 
+            this.cbxDocument.FormattingEnabled = true;
+            this.cbxDocument.Location = new System.Drawing.Point(177, 158);
+            this.cbxDocument.Name = "cbxDocument";
+            this.cbxDocument.Size = new System.Drawing.Size(132, 21);
+            this.cbxDocument.TabIndex = 27;
+            // 
+            // label42
+            // 
+            this.label42.AutoSize = true;
+            this.label42.Location = new System.Drawing.Point(71, 134);
+            this.label42.Name = "label42";
+            this.label42.Size = new System.Drawing.Size(103, 13);
+            this.label42.TabIndex = 26;
+            this.label42.Text = "nombre d\'exemplaire";
+            // 
+            // txPrixUnitaire
+            // 
+            this.txPrixUnitaire.Location = new System.Drawing.Point(177, 105);
+            this.txPrixUnitaire.Name = "txPrixUnitaire";
+            this.txPrixUnitaire.Size = new System.Drawing.Size(132, 20);
+            this.txPrixUnitaire.TabIndex = 23;
+            // 
+            // label43
+            // 
+            this.label43.AutoSize = true;
+            this.label43.Location = new System.Drawing.Point(71, 112);
+            this.label43.Name = "label43";
+            this.label43.Size = new System.Drawing.Size(61, 13);
+            this.label43.TabIndex = 25;
+            this.label43.Text = "Prix unitaire";
+            // 
+            // txNbExemplaire
+            // 
+            this.txNbExemplaire.Location = new System.Drawing.Point(177, 131);
+            this.txNbExemplaire.Name = "txNbExemplaire";
+            this.txNbExemplaire.Size = new System.Drawing.Size(132, 20);
+            this.txNbExemplaire.TabIndex = 24;
+            // 
+            // label48
+            // 
+            this.label48.AutoSize = true;
+            this.label48.Location = new System.Drawing.Point(71, 188);
+            this.label48.Name = "label48";
+            this.label48.Size = new System.Drawing.Size(26, 13);
+            this.label48.TabIndex = 36;
+            this.label48.Text = "Etat";
+            // 
+            // cbxEtat
+            // 
+            this.cbxEtat.FormattingEnabled = true;
+            this.cbxEtat.Location = new System.Drawing.Point(177, 185);
+            this.cbxEtat.Name = "cbxEtat";
+            this.cbxEtat.Size = new System.Drawing.Size(132, 21);
+            this.cbxEtat.TabIndex = 37;
+            // 
             // FrmMediateq
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1467,6 +1615,8 @@ namespace Mediateq_AP_SIO2
             this.groupBox5.PerformLayout();
             this.groupBox6.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dtCrudLivre)).EndInit();
+            this.tabCrudCommande.ResumeLayout(false);
+            this.tabCrudCommande.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -1609,6 +1759,20 @@ namespace Mediateq_AP_SIO2
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.GroupBox groupBox6;
+        private System.Windows.Forms.TabPage tabCrudCommande;
+        private System.Windows.Forms.Button btnCreerCommande;
+        private System.Windows.Forms.Label label44;
+        private System.Windows.Forms.ComboBox cbxDocument;
+        private System.Windows.Forms.Label label42;
+        private System.Windows.Forms.TextBox txPrixUnitaire;
+        private System.Windows.Forms.Label label43;
+        private System.Windows.Forms.TextBox txNbExemplaire;
+        private System.Windows.Forms.Label label45;
+        private System.Windows.Forms.TextBox txNumero;
+        private System.Windows.Forms.Label label46;
+        private System.Windows.Forms.Label label47;
+        private System.Windows.Forms.ComboBox cbxEtat;
+        private System.Windows.Forms.Label label48;
     }
 }
 
