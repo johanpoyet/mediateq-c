@@ -11,11 +11,11 @@ namespace Mediateq_AP_SIO2.metier
         private string id;
         private int nbExemplaire;
         private DateTime dateCommande;
-        private int montant;
+        private double montant;
         private Document doc;
         private EtatCommande etat;
 
-        public Commande(string unId, int unNbExemplaire, DateTime uneDateCommande, int unMontant, Document unDoc, EtatCommande unEtat)
+        public Commande(string unId, int unNbExemplaire, DateTime uneDateCommande, double unMontant, Document unDoc, EtatCommande unEtat)
         {
             Id = unId;
             NbExemplaire = unNbExemplaire;
@@ -28,7 +28,7 @@ namespace Mediateq_AP_SIO2.metier
         public string Id { get => id; set => id = value; }
         public int NbExemplaire { get => nbExemplaire; set => nbExemplaire = value; }
         public DateTime DateCommande { get => dateCommande; set => dateCommande = value; }
-        public int Montant { get => montant; set => montant = value; }
+        public double Montant { get => montant; set => montant = value; }
         internal Document Doc { get => doc; set => doc = value; }
         internal EtatCommande Etat { get => etat; set => etat = value; }
 

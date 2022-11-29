@@ -14,6 +14,7 @@ namespace Mediateq_AP_SIO2
             string username = "root";
             string password = "";
             string databaseName = "mediateq-ap";
+            
 
             string dbConnectionString = string.Format("server={0};uid={1};pwd={2};database={3};", serverIp, username, password, databaseName);
 

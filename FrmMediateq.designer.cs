@@ -166,10 +166,19 @@ namespace Mediateq_AP_SIO2
             this.dataGridViewTextBoxColumn11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn13 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabCrudCommande = new System.Windows.Forms.TabPage();
+            this.txEtatEnCours = new System.Windows.Forms.TextBox();
+            this.cbxTitreDoc = new System.Windows.Forms.ComboBox();
+            this.txIdCategorieDoc = new System.Windows.Forms.TextBox();
+            this.label48 = new System.Windows.Forms.Label();
+            this.label49 = new System.Windows.Forms.Label();
+            this.label50 = new System.Windows.Forms.Label();
+            this.txIdDoc = new System.Windows.Forms.TextBox();
+            this.txImageDoc = new System.Windows.Forms.TextBox();
+            this.label52 = new System.Windows.Forms.Label();
             this.label47 = new System.Windows.Forms.Label();
             this.label46 = new System.Windows.Forms.Label();
             this.label45 = new System.Windows.Forms.Label();
-            this.txNumero = new System.Windows.Forms.TextBox();
+            this.txIdDocument = new System.Windows.Forms.TextBox();
             this.btnCreerCommande = new System.Windows.Forms.Button();
             this.label44 = new System.Windows.Forms.Label();
             this.cbxDocument = new System.Windows.Forms.ComboBox();
@@ -177,8 +186,18 @@ namespace Mediateq_AP_SIO2
             this.txPrixUnitaire = new System.Windows.Forms.TextBox();
             this.label43 = new System.Windows.Forms.Label();
             this.txNbExemplaire = new System.Windows.Forms.TextBox();
-            this.label48 = new System.Windows.Forms.Label();
-            this.cbxEtat = new System.Windows.Forms.ComboBox();
+            this.txNbExemplaireModif = new System.Windows.Forms.TextBox();
+            this.label51 = new System.Windows.Forms.Label();
+            this.label53 = new System.Windows.Forms.Label();
+            this.label54 = new System.Windows.Forms.Label();
+            this.txIdModif = new System.Windows.Forms.TextBox();
+            this.txDateModif = new System.Windows.Forms.TextBox();
+            this.label55 = new System.Windows.Forms.Label();
+            this.txMontantModif = new System.Windows.Forms.TextBox();
+            this.label56 = new System.Windows.Forms.Label();
+            this.cbxEtatModif = new System.Windows.Forms.ComboBox();
+            this.label57 = new System.Windows.Forms.Label();
+            this.txDocumentModif = new System.Windows.Forms.TextBox();
             this.tabOngletsApplication.SuspendLayout();
             this.tabParutions.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvParutions)).BeginInit();
@@ -1448,12 +1467,31 @@ namespace Mediateq_AP_SIO2
             // 
             // tabCrudCommande
             // 
-            this.tabCrudCommande.Controls.Add(this.cbxEtat);
+            this.tabCrudCommande.Controls.Add(this.txDocumentModif);
+            this.tabCrudCommande.Controls.Add(this.cbxEtatModif);
+            this.tabCrudCommande.Controls.Add(this.label57);
+            this.tabCrudCommande.Controls.Add(this.txMontantModif);
+            this.tabCrudCommande.Controls.Add(this.label56);
+            this.tabCrudCommande.Controls.Add(this.txNbExemplaireModif);
+            this.tabCrudCommande.Controls.Add(this.label51);
+            this.tabCrudCommande.Controls.Add(this.label53);
+            this.tabCrudCommande.Controls.Add(this.label54);
+            this.tabCrudCommande.Controls.Add(this.txIdModif);
+            this.tabCrudCommande.Controls.Add(this.txDateModif);
+            this.tabCrudCommande.Controls.Add(this.label55);
+            this.tabCrudCommande.Controls.Add(this.txEtatEnCours);
+            this.tabCrudCommande.Controls.Add(this.cbxTitreDoc);
+            this.tabCrudCommande.Controls.Add(this.txIdCategorieDoc);
             this.tabCrudCommande.Controls.Add(this.label48);
+            this.tabCrudCommande.Controls.Add(this.label49);
+            this.tabCrudCommande.Controls.Add(this.label50);
+            this.tabCrudCommande.Controls.Add(this.txIdDoc);
+            this.tabCrudCommande.Controls.Add(this.txImageDoc);
+            this.tabCrudCommande.Controls.Add(this.label52);
             this.tabCrudCommande.Controls.Add(this.label47);
             this.tabCrudCommande.Controls.Add(this.label46);
             this.tabCrudCommande.Controls.Add(this.label45);
-            this.tabCrudCommande.Controls.Add(this.txNumero);
+            this.tabCrudCommande.Controls.Add(this.txIdDocument);
             this.tabCrudCommande.Controls.Add(this.btnCreerCommande);
             this.tabCrudCommande.Controls.Add(this.label44);
             this.tabCrudCommande.Controls.Add(this.cbxDocument);
@@ -1468,7 +1506,80 @@ namespace Mediateq_AP_SIO2
             this.tabCrudCommande.TabIndex = 5;
             this.tabCrudCommande.Text = "Commandes";
             this.tabCrudCommande.UseVisualStyleBackColor = true;
-            this.tabCrudCommande.Enter += new System.EventHandler(this.tabPage1_Enter);
+            this.tabCrudCommande.Enter += new System.EventHandler(this.tabCrudCommande_Enter);
+            // 
+            // txEtatEnCours
+            // 
+            this.txEtatEnCours.Location = new System.Drawing.Point(177, 157);
+            this.txEtatEnCours.Name = "txEtatEnCours";
+            this.txEtatEnCours.Size = new System.Drawing.Size(132, 20);
+            this.txEtatEnCours.TabIndex = 60;
+            // 
+            // cbxTitreDoc
+            // 
+            this.cbxTitreDoc.FormattingEnabled = true;
+            this.cbxTitreDoc.Location = new System.Drawing.Point(517, 48);
+            this.cbxTitreDoc.Name = "cbxTitreDoc";
+            this.cbxTitreDoc.Size = new System.Drawing.Size(132, 21);
+            this.cbxTitreDoc.TabIndex = 58;
+            this.cbxTitreDoc.SelectedIndexChanged += new System.EventHandler(this.cbxTitreDoc_SelectedIndexChanged);
+            // 
+            // txIdCategorieDoc
+            // 
+            this.txIdCategorieDoc.Location = new System.Drawing.Point(517, 135);
+            this.txIdCategorieDoc.Name = "txIdCategorieDoc";
+            this.txIdCategorieDoc.Size = new System.Drawing.Size(132, 20);
+            this.txIdCategorieDoc.TabIndex = 57;
+            // 
+            // label48
+            // 
+            this.label48.AutoSize = true;
+            this.label48.Location = new System.Drawing.Point(441, 132);
+            this.label48.Name = "label48";
+            this.label48.Size = new System.Drawing.Size(60, 13);
+            this.label48.TabIndex = 56;
+            this.label48.Text = "idCategorie";
+            // 
+            // label49
+            // 
+            this.label49.AutoSize = true;
+            this.label49.Location = new System.Drawing.Point(452, 77);
+            this.label49.Name = "label49";
+            this.label49.Size = new System.Drawing.Size(15, 13);
+            this.label49.TabIndex = 54;
+            this.label49.Text = "id";
+            // 
+            // label50
+            // 
+            this.label50.AutoSize = true;
+            this.label50.Location = new System.Drawing.Point(441, 109);
+            this.label50.Name = "label50";
+            this.label50.Size = new System.Drawing.Size(35, 13);
+            this.label50.TabIndex = 52;
+            this.label50.Text = "image";
+            // 
+            // txIdDoc
+            // 
+            this.txIdDoc.Location = new System.Drawing.Point(517, 77);
+            this.txIdDoc.Name = "txIdDoc";
+            this.txIdDoc.Size = new System.Drawing.Size(132, 20);
+            this.txIdDoc.TabIndex = 43;
+            // 
+            // txImageDoc
+            // 
+            this.txImageDoc.Location = new System.Drawing.Point(517, 109);
+            this.txImageDoc.Name = "txImageDoc";
+            this.txImageDoc.Size = new System.Drawing.Size(132, 20);
+            this.txImageDoc.TabIndex = 47;
+            // 
+            // label52
+            // 
+            this.label52.AutoSize = true;
+            this.label52.Location = new System.Drawing.Point(452, 51);
+            this.label52.Name = "label52";
+            this.label52.Size = new System.Drawing.Size(24, 13);
+            this.label52.TabIndex = 48;
+            this.label52.Text = "titre";
             // 
             // label47
             // 
@@ -1495,16 +1606,16 @@ namespace Mediateq_AP_SIO2
             this.label45.TabIndex = 31;
             this.label45.Text = "Numéro";
             // 
-            // txNumero
+            // txIdDocument
             // 
-            this.txNumero.Location = new System.Drawing.Point(177, 79);
-            this.txNumero.Name = "txNumero";
-            this.txNumero.Size = new System.Drawing.Size(132, 20);
-            this.txNumero.TabIndex = 30;
+            this.txIdDocument.Location = new System.Drawing.Point(177, 79);
+            this.txIdDocument.Name = "txIdDocument";
+            this.txIdDocument.Size = new System.Drawing.Size(132, 20);
+            this.txIdDocument.TabIndex = 30;
             // 
             // btnCreerCommande
             // 
-            this.btnCreerCommande.Location = new System.Drawing.Point(172, 300);
+            this.btnCreerCommande.Location = new System.Drawing.Point(74, 234);
             this.btnCreerCommande.Name = "btnCreerCommande";
             this.btnCreerCommande.Size = new System.Drawing.Size(137, 54);
             this.btnCreerCommande.TabIndex = 29;
@@ -1515,7 +1626,7 @@ namespace Mediateq_AP_SIO2
             // label44
             // 
             this.label44.AutoSize = true;
-            this.label44.Location = new System.Drawing.Point(71, 161);
+            this.label44.Location = new System.Drawing.Point(71, 56);
             this.label44.Name = "label44";
             this.label44.Size = new System.Drawing.Size(56, 13);
             this.label44.TabIndex = 28;
@@ -1524,7 +1635,7 @@ namespace Mediateq_AP_SIO2
             // cbxDocument
             // 
             this.cbxDocument.FormattingEnabled = true;
-            this.cbxDocument.Location = new System.Drawing.Point(177, 158);
+            this.cbxDocument.Location = new System.Drawing.Point(177, 53);
             this.cbxDocument.Name = "cbxDocument";
             this.cbxDocument.Size = new System.Drawing.Size(132, 21);
             this.cbxDocument.TabIndex = 27;
@@ -1550,9 +1661,9 @@ namespace Mediateq_AP_SIO2
             this.label43.AutoSize = true;
             this.label43.Location = new System.Drawing.Point(71, 112);
             this.label43.Name = "label43";
-            this.label43.Size = new System.Drawing.Size(61, 13);
+            this.label43.Size = new System.Drawing.Size(99, 13);
             this.label43.TabIndex = 25;
-            this.label43.Text = "Prix unitaire";
+            this.label43.Text = "Prix d\'achat unitaire";
             // 
             // txNbExemplaire
             // 
@@ -1561,22 +1672,103 @@ namespace Mediateq_AP_SIO2
             this.txNbExemplaire.Size = new System.Drawing.Size(132, 20);
             this.txNbExemplaire.TabIndex = 24;
             // 
-            // label48
+            // txNbExemplaireModif
             // 
-            this.label48.AutoSize = true;
-            this.label48.Location = new System.Drawing.Point(71, 188);
-            this.label48.Name = "label48";
-            this.label48.Size = new System.Drawing.Size(26, 13);
-            this.label48.TabIndex = 36;
-            this.label48.Text = "Etat";
+            this.txNbExemplaireModif.Location = new System.Drawing.Point(507, 374);
+            this.txNbExemplaireModif.Name = "txNbExemplaireModif";
+            this.txNbExemplaireModif.Size = new System.Drawing.Size(132, 20);
+            this.txNbExemplaireModif.TabIndex = 67;
             // 
-            // cbxEtat
+            // label51
             // 
-            this.cbxEtat.FormattingEnabled = true;
-            this.cbxEtat.Location = new System.Drawing.Point(177, 185);
-            this.cbxEtat.Name = "cbxEtat";
-            this.cbxEtat.Size = new System.Drawing.Size(132, 21);
-            this.cbxEtat.TabIndex = 37;
+            this.label51.AutoSize = true;
+            this.label51.Location = new System.Drawing.Point(431, 371);
+            this.label51.Name = "label51";
+            this.label51.Size = new System.Drawing.Size(70, 13);
+            this.label51.TabIndex = 66;
+            this.label51.Text = "nbExemplaire";
+            // 
+            // label53
+            // 
+            this.label53.AutoSize = true;
+            this.label53.Location = new System.Drawing.Point(442, 316);
+            this.label53.Name = "label53";
+            this.label53.Size = new System.Drawing.Size(15, 13);
+            this.label53.TabIndex = 65;
+            this.label53.Text = "id";
+            // 
+            // label54
+            // 
+            this.label54.AutoSize = true;
+            this.label54.Location = new System.Drawing.Point(431, 348);
+            this.label54.Name = "label54";
+            this.label54.Size = new System.Drawing.Size(28, 13);
+            this.label54.TabIndex = 64;
+            this.label54.Text = "date";
+            // 
+            // txIdModif
+            // 
+            this.txIdModif.Location = new System.Drawing.Point(507, 316);
+            this.txIdModif.Name = "txIdModif";
+            this.txIdModif.Size = new System.Drawing.Size(132, 20);
+            this.txIdModif.TabIndex = 61;
+            // 
+            // txDateModif
+            // 
+            this.txDateModif.Location = new System.Drawing.Point(507, 348);
+            this.txDateModif.Name = "txDateModif";
+            this.txDateModif.Size = new System.Drawing.Size(132, 20);
+            this.txDateModif.TabIndex = 62;
+            // 
+            // label55
+            // 
+            this.label55.AutoSize = true;
+            this.label55.Location = new System.Drawing.Point(442, 290);
+            this.label55.Name = "label55";
+            this.label55.Size = new System.Drawing.Size(54, 13);
+            this.label55.TabIndex = 63;
+            this.label55.Text = "document";
+            // 
+            // txMontantModif
+            // 
+            this.txMontantModif.Location = new System.Drawing.Point(507, 400);
+            this.txMontantModif.Name = "txMontantModif";
+            this.txMontantModif.Size = new System.Drawing.Size(132, 20);
+            this.txMontantModif.TabIndex = 70;
+            // 
+            // label56
+            // 
+            this.label56.AutoSize = true;
+            this.label56.Location = new System.Drawing.Point(431, 397);
+            this.label56.Name = "label56";
+            this.label56.Size = new System.Drawing.Size(45, 13);
+            this.label56.TabIndex = 69;
+            this.label56.Text = "montant";
+            // 
+            // cbxEtatModif
+            // 
+            this.cbxEtatModif.FormattingEnabled = true;
+            this.cbxEtatModif.Location = new System.Drawing.Point(507, 260);
+            this.cbxEtatModif.Name = "cbxEtatModif";
+            this.cbxEtatModif.Size = new System.Drawing.Size(132, 21);
+            this.cbxEtatModif.TabIndex = 72;
+            this.cbxEtatModif.SelectedIndexChanged += new System.EventHandler(this.cbxEtatModif_SelectedIndexChanged);
+            // 
+            // label57
+            // 
+            this.label57.AutoSize = true;
+            this.label57.Location = new System.Drawing.Point(442, 263);
+            this.label57.Name = "label57";
+            this.label57.Size = new System.Drawing.Size(25, 13);
+            this.label57.TabIndex = 71;
+            this.label57.Text = "etat";
+            // 
+            // txDocumentModif
+            // 
+            this.txDocumentModif.Location = new System.Drawing.Point(507, 290);
+            this.txDocumentModif.Name = "txDocumentModif";
+            this.txDocumentModif.Size = new System.Drawing.Size(132, 20);
+            this.txDocumentModif.TabIndex = 73;
             // 
             // FrmMediateq
             // 
@@ -1768,11 +1960,30 @@ namespace Mediateq_AP_SIO2
         private System.Windows.Forms.Label label43;
         private System.Windows.Forms.TextBox txNbExemplaire;
         private System.Windows.Forms.Label label45;
-        private System.Windows.Forms.TextBox txNumero;
+        private System.Windows.Forms.TextBox txIdDocument;
         private System.Windows.Forms.Label label46;
         private System.Windows.Forms.Label label47;
-        private System.Windows.Forms.ComboBox cbxEtat;
+        private System.Windows.Forms.ComboBox cbxTitreDoc;
+        private System.Windows.Forms.TextBox txIdCategorieDoc;
         private System.Windows.Forms.Label label48;
+        private System.Windows.Forms.Label label49;
+        private System.Windows.Forms.Label label50;
+        private System.Windows.Forms.TextBox txIdDoc;
+        private System.Windows.Forms.TextBox txImageDoc;
+        private System.Windows.Forms.Label label52;
+        private System.Windows.Forms.TextBox txEtatEnCours;
+        private System.Windows.Forms.TextBox txNbExemplaireModif;
+        private System.Windows.Forms.Label label51;
+        private System.Windows.Forms.Label label53;
+        private System.Windows.Forms.Label label54;
+        private System.Windows.Forms.TextBox txIdModif;
+        private System.Windows.Forms.TextBox txDateModif;
+        private System.Windows.Forms.Label label55;
+        private System.Windows.Forms.ComboBox cbxEtatModif;
+        private System.Windows.Forms.Label label57;
+        private System.Windows.Forms.TextBox txMontantModif;
+        private System.Windows.Forms.Label label56;
+        private System.Windows.Forms.TextBox txDocumentModif;
     }
 }
 

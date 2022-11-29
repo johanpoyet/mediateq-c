@@ -161,6 +161,72 @@ namespace Mediateq_AP_SIO2
             return lesDvd;
         }
 
+        public static List<Commande> getAllCommandes()
+        {
+            List<Commande> lesCommandes = new List<Commande>();
+
+
+
+            try
+            {
+                string req = "Select c.id, c.nbExemplaire, c.dateCommande, c.montant, d.id, d.titre, d.image, categ.id, categ.libelle, e.id, e.libelle  FROM commande c JOIN document d ON c.idDoc = d.id JOIN etatcommande e ON c.idEtatCommande = e.id JOIN categorie categ ON d.idCategorie = categ.id";
+
+
+
+                DAOFactory.connecter();
+
+
+
+                MySqlDataReader reader = DAOFactory.execSQLRead(req);
+
+
+
+
+                while (reader.Read())
+                {
+                    Categorie categ = new Categorie(reader[7].ToString(), reader[8].ToString());
+                    EtatCommande etat = new EtatCommande(reader[9].ToString(), reader[10].ToString());
+                    Document document = new Document(reader[4].ToString(), reader[5].ToString(), reader[6].ToString(), categ);
+                    Commande commande1 = new Commande(reader[0].ToString(), int.Parse(reader[1].ToString()), DateTime.Parse(reader[2].ToString()), Double.Parse(reader[3].ToString()),
+                    document, etat);
+                    lesCommandes.Add(commande1);
+                }
+                DAOFactory.deconnecter();
+
+            }
+
+
+
+            catch (Exception exc)
+            {
+                throw exc;
+            }
+
+
+
+            return lesCommandes;
+        }
+
+        public static List<EtatCommande> getAllEtatsCommande()
+        {
+            List<EtatCommande> lesEtatsCommande = new List<EtatCommande>();
+            string req = "Select id, libelle from etatcommande";
+
+            DAOFactory.connecter();
+
+            MySqlDataReader reader = DAOFactory.execSQLRead(req);
+
+            while (reader.Read())
+            {
+                EtatCommande etat = new EtatCommande(reader[0].ToString(), reader[1].ToString());
+                lesEtatsCommande.Add(etat);
+            }
+            DAOFactory.deconnecter();
+            return lesEtatsCommande;
+        }
+
+
+
         public static void creerDvd(Dvd dvd)
         {
 
@@ -317,14 +383,14 @@ namespace Mediateq_AP_SIO2
         }
 
 
-        public static void creerCommande(Commande  com)
+        public static void creerCommande(Commande com)
         {
 
 
 
 
 
-            string req = "INSERT INTO commande(id, nbExemplaire, dateCommande, montant, idDoc, idEtat) VALUES ('" + com.Id + "','" + com.NbExemplaire + "','" + com.DateCommande + "','" + com.Montant + "', '" + com.Doc.IdDoc + "', '" + com.Etat.ID + "')";
+            string req = "INSERT INTO commande(id, nbExemplaire, dateCommande, montant, idDoc, idEtatCommande) VALUES ('" + com.Id + "','" + com.NbExemplaire + "','" + com.DateCommande + "','" + com.Montant + "', '" + com.Doc.IdDoc + "', '" + com.Etat.ID + "')";
           
 
             DAOFactory.connecter();
