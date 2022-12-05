@@ -23,7 +23,7 @@ namespace Mediateq_AP_SIO2
         static List<Dvd> lesDvd;
         static List<Document> lesDocuments;
         static List<Commande> lesCommandes;
-        static List<EtatCommande> lesEtatsCommandes;
+        static List<EtatCommande> lesEtatsCommande;
 
 
         #endregion
@@ -49,7 +49,7 @@ namespace Mediateq_AP_SIO2
             lesLivres = DAODocuments.getAllLivres();
             lesDocuments = DAODocuments.getAllDocuments();
             lesCommandes = DAODocuments.getAllCommandes();
-            lesEtatsCommandes = DAODocuments.getAllEtatsCommande();
+            lesEtatsCommande = DAODocuments.getAllEtatsCommande();
 
 
 
@@ -702,14 +702,86 @@ namespace Mediateq_AP_SIO2
             cbxTitreDoc.DisplayMember = "titre";
 
             cbxDocument.DataSource = lesDocuments;
-            cbxDocument.DisplayMember = "idDoc";
-
-            
+            cbxDocument.DisplayMember = "idDoc";         
 
             
 
         }
 
+        private void cbxTitreDoc_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // Objet Dvd sélectionné dans la comboBox
+            Document docSelection = (Document)cbxTitreDoc.SelectedItem;
+
+            // on remplit les champs text en fonction du dvd selectionné dans la combo box
+            foreach (Document d in lesDocuments)
+            {
+                if (d.IdDoc == docSelection.IdDoc)
+                {
+                    txIdDoc.Text = d.IdDoc;
+                    txIdCategorieDoc.Text = d.LaCategorie.Id;
+                    txImageDoc.Text = d.Image;
+                }
+
+            }
+        }
+
+        private void tabCrudCommande_Enter(object sender, EventArgs e)
+        {
+            lesDocuments = DAODocuments.getAllDocuments();
+            lesEtatsCommande = DAODocuments.getAllEtatsCommande();
+
+
+            // alimentation des différentes combo box lors de l'entrée dans la page commande
+            cbxTitreDoc.DataSource = lesDocuments;
+            cbxTitreDoc.DisplayMember = "titre";
+
+            cbxDocument.DataSource = lesDocuments;
+            cbxDocument.DisplayMember = "idDoc";
+
+
+
+
+            // alimentation des différentes combo box lors de l'entrée dans la page commande
+            cbxEtatModif.DataSource = lesEtatsCommande;
+            cbxEtatModif.DisplayMember = "libelle";
+
+            txEtatEnCours.Text = "00001";
+
+
+
+
+        }
+
+        private void cbxEtatModif_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+            List<Commande> lesCommandesByEtat;
+            // Objet Dvd sélectionné dans la comboBox
+            EtatCommande etat = (EtatCommande)cbxEtatModif.SelectedItem;
+
+
+
+
+            lesCommandesByEtat = DAODocuments.getCommandeByEtatCommande(etat);
+
+
+
+            // on remplit les champs text en fonction du dvd selectionné dans la combo box
+            foreach (Commande c in lesCommandesByEtat)
+            {
+                if (c.Etat.ID == etat.ID)
+                {
+                    txIdModif.Text = c.Id;
+                    txDocumentModif.Text = c.Doc.Titre;
+                    txNbExemplaireModif.Text = c.NbExemplaire.ToString();
+                    txMontantModif.Text = c.Montant.ToString();
+                    txDateModif.Text = c.DateCommande.ToString();
+
+                }
+
+            }
+        }
         #endregion
 
 
@@ -745,68 +817,7 @@ namespace Mediateq_AP_SIO2
 
         #endregion
 
-        private void cbxTitreDoc_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            // Objet Dvd sélectionné dans la comboBox
-            Document docSelection = (Document)cbxTitreDoc.SelectedItem;
-
-            // on remplit les champs text en fonction du dvd selectionné dans la combo box
-            foreach (Document d in lesDocuments)
-            {
-                if (d.IdDoc == docSelection.IdDoc)
-                {
-                    txIdDoc.Text = d.IdDoc;
-                    txIdCategorieDoc.Text = d.LaCategorie.Id;
-                    txImageDoc.Text = d.Image;                    
-                }
-
-            }
-        }
-
-        private void tabCrudCommande_Enter(object sender, EventArgs e)
-        {
-            lesDocuments = DAODocuments.getAllDocuments();
-            lesEtatsCommande = DAODocuments.getAllEtatsCommande();
-            
-
-            // alimentation des différentes combo box lors de l'entrée dans la page commande
-            cbxTitreDoc.DataSource = lesDocuments;
-            cbxTitreDoc.DisplayMember = "titre";
-
-            cbxDocument.DataSource = lesDocuments;
-            cbxDocument.DisplayMember = "idDoc";
-
-            
-
-
-            // alimentation des différentes combo box lors de l'entrée dans la page commande
-            cbxEtatModif.DataSource = lesEtatsCommande;
-            cbxEtatModif.DisplayMember = "libelle";
-
-            txEtatEnCours.Text = "00001";
-
-
-
-
-        }
-
-        private void cbxEtatModif_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            // Objet Dvd sélectionné dans la comboBox
-            EtatCommande etat = (EtatCommande)cbxEtatModif.SelectedItem;
-
-            // on remplit les champs text en fonction du dvd selectionné dans la combo box
-            foreach (EtatCommande e in lesEtatsCommande)
-            {
-                if (d.IdDoc == docSelection.IdDoc)
-                {
-                    txIdDoc.Text = d.IdDoc;
-                    txIdCategorieDoc.Text = d.LaCategorie.Id;
-                    txImageDoc.Text = d.Image;
-                }
-
-            }
-        }
+        
     }
 
         

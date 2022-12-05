@@ -13,60 +13,84 @@ namespace Mediateq_AP_SIO2
         public static List<Categorie> getAllCategories()
         {
             List<Categorie> lesCategories = new List<Categorie>();
-            string req = "Select * from categorie";
-
-            DAOFactory.connecter();
-
-            MySqlDataReader reader = DAOFactory.execSQLRead(req);
-
-            while (reader.Read())
+            try
             {
-                Categorie categorie = new Categorie(reader[0].ToString(), reader[1].ToString());
-                lesCategories.Add(categorie);
+                string req = "Select * from categorie";
+
+                DAOFactory.connecter();
+
+                MySqlDataReader reader = DAOFactory.execSQLRead(req);
+
+                while (reader.Read())
+                {
+                    Categorie categorie = new Categorie(reader[0].ToString(), reader[1].ToString());
+                    lesCategories.Add(categorie);
+                }
+                DAOFactory.deconnecter();
             }
-            DAOFactory.deconnecter();
+
+            catch (System.Exception exc)
+            {
+                throw exc;
+            }
             return lesCategories;
         }
 
         public static List<Descripteur> getAllDescripteurs()
         {
             List<Descripteur> lesDescripteurs = new List<Descripteur>();
-            string req = "Select * from descripteur";
-
-            DAOFactory.connecter();
-
-            MySqlDataReader reader = DAOFactory.execSQLRead(req);
-
-            while (reader.Read())
+            try
             {
-                Descripteur genre = new Descripteur(reader[0].ToString(), reader[1].ToString());
-                lesDescripteurs.Add(genre);
+                string req = "Select * from descripteur";
+
+                DAOFactory.connecter();
+
+                MySqlDataReader reader = DAOFactory.execSQLRead(req);
+
+                while (reader.Read())
+                {
+                    Descripteur genre = new Descripteur(reader[0].ToString(), reader[1].ToString());
+                    lesDescripteurs.Add(genre);
+                }
+                DAOFactory.deconnecter();
             }
-            DAOFactory.deconnecter();
+
+            catch (System.Exception exc)
+            {
+                throw exc;
+            }
             return lesDescripteurs;
         }
         
         public static List<Livre> getAllLivres()
         {
             List<Livre> lesLivres = new List<Livre>();
-            string req = "Select l.id, l.ISBN, l.auteur, d.titre, d.image, l.collection, d.idCategorie, c.libelle from livre l ";
-            req += " join document d on l.id=d.id";
-            req += " join categorie c on d.idCategorie = c.id";
-
-            DAOFactory.connecter();
-
-            MySqlDataReader reader = DAOFactory.execSQLRead(req);
-
-            while (reader.Read())
+            try
             {
-                Livre livre = new Livre(reader[0].ToString(), reader[3].ToString(), reader[1].ToString(),
-                reader[2].ToString(), reader[5].ToString(), reader[4].ToString(),new Categorie(reader[6].ToString(),reader[7].ToString()));
-  
-                lesLivres.Add(livre);
-                
+                string req = "Select l.id, l.ISBN, l.auteur, d.titre, d.image, l.collection, d.idCategorie, c.libelle from livre l ";
+                req += " join document d on l.id=d.id";
+                req += " join categorie c on d.idCategorie = c.id";
+
+                DAOFactory.connecter();
+
+                MySqlDataReader reader = DAOFactory.execSQLRead(req);
+
+                while (reader.Read())
+                {
+                    Livre livre = new Livre(reader[0].ToString(), reader[3].ToString(), reader[1].ToString(),
+                    reader[2].ToString(), reader[5].ToString(), reader[4].ToString(), new Categorie(reader[6].ToString(), reader[7].ToString()));
+
+                    lesLivres.Add(livre);
+
+                }
+
+                DAOFactory.deconnecter();
             }
 
-            DAOFactory.deconnecter();
+            catch (System.Exception exc)
+            {
+                throw exc;
+            }
 
             return lesLivres;
         }
@@ -96,22 +120,30 @@ namespace Mediateq_AP_SIO2
         public static List<Document> getAllDocuments()
         {
             List<Document> lesDocuments = new List<Document>();
-            string req = "Select d.id, d.titre, d.image, c.id, c.libelle FROM document d JOIN categorie c ON d.idCategorie = c.id";
-
-            DAOFactory.connecter();
-
-            MySqlDataReader reader = DAOFactory.execSQLRead(req);
-
-            while (reader.Read())
+            try
             {
-                Categorie categ = new Categorie(reader[3].ToString(), reader[4].ToString());
-                Document document = new Document(reader[0].ToString(), reader[1].ToString(), reader[2].ToString(), categ);
+                string req = "Select d.id, d.titre, d.image, c.id, c.libelle FROM document d JOIN categorie c ON d.idCategorie = c.id";
 
-                lesDocuments.Add(document);
+                DAOFactory.connecter();
 
+                MySqlDataReader reader = DAOFactory.execSQLRead(req);
+
+                while (reader.Read())
+                {
+                    Categorie categ = new Categorie(reader[3].ToString(), reader[4].ToString());
+                    Document document = new Document(reader[0].ToString(), reader[1].ToString(), reader[2].ToString(), categ);
+
+                    lesDocuments.Add(document);
+
+                }
+
+                DAOFactory.deconnecter();
             }
 
-            DAOFactory.deconnecter();
+            catch (System.Exception exc)
+            {
+                throw exc;
+            }
 
             return lesDocuments;
         }
@@ -151,7 +183,7 @@ namespace Mediateq_AP_SIO2
 
 
 
-            catch (Exception exc)
+            catch (System.Exception exc)
             {
                 throw exc;
             }
@@ -164,8 +196,6 @@ namespace Mediateq_AP_SIO2
         public static List<Commande> getAllCommandes()
         {
             List<Commande> lesCommandes = new List<Commande>();
-
-
 
             try
             {
@@ -187,7 +217,7 @@ namespace Mediateq_AP_SIO2
                     Categorie categ = new Categorie(reader[7].ToString(), reader[8].ToString());
                     EtatCommande etat = new EtatCommande(reader[9].ToString(), reader[10].ToString());
                     Document document = new Document(reader[4].ToString(), reader[5].ToString(), reader[6].ToString(), categ);
-                    Commande commande1 = new Commande(reader[0].ToString(), int.Parse(reader[1].ToString()), DateTime.Parse(reader[2].ToString()), Double.Parse(reader[3].ToString()),
+                    Commande commande1 = new Commande(reader[0].ToString(), int.Parse(reader[1].ToString()), DateTime.Parse(reader[2].ToString()), double.Parse(reader[3].ToString()),
                     document, etat);
                     lesCommandes.Add(commande1);
                 }
@@ -197,7 +227,7 @@ namespace Mediateq_AP_SIO2
 
 
 
-            catch (Exception exc)
+            catch (System.Exception exc)
             {
                 throw exc;
             }
@@ -210,19 +240,58 @@ namespace Mediateq_AP_SIO2
         public static List<EtatCommande> getAllEtatsCommande()
         {
             List<EtatCommande> lesEtatsCommande = new List<EtatCommande>();
-            string req = "Select id, libelle from etatcommande";
+            try
+            {
+                string req = "Select id, libelle from etatcommande";
+
+                DAOFactory.connecter();
+
+                MySqlDataReader reader = DAOFactory.execSQLRead(req);
+
+                while (reader.Read())
+                {
+                    EtatCommande etat = new EtatCommande(reader[0].ToString(), reader[1].ToString());
+                    lesEtatsCommande.Add(etat);
+                }
+                DAOFactory.deconnecter();
+            }
+
+            catch (System.Exception exc)
+            {
+                throw exc;
+            }
+
+            return lesEtatsCommande;
+        }
+
+        public static List<Commande> getCommandeByEtatCommande(EtatCommande etat)
+        {
+            List<Commande> lesCommandesByEtat = new List<Commande>();
+            Commande commande;
+            string req = "Select c.id, c.nbExemplaire, c.dateCommande, c.montant, d.id, d.titre, d.image, categ.id, categ.libelle, e.id, e.libelle  FROM commande c JOIN document d ON c.idDoc = d.id JOIN etatcommande e ON c.idEtatCommande = e.id JOIN categorie categ ON d.idCategorie = categ.id WHERE id c.idEtatCommande = '" + etat.ID + "'";
+
 
             DAOFactory.connecter();
 
             MySqlDataReader reader = DAOFactory.execSQLRead(req);
 
-            while (reader.Read())
+            if (reader.Read())
             {
-                EtatCommande etat = new EtatCommande(reader[0].ToString(), reader[1].ToString());
-                lesEtatsCommande.Add(etat);
+                Categorie categ = new Categorie(reader[7].ToString(), reader[8].ToString());
+                EtatCommande etat1 = new EtatCommande(reader[9].ToString(), reader[10].ToString());
+                Document document = new Document(reader[4].ToString(), reader[5].ToString(), reader[6].ToString(), categ);
+                commande = new Commande(reader[0].ToString(), int.Parse(reader[1].ToString()), DateTime.Parse(reader[2].ToString()), Double.Parse(reader[3].ToString()),
+                document, etat1);
+
+                lesCommandesByEtat.Add(commande);
+
+            }
+            else
+            {
+                commande = null;
             }
             DAOFactory.deconnecter();
-            return lesEtatsCommande;
+            return lesCommandesByEtat;
         }
 
 
