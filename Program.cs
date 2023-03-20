@@ -16,7 +16,7 @@ namespace Mediateq_AP_SIO2
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new FrmMediateq());
+            Application.Run(new login());
         }
     }
 }
