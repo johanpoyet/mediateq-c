@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Text.RegularExpressions;
 
 namespace Mediateq_AP_SIO2
 {
@@ -24,40 +25,29 @@ namespace Mediateq_AP_SIO2
 
         private void btnCreerUser_Click(object sender, EventArgs e)
         {
-            
+            Regex rx = new Regex(@"^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$");
 
-            string id = txtIdNew.Text;
-            string pseudo = txtLoginNew.Text;
-            string password = txtPasswordNew.Text;
-            string passwordConfirm = txtPasswordNewConfirm.Text;
-
-            if(password == "")
+            if (!rx.IsMatch(txtPasswordNew.Text))
             {
-                MessageBox.Show("Veuillez entrez un mot de passe", "Erreur", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
+                MessageBox.Show("Le mot de passe doit comporter au moin 8 caractères dont 1 lettre majuscule, 1 caractère spécial, les caractères alphanumériques", "Erreur", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
             }
-            else {
-                bool trouve = false;
-                foreach (Login l in lesUsers)
-                {
-                    if (l.Id.Equals(int.Parse(id)))
-                    {
-                        trouve = true;
-                    }
-                    else
-                    {
+            else
+            {
+                string id = txtIdNew.Text;
+                string pseudo = txtLoginNew.Text;
+                string password = txtPasswordNew.Text;
+                string passwordConfirm = txtPasswordNewConfirm.Text;
 
-                    }
-                }
-                if (trouve)
+                if (password == "")
                 {
-                    MessageBox.Show("Un utilisateur avec l'id : '" + id + "' existe deja", "Erreur", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
+                    MessageBox.Show("Veuillez entrez un mot de passe", "Erreur", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
                 }
-                else if (!trouve)
+                else
                 {
-
+                    bool trouve = false;
                     foreach (Login l in lesUsers)
                     {
-                        if (l.Pseudo.Equals(pseudo))
+                        if (l.Id.Equals(int.Parse(id)))
                         {
                             trouve = true;
                         }
@@ -68,16 +58,29 @@ namespace Mediateq_AP_SIO2
                     }
                     if (trouve)
                     {
-                        MessageBox.Show("L'utilisateur '" + pseudo + "' existe deja", "Erreur", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
+                        MessageBox.Show("Un utilisateur avec l'id : '" + id + "' existe deja", "Erreur", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
                     }
-                    else
+                    else if (!trouve)
                     {
-                        if(password.Length < 5)
+
+                        foreach (Login l in lesUsers)
                         {
-                            MessageBox.Show("Mot de passe trop court. Votre mot de passe doit contenir au moins 5 caractères.", "Erreur", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
+                            if (l.Pseudo.Equals(pseudo))
+                            {
+                                trouve = true;
+                            }
+                            else
+                            {
+
+                            }
+                        }
+                        if (trouve)
+                        {
+                            MessageBox.Show("L'utilisateur '" + pseudo + "' existe deja", "Erreur", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
                         }
                         else
                         {
+
                             if (password == passwordConfirm)
                             {
                                 Login user = new Login(int.Parse(id), pseudo, password);
@@ -93,11 +96,11 @@ namespace Mediateq_AP_SIO2
                                 MessageBox.Show("Les mots de passe ne correspondent pas", "Erreur", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
                             }
 
+
                         }
                     }
                 }
             }
-
            
             
         }

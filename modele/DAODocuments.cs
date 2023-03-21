@@ -218,6 +218,7 @@ namespace Mediateq_AP_SIO2
 
             return lesDvd;
         }
+
         public static List<Login> getAllUsers()
         {
             List<Login> lesUsers = new List<Login>();
@@ -260,50 +261,6 @@ namespace Mediateq_AP_SIO2
 
 
             return lesUsers;
-        }
-
-        public static List<Commande> getAllCommandes()
-        {
-            List<Commande> lesCommandes = new List<Commande>();
-
-            try
-            {
-                string req = "Select c.id, c.nbExemplaire, c.dateCommande, c.montant, d.id, d.titre, d.image, categ.id, categ.libelle, e.id, e.libelle  FROM commande c JOIN document d ON c.idDoc = d.id JOIN etatcommande e ON c.idEtatCommande = e.id JOIN categorie categ ON d.idCategorie = categ.id";
-
-
-
-                DAOFactory.connecter();
-
-
-
-                MySqlDataReader reader = DAOFactory.execSQLRead(req);
-
-
-
-
-                while (reader.Read())
-                {
-                    Categorie categ = new Categorie(reader[7].ToString(), reader[8].ToString());
-                    EtatCommande etat = new EtatCommande(reader[9].ToString(), reader[10].ToString());
-                    Document document = new Document(reader[4].ToString(), reader[5].ToString(), reader[6].ToString(), categ);
-                    Commande commande1 = new Commande(reader[0].ToString(), int.Parse(reader[1].ToString()), DateTime.Parse(reader[2].ToString()), double.Parse(reader[3].ToString()),
-                    document, etat);
-                    lesCommandes.Add(commande1);
-                }
-                DAOFactory.deconnecter();
-
-            }
-
-
-
-            catch (System.Exception exc)
-            {
-                throw exc;
-            }
-
-
-
-            return lesCommandes;
         }
 
         public static List<EtatCommande> getAllEtatsCommande()

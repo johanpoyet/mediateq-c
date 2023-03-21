@@ -36,14 +36,18 @@
             this.btnRedirectCreerUser = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.btnVisualisation = new System.Windows.Forms.Button();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
             // 
+            this.label1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label1.AutoSize = true;
+            this.label1.BackColor = System.Drawing.Color.Transparent;
             this.label1.Font = new System.Drawing.Font("Arial Narrow", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.label1.Location = new System.Drawing.Point(89, 230);
+            this.label1.Location = new System.Drawing.Point(89, 266);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(147, 23);
             this.label1.TabIndex = 0;
@@ -51,10 +55,11 @@
             // 
             // label2
             // 
+            this.label2.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Arial Narrow", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.label2.Location = new System.Drawing.Point(89, 324);
+            this.label2.Location = new System.Drawing.Point(89, 360);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(120, 23);
             this.label2.TabIndex = 1;
@@ -62,10 +67,11 @@
             // 
             // txtLogin
             // 
+            this.txtLogin.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.txtLogin.BackColor = System.Drawing.SystemColors.Info;
             this.txtLogin.Font = new System.Drawing.Font("Arial Narrow", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtLogin.ForeColor = System.Drawing.SystemColors.HotTrack;
-            this.txtLogin.Location = new System.Drawing.Point(93, 256);
+            this.txtLogin.Location = new System.Drawing.Point(93, 292);
             this.txtLogin.Multiline = true;
             this.txtLogin.Name = "txtLogin";
             this.txtLogin.Size = new System.Drawing.Size(287, 34);
@@ -73,10 +79,11 @@
             // 
             // txtPassword
             // 
+            this.txtPassword.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.txtPassword.BackColor = System.Drawing.SystemColors.Info;
             this.txtPassword.Font = new System.Drawing.Font("Arial Narrow", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtPassword.ForeColor = System.Drawing.SystemColors.HotTrack;
-            this.txtPassword.Location = new System.Drawing.Point(93, 350);
+            this.txtPassword.Location = new System.Drawing.Point(93, 386);
             this.txtPassword.Multiline = true;
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.PasswordChar = '*';
@@ -85,10 +92,11 @@
             // 
             // btnConnexion
             // 
+            this.btnConnexion.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btnConnexion.BackColor = System.Drawing.Color.MidnightBlue;
             this.btnConnexion.Font = new System.Drawing.Font("Arial Narrow", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnConnexion.ForeColor = System.Drawing.SystemColors.Menu;
-            this.btnConnexion.Location = new System.Drawing.Point(249, 468);
+            this.btnConnexion.Location = new System.Drawing.Point(172, 504);
             this.btnConnexion.Name = "btnConnexion";
             this.btnConnexion.Size = new System.Drawing.Size(131, 61);
             this.btnConnexion.TabIndex = 4;
@@ -98,10 +106,11 @@
             // 
             // btnRedirectCreerUser
             // 
+            this.btnRedirectCreerUser.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btnRedirectCreerUser.BackColor = System.Drawing.Color.MidnightBlue;
             this.btnRedirectCreerUser.Font = new System.Drawing.Font("Arial Narrow", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnRedirectCreerUser.ForeColor = System.Drawing.SystemColors.Menu;
-            this.btnRedirectCreerUser.Location = new System.Drawing.Point(93, 468);
+            this.btnRedirectCreerUser.Location = new System.Drawing.Point(12, 504);
             this.btnRedirectCreerUser.Name = "btnRedirectCreerUser";
             this.btnRedirectCreerUser.Size = new System.Drawing.Size(131, 61);
             this.btnRedirectCreerUser.TabIndex = 5;
@@ -111,27 +120,44 @@
             // 
             // label3
             // 
+            this.label3.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label3.AutoSize = true;
+            this.label3.BackColor = System.Drawing.Color.Transparent;
             this.label3.Font = new System.Drawing.Font("Comic Sans MS", 26.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.label3.Location = new System.Drawing.Point(146, 88);
+            this.label3.Location = new System.Drawing.Point(147, 48);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(185, 50);
             this.label3.TabIndex = 6;
             this.label3.Text = "Connexion";
+            this.label3.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // btnVisualisation
             // 
+            this.btnVisualisation.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btnVisualisation.BackColor = System.Drawing.Color.MidnightBlue;
+            this.btnVisualisation.Cursor = System.Windows.Forms.Cursors.Default;
             this.btnVisualisation.Font = new System.Drawing.Font("Arial Narrow", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnVisualisation.ForeColor = System.Drawing.SystemColors.Menu;
-            this.btnVisualisation.Location = new System.Drawing.Point(167, 552);
+            this.btnVisualisation.Location = new System.Drawing.Point(323, 504);
             this.btnVisualisation.Name = "btnVisualisation";
             this.btnVisualisation.Size = new System.Drawing.Size(131, 61);
             this.btnVisualisation.TabIndex = 7;
-            this.btnVisualisation.Text = "Entre en tant que visiteur";
+            this.btnVisualisation.Text = "Entrer en tant que visiteur";
             this.btnVisualisation.UseVisualStyleBackColor = false;
             this.btnVisualisation.Click += new System.EventHandler(this.btnVisualisation_Click);
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.pictureBox1.Image = global::Mediateq_AP_SIO2.Properties.Resources.c;
+            this.pictureBox1.Location = new System.Drawing.Point(143, 77);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(197, 198);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 8;
+            this.pictureBox1.TabStop = false;
             // 
             // login
             // 
@@ -146,10 +172,13 @@
             this.Controls.Add(this.txtLogin);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
+            this.Controls.Add(this.pictureBox1);
+            this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "login";
             this.Text = "Login";
             this.Load += new System.EventHandler(this.Form1_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -165,5 +194,6 @@
         private System.Windows.Forms.Button btnRedirectCreerUser;
         private System.Windows.Forms.Label label3;
         public System.Windows.Forms.Button btnVisualisation;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }

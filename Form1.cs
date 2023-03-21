@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using Mediateq_AP_SIO2.metier;
 using MySql.Data.MySqlClient;
 using MySqlX.XDevAPI.Relational;
+using System.Text.RegularExpressions;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Mediateq_AP_SIO2
@@ -70,49 +71,10 @@ namespace Mediateq_AP_SIO2
             FrmMediateq.Owner = this;
             FrmMediateq.Show();
             this.Hide();
-           /* FrmMediateq.txId.Enabled = false;
-            FrmMediateq.txDuree.Enabled = false;
-            FrmMediateq.txTitre.Enabled = false;
-            FrmMediateq.txImage.Enabled = false;
-            FrmMediateq.txSynopsis.Enabled = false;
-            FrmMediateq.txRealisateur.Enabled = false;
-            FrmMediateq.cbxCategorie.Enabled = false;
-            FrmMediateq.cbxActeurDvd.Enabled = false;
-            FrmMediateq.btnCreerDvd.Enabled = false;
-            FrmMediateq.cbxDvd.Enabled = false;
-            FrmMediateq.txRealisateurModifDvd.Enabled = false;
-            FrmMediateq.txIdModifDvd.Enabled = false;
-            FrmMediateq.txDureeModifDvd.Enabled = false;
-            FrmMediateq.txImageModifDvd.Enabled = false;
-            FrmMediateq.txTitreModifDvd.Enabled = false;
-            FrmMediateq.txSynopsisModifDvd.Enabled = false;
-            FrmMediateq.cbxCategorieDvdModif.Enabled = false;
-            FrmMediateq.btnSupprimerDvd.Enabled = false;
-            FrmMediateq.btnModifDvd.Enabled = false;
-            FrmMediateq.txIdLivre.Enabled = false;
-            FrmMediateq.txISBNLivre.Enabled = false;
-            FrmMediateq.txTitreLivre.Enabled = false;
-            FrmMediateq.txCollectionLivre.Enabled = false;
-            FrmMediateq.txAuteurLivre.Enabled = false;
-            FrmMediateq.txImageLivre.Enabled = false;
-            FrmMediateq.btnCreerLivre.Enabled = false;
-            FrmMediateq.cbxCategorieLivre.Enabled = false;
-            FrmMediateq.cbxLivre.Enabled = false;
-            FrmMediateq.txISBNLivreModif.Enabled = false;
-            FrmMediateq.txIdModifLivre.Enabled = false;
-            FrmMediateq.txCollectionLivreModif.Enabled = false;
-            FrmMediateq.txTitreLivreModif.Enabled = false;
-            FrmMediateq.txImageLivreModif.Enabled = false;
-            FrmMediateq.txAuteurLivreModif.Enabled = false;
-            FrmMediateq.cbxCategorieLivreModif.Enabled = false;
-            FrmMediateq.btnModifierLivre.Enabled = false;
-            FrmMediateq.btnSupprimerLivre.Enabled = false;*/
             
             FrmMediateq.tabDVD.Enabled = false;
             FrmMediateq.tabCrudLivre.Enabled = false;
-            
-
-
+            FrmMediateq.tabCrudCommande.Enabled = false;
 
         }
 

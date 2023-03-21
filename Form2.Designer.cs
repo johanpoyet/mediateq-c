@@ -43,6 +43,7 @@
             // 
             // btnCreerUser
             // 
+            this.btnCreerUser.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btnCreerUser.BackColor = System.Drawing.Color.MidnightBlue;
             this.btnCreerUser.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCreerUser.ForeColor = System.Drawing.SystemColors.Menu;
@@ -50,12 +51,13 @@
             this.btnCreerUser.Name = "btnCreerUser";
             this.btnCreerUser.Size = new System.Drawing.Size(143, 62);
             this.btnCreerUser.TabIndex = 9;
-            this.btnCreerUser.Text = "créer utilisateur";
+            this.btnCreerUser.Text = "Créer un utilisateur";
             this.btnCreerUser.UseVisualStyleBackColor = false;
             this.btnCreerUser.Click += new System.EventHandler(this.btnCreerUser_Click);
             // 
             // txtPasswordNew
             // 
+            this.txtPasswordNew.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.txtPasswordNew.BackColor = System.Drawing.SystemColors.Info;
             this.txtPasswordNew.Font = new System.Drawing.Font("Arial Narrow", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtPasswordNew.ForeColor = System.Drawing.SystemColors.HotTrack;
@@ -68,6 +70,7 @@
             // 
             // txtLoginNew
             // 
+            this.txtLoginNew.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.txtLoginNew.BackColor = System.Drawing.SystemColors.Info;
             this.txtLoginNew.Font = new System.Drawing.Font("Arial Narrow", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtLoginNew.ForeColor = System.Drawing.SystemColors.HotTrack;
@@ -79,6 +82,7 @@
             // 
             // label2
             // 
+            this.label2.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Arial Narrow", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.MidnightBlue;
@@ -90,6 +94,7 @@
             // 
             // label1
             // 
+            this.label1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Arial Narrow", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.MidnightBlue;
@@ -101,6 +106,7 @@
             // 
             // label3
             // 
+            this.label3.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Arial Narrow", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.Color.MidnightBlue;
@@ -112,6 +118,7 @@
             // 
             // txtPasswordNewConfirm
             // 
+            this.txtPasswordNewConfirm.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.txtPasswordNewConfirm.BackColor = System.Drawing.SystemColors.Info;
             this.txtPasswordNewConfirm.Font = new System.Drawing.Font("Arial Narrow", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtPasswordNewConfirm.ForeColor = System.Drawing.SystemColors.HotTrack;
@@ -124,6 +131,7 @@
             // 
             // txtIdNew
             // 
+            this.txtIdNew.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.txtIdNew.BackColor = System.Drawing.SystemColors.Info;
             this.txtIdNew.Font = new System.Drawing.Font("Arial Narrow", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtIdNew.ForeColor = System.Drawing.SystemColors.HotTrack;
@@ -135,6 +143,7 @@
             // 
             // label4
             // 
+            this.label4.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Arial Narrow", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.Color.MidnightBlue;
@@ -146,6 +155,7 @@
             // 
             // label5
             // 
+            this.label5.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Comic Sans MS", 26.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.ForeColor = System.Drawing.Color.MidnightBlue;
@@ -157,6 +167,7 @@
             // 
             // btnRedirectLogin
             // 
+            this.btnRedirectLogin.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btnRedirectLogin.BackColor = System.Drawing.Color.MidnightBlue;
             this.btnRedirectLogin.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnRedirectLogin.ForeColor = System.Drawing.SystemColors.Menu;

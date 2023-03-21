@@ -9,12 +9,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Mediateq_AP_SIO2.metier;
+using System.Text.RegularExpressions;
 
 
 namespace Mediateq_AP_SIO2
 {
     public partial class FrmMediateq : Form
     {
+
         #region Variables globales
         private login login;
         static List<Categorie> lesCategories;
@@ -32,6 +34,7 @@ namespace Mediateq_AP_SIO2
 
 
         #endregion
+
 
 
         #region Procédures évènementielles
@@ -67,6 +70,7 @@ namespace Mediateq_AP_SIO2
         #endregion
 
 
+
         #region Parutions
         //-----------------------------------------------------------
         // ONGLET "PARUTIONS"
@@ -95,6 +99,7 @@ namespace Mediateq_AP_SIO2
             
         }
         #endregion
+
 
 
         #region Revues
@@ -140,6 +145,7 @@ namespace Mediateq_AP_SIO2
             
         }
         #endregion
+
 
 
         #region Livres
@@ -238,7 +244,7 @@ namespace Mediateq_AP_SIO2
             try
             {
                 // mise en place d'un message box pour que l'utilisateurs valide sa création 
-                DialogResult dialogResult = MessageBox.Show("Etes-vous sur de vouloir créer ce Livre ?", "Validation !", MessageBoxButtons.YesNo);
+                DialogResult dialogResult = MessageBox.Show("Etes-vous sur de vouloir créer ce Livre ?", "Validation !", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (dialogResult == DialogResult.Yes)
                 {
                     // on remplit les variables a l'aide des champs textes et combo box 
@@ -317,49 +323,59 @@ namespace Mediateq_AP_SIO2
 
         private void btnSupprimerLivre_Click(object sender, EventArgs e)
         {
-            // Objet Livre sélectionné dans la comboBox
-            Livre livreSelection = (Livre)cbxLivre.SelectedItem;
-
-            // mise en place d'un message box pour que l'utilisateurs valide sa suppression 
-            DialogResult dialogResult = MessageBox.Show("Etes-vous sur de vouloir supprimer le livre : '" + livreSelection.Titre + "'", "Validation !", MessageBoxButtons.YesNo);
-            if (dialogResult == DialogResult.Yes)
+            try
             {
-                // on remplit les variables a l'aide des champs textes et combo box 
-                string idModif = txIdModifLivre.Text;
-                string titreModif = txTitreLivreModif.Text;
-                string auteurModif = txAuteurLivreModif.Text;
-                string ISBNModif = txISBNLivreModif.Text;
-                string collectionModif = txCollectionLivreModif.Text;
-                string imageModif = txImageLivreModif.Text;
-                Categorie categorieModif = (Categorie)cbxCategorieLivreModif.SelectedItem;
+                // Objet Livre sélectionné dans la comboBox
+                Livre livreSelection = (Livre)cbxLivre.SelectedItem;
 
-                // création du livre a supprimé
-                Livre livreSuppr = new Livre(idModif, titreModif, auteurModif, ISBNModif, collectionModif, imageModif, categorieModif);
-
-
-                DAODocuments.supprimerLivre(livreSuppr);
-
-
-
-                // ré-initialisation du dataGridView
-                dtDvd.Rows.Clear();
-
-                lesLivres = DAODocuments.getAllLivres();
-
-                // alimentation des différentes combo box lors de l'entrée dans la page crud livre
-                cbxLivre.DataSource = lesLivres;
-                cbxLivre.DisplayMember = "titre";
-
-                // Parcours de la collection des livres et alimentation du datagridview
-                foreach (Livre l in lesLivres)
+                // mise en place d'un message box pour que l'utilisateurs valide sa suppression 
+                DialogResult dialogResult = MessageBox.Show("Etes-vous sur de vouloir supprimer le livre : '" + livreSelection.Titre + "'", "Validation !", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (dialogResult == DialogResult.Yes)
                 {
-                    dtCrudLivre.Rows.Add(l.IdDoc, l.Titre, l.Auteur, l.LaCollection, l.Image, l.LaCategorie.Libelle);
+                    // on remplit les variables a l'aide des champs textes et combo box 
+                    string idModif = txIdModifLivre.Text;
+                    string titreModif = txTitreLivreModif.Text;
+                    string auteurModif = txAuteurLivreModif.Text;
+                    string ISBNModif = txISBNLivreModif.Text;
+                    string collectionModif = txCollectionLivreModif.Text;
+                    string imageModif = txImageLivreModif.Text;
+                    Categorie categorieModif = (Categorie)cbxCategorieLivreModif.SelectedItem;
+
+                    // création du livre a supprimé
+                    Livre livreSuppr = new Livre(idModif, titreModif, auteurModif, ISBNModif, collectionModif, imageModif, categorieModif);
+
+
+                    DAODocuments.supprimerLivre(livreSuppr);
+
+
+
+                    // ré-initialisation du dataGridView
+                    dtDvd.Rows.Clear();
+
+                    lesLivres = DAODocuments.getAllLivres();
+
+                    // alimentation des différentes combo box lors de l'entrée dans la page crud livre
+                    cbxLivre.DataSource = lesLivres;
+                    cbxLivre.DisplayMember = "titre";
+
+                    // Parcours de la collection des livres et alimentation du datagridview
+                    foreach (Livre l in lesLivres)
+                    {
+                        dtCrudLivre.Rows.Add(l.IdDoc, l.Titre, l.Auteur, l.LaCollection, l.Image, l.LaCategorie.Libelle);
+                    }
+
+                    MessageBox.Show("Le livre '" + livreSelection.Titre + "' a été supprimé avec succès !", "Succès", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else if (dialogResult == DialogResult.No)
+                {
+
                 }
             }
-            else if (dialogResult == DialogResult.No)
+            catch (System.Exception exc)
             {
-
+                throw exc;
             }
+
 
         }
 
@@ -387,48 +403,58 @@ namespace Mediateq_AP_SIO2
 
         private void btnModifierLivre_Click(object sender, EventArgs e)
         {
-            // Objet Livre sélectionné dans la comboBox
-            Livre livreSelection = (Livre)cbxLivre.SelectedItem;
-
-            // mise en place d'un message box pour que l'utilisateurs valide sa modification 
-            DialogResult dialogResult = MessageBox.Show("Etes-vous sur de vouloir modifier le livre : '" + livreSelection.Titre + "'", "Validation !", MessageBoxButtons.YesNo);
-            if (dialogResult == DialogResult.Yes)
+            try
             {
-                string idModif = txIdModifLivre.Text;
-                string titreModif = txTitreLivreModif.Text;
-                string auteurModif = txAuteurLivreModif.Text;
-                string ISBNModif = txISBNLivreModif.Text;
-                string collectionModif = txCollectionLivreModif.Text;
-                string imageModif = txImageLivreModif.Text;
-                Categorie categorieModif = (Categorie)cbxCategorieLivreModif.SelectedItem;
+                // Objet Livre sélectionné dans la comboBox
+                Livre livreSelection = (Livre)cbxLivre.SelectedItem;
 
-                // création du livre a modifié
-                Livre livreSuppr = new Livre(idModif, titreModif, ISBNModif, auteurModif, collectionModif, imageModif, categorieModif);
-
-
-                DAODocuments.modifierLivre(livreSuppr);
-
-
-
-                // ré-initialisation du dataGridView
-                dtCrudLivre.Rows.Clear();
-
-                lesLivres = DAODocuments.getAllLivres();
-
-                // alimentation des différentes combo box lors de l'entrée dans la page crud livre
-                cbxLivre.DataSource = lesLivres;
-                cbxLivre.DisplayMember = "titre";
-
-                // Parcours de la collection des livres et alimentation du datagridview
-                foreach (Livre l in lesLivres)
+                // mise en place d'un message box pour que l'utilisateurs valide sa modification 
+                DialogResult dialogResult = MessageBox.Show("Etes-vous sur de vouloir modifier le livre : '" + livreSelection.Titre + "'", "Validation !", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (dialogResult == DialogResult.Yes)
                 {
-                    dtCrudLivre.Rows.Add(l.IdDoc, l.Titre, l.Auteur, l.LaCollection, l.Image, l.LaCategorie.Libelle);
+                    string idModif = txIdModifLivre.Text;
+                    string titreModif = txTitreLivreModif.Text;
+                    string auteurModif = txAuteurLivreModif.Text;
+                    string ISBNModif = txISBNLivreModif.Text;
+                    string collectionModif = txCollectionLivreModif.Text;
+                    string imageModif = txImageLivreModif.Text;
+                    Categorie categorieModif = (Categorie)cbxCategorieLivreModif.SelectedItem;
+
+                    // création du livre a modifié
+                    Livre livreSuppr = new Livre(idModif, titreModif, ISBNModif, auteurModif, collectionModif, imageModif, categorieModif);
+
+
+                    DAODocuments.modifierLivre(livreSuppr);
+
+
+
+                    // ré-initialisation du dataGridView
+                    dtCrudLivre.Rows.Clear();
+
+                    lesLivres = DAODocuments.getAllLivres();
+
+                    // alimentation des différentes combo box lors de l'entrée dans la page crud livre
+                    cbxLivre.DataSource = lesLivres;
+                    cbxLivre.DisplayMember = "titre";
+
+                    // Parcours de la collection des livres et alimentation du datagridview
+                    foreach (Livre l in lesLivres)
+                    {
+                        dtCrudLivre.Rows.Add(l.IdDoc, l.Titre, l.Auteur, l.LaCollection, l.Image, l.LaCategorie.Libelle);
+                    }
+
+                    MessageBox.Show("Le livre '" + livreSelection.Titre + "' a été modifié avec succès !", "Succès", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else if (dialogResult == DialogResult.No)
+                {
+
                 }
             }
-            else if (dialogResult == DialogResult.No)
+            catch (System.Exception exc)
             {
-
+                throw exc;
             }
+
 
         }
 
@@ -445,8 +471,12 @@ namespace Mediateq_AP_SIO2
 
         }
 
-
+        private void btnFermerAppliLivre_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
         #endregion
+
 
 
         #region DVD
@@ -458,79 +488,91 @@ namespace Mediateq_AP_SIO2
 
             try
             {
-                // mise en place d'un message box pour que l'utilisateurs valide sa création 
-                DialogResult dialogResult = MessageBox.Show("Etes-vous sur de vouloir créer ce DVD ?", "Validation !", MessageBoxButtons.YesNo);
-                if (dialogResult == DialogResult.Yes)
+                Regex rx = new Regex(@"[0-9]");
+                if (!rx.IsMatch(txId.Text))
                 {
-                    // on remplit les variables a l'aide des champs textes et combo box 
-                    string titre = txTitre.Text;
-                    string id = txId.Text;
-                    string synopsis = txSynopsis.Text;
-                    string realisateur = txRealisateur.Text;
-                    int duree = Int32.Parse(txDuree.Text);
-                    string image = txImage.Text;
-                    Categorie categ = (Categorie)cbxCategorie.SelectedItem;
-                    Acteur act = (Acteur)cbxActeurDvd.SelectedItem;
-                    
-
-                    // création du nouveau dvd
-                     dvd1 = new Dvd(id, titre, synopsis, realisateur, duree, image, categ);
-
-                    //DAODocuments.setActeur(lesDvd);
-
-
-                    // On recherche le dvd correspondant a l'id
-                    // S'il existe deja : on affiche un popup message d'erreur
-                    // si il n'existe pas on créer le DVD
-                    bool trouve = false;
-                    foreach (Dvd d in lesDvd)
+                    MessageBox.Show("L'id ne doit contenir que des chiffres", "Erreur", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
+                }
+                else if (!rx.IsMatch(txDuree.Text))
+                {
+                    MessageBox.Show("La durée ne doit contenir que des chiffres", "Erreur", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
+                }
+                else
+                {
+                    // mise en place d'un message box pour que l'utilisateurs valide sa création 
+                    DialogResult dialogResult = MessageBox.Show("Etes-vous sur de vouloir créer ce DVD ?", "Validation !", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    if (dialogResult == DialogResult.Yes)
                     {
-                        if (d.IdDoc.Equals(id))
-                        {
-                            trouve = true;
-                        }
-                    }
-                    if (trouve)
-                    {
-                        MessageBox.Show("Un dvd avec l'id : '" + id + "' existe deja", "Erreur", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
-                    }
-                    else if (!trouve)
-                    {
-                        DAODocuments.creerDvd(dvd1);
-
-                        lesDvd = DAODocuments.getAllDvd();
+                        // on remplit les variables a l'aide des champs textes et combo box 
+                        string titre = txTitre.Text;
+                        string id = txId.Text;
+                        string synopsis = txSynopsis.Text;
+                        string realisateur = txRealisateur.Text;
+                        int duree = Int32.Parse(txDuree.Text);
+                        string image = txImage.Text;
+                        Categorie categ = (Categorie)cbxCategorie.SelectedItem;
+                        Acteur act = (Acteur)cbxActeurDvd.SelectedItem;
 
 
-                        // alimentation des différentes combo box lors de l'entrée dans la page dvd
-                        cbxDvd.DataSource = lesDvd;
-                        cbxDvd.DisplayMember = "titre";
+                        // création du nouveau dvd
+                        Dvd dvd1 = new Dvd(id, titre, synopsis, realisateur, duree, image, categ);
 
-                        // ré-initialisation du dataGridView
-                        dtDvd.Rows.Clear();
+                        //DAODocuments.setActeur(lesDvd);
 
-                        // Parcours de la collection des dvd et alimentation du datagridview
+
+                        // On recherche le dvd correspondant a l'id
+                        // S'il existe deja : on affiche un popup message d'erreur
+                        // si il n'existe pas on créer le DVD
+                        bool trouve = false;
                         foreach (Dvd d in lesDvd)
                         {
+                            if (d.IdDoc.Equals(id))
+                            {
+                                trouve = true;
+                            }
+                        }
+                        if (trouve)
+                        {
+                            MessageBox.Show("Un dvd avec l'id : '" + id + "' existe deja", "Erreur", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
+                        }
+                        else if (!trouve)
+                        {
+                            DAODocuments.creerDvd(dvd1);
 
-                            dtDvd.Rows.Add(d.IdDoc, d.synopsis, d.realisateur, d.duree, d.Titre, d.Image, d.LaCategorie.Libelle);
+                            lesDvd = DAODocuments.getAllDvd();
+
+
+                            // alimentation des différentes combo box lors de l'entrée dans la page dvd
+                            cbxDvd.DataSource = lesDvd;
+                            cbxDvd.DisplayMember = "titre";
+
+                            // ré-initialisation du dataGridView
+                            dtDvd.Rows.Clear();
+
+                            // Parcours de la collection des dvd et alimentation du datagridview
+                            foreach (Dvd d in lesDvd)
+                            {
+
+                                dtDvd.Rows.Add(d.IdDoc, d.synopsis, d.realisateur, d.duree, d.Titre, d.Image, d.LaCategorie.Libelle);
+                            }
+
+                            // vidage des champs texte
+                            txTitre.Text = "";
+                            txId.Text = "";
+                            txSynopsis.Text = "";
+                            txRealisateur.Text = "";
+                            txDuree.Text = "";
+                            txImage.Text = "";
+
+                            MessageBox.Show("Le dvd '" + titre + "' a été créé avec succès !", "Succès", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
                         }
 
-                        // vidage des champs texte
-                        txTitre.Text = "";
-                        txId.Text = "";
-                        txSynopsis.Text = "";
-                        txRealisateur.Text = "";
-                        txDuree.Text = "";
-                        txImage.Text = "";
-
-                        MessageBox.Show("Le dvd '" + titre + "' a été créé avec succès !", "Succès", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else if (dialogResult == DialogResult.No)
+                    {
 
                     }
-
-                }
-                else if (dialogResult == DialogResult.No)
-                {
-
                 }
             }
             catch (System.Exception exc)
@@ -599,106 +641,128 @@ namespace Mediateq_AP_SIO2
 
         private void btnModifDvd_Click(object sender, EventArgs e)
         {
-            // Objet Dvd sélectionné dans la comboBox
-            Dvd DvdSelection = (Dvd)cbxDvd.SelectedItem;
-
-            // mise en place d'un message box pour que l'utilisateurs valide sa modification 
-            DialogResult dialogResult = MessageBox.Show("Etes-vous sur de modifier le DVD :  '" + DvdSelection.Titre + "'  ", "Validation !", MessageBoxButtons.YesNo);
-            if (dialogResult == DialogResult.Yes)
+            try
             {
-                // on remplit les variables a l'aide des champs textes et combo box 
-                string idModif = txIdModifDvd.Text;
-                string titreModif = txTitreModifDvd.Text;
-                string synopsisModif = txSynopsisModifDvd.Text;
-                string realisateurModif = txRealisateurModifDvd.Text;
-                int dureeModif = Int32.Parse(txDureeModifDvd.Text);
-                string imageModif = txImageModifDvd.Text;
-                Categorie categorieModif = (Categorie)cbxCategorieDvdModif.SelectedItem;
-
-                // création du dvd modifié
-                Dvd dvdModif = new Dvd(idModif, titreModif, synopsisModif, realisateurModif, dureeModif, imageModif, categorieModif);
-
-                DAODocuments.modifierDvd(dvdModif);
-
-                lesDvd = DAODocuments.getAllDvd();
-
-
-                // alimentation des différentes combo box lors de l'entrée dans la page dvd
-                cbxDvd.DataSource = lesDvd;
-                cbxDvd.DisplayMember = "titre";
-
-                // ré-initialisation du dataGridView
-                dtDvd.Rows.Clear();
-
-                // Parcours de la collection des dvd et alimentation du datagridview
-                foreach (Dvd d in lesDvd)
+                Regex rx = new Regex("[0-9]");
+                if (!rx.IsMatch(txDureeModifDvd.Text))
+                {
+                    MessageBox.Show("La durée ne doit contenir que des chiffres", "Erreur", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
+                }
+                else
                 {
 
-                    dtDvd.Rows.Add(d.IdDoc, d.synopsis, d.realisateur, d.duree, d.Titre, d.Image, d.LaCategorie.Libelle);
+
+                    // Objet Dvd sélectionné dans la comboBox
+                    Dvd DvdSelection = (Dvd)cbxDvd.SelectedItem;
+
+                    // mise en place d'un message box pour que l'utilisateurs valide sa modification 
+                    DialogResult dialogResult = MessageBox.Show("Etes-vous sur de vouloir modifier le DVD :  '" + DvdSelection.Titre + "'  ", "Validation !", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    if (dialogResult == DialogResult.Yes)
+                    {
+                        // on remplit les variables a l'aide des champs textes et combo box 
+                        string idModif = txIdModifDvd.Text;
+                        string titreModif = txTitreModifDvd.Text;
+                        string synopsisModif = txSynopsisModifDvd.Text;
+                        string realisateurModif = txRealisateurModifDvd.Text;
+                        int dureeModif = Int32.Parse(txDureeModifDvd.Text);
+                        string imageModif = txImageModifDvd.Text;
+                        Categorie categorieModif = (Categorie)cbxCategorieDvdModif.SelectedItem;
+
+                        // création du dvd modifié
+                        Dvd dvdModif = new Dvd(idModif, titreModif, synopsisModif, realisateurModif, dureeModif, imageModif, categorieModif);
+
+                        DAODocuments.modifierDvd(dvdModif);
+
+                        lesDvd = DAODocuments.getAllDvd();
+
+
+                        // alimentation des différentes combo box lors de l'entrée dans la page dvd
+                        cbxDvd.DataSource = lesDvd;
+                        cbxDvd.DisplayMember = "titre";
+
+                        // ré-initialisation du dataGridView
+                        dtDvd.Rows.Clear();
+
+                        // Parcours de la collection des dvd et alimentation du datagridview
+                        foreach (Dvd d in lesDvd)
+                        {
+
+                            dtDvd.Rows.Add(d.IdDoc, d.synopsis, d.realisateur, d.duree, d.Titre, d.Image, d.LaCategorie.Libelle);
+                        }
+                        MessageBox.Show("Le dvd '" + DvdSelection.Titre + "' a été modifié avec succès !", "Succès", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+
+                    }
+                    else if (dialogResult == DialogResult.No)
+                    {
+
+                    }
                 }
-
-
             }
-            else if (dialogResult == DialogResult.No)
+            catch (System.Exception exc)
             {
-
+                throw exc;
             }
-
-
-
-
-
-
-
-
 
         }
 
         private void btnSupprimerDvd_Click(object sender, EventArgs e)
         {
-            // Objet Dvd sélectionné dans la comboBox
-            Dvd dvdSelection = (Dvd)cbxDvd.SelectedItem;
-
-            // mise en place d'un message box pour que l'utilisateurs valide sa suppression 
-            DialogResult dialogResult = MessageBox.Show("Etes-vous sur de vouloir supprimer le DVD : '" + dvdSelection.Titre + "'", "Validation !", MessageBoxButtons.YesNo);
-            if (dialogResult == DialogResult.Yes)
+            try
             {
-                // on remplit les variables a l'aide des champs textes et combo box 
-                string idModif = txIdModifDvd.Text;
-                string titreModif = txTitreModifDvd.Text;
-                string synopsisModif = txSynopsisModifDvd.Text;
-                string realisateurModif = txRealisateurModifDvd.Text;
-                int dureeModif = Int32.Parse(txDureeModifDvd.Text);
-                string imageModif = txImageModifDvd.Text;
-                Categorie categorieModif = (Categorie)cbxCategorieDvdModif.SelectedItem;
+                // Objet Dvd sélectionné dans la comboBox
+                Dvd dvdSelection = (Dvd)cbxDvd.SelectedItem;
 
-                // création du dvd a supprimé
-                Dvd dvdSuppr = new Dvd(idModif, titreModif, synopsisModif, realisateurModif, dureeModif, imageModif, categorieModif);
+                // mise en place d'un message box pour que l'utilisateurs valide sa suppression 
+                DialogResult dialogResult = MessageBox.Show("Etes-vous sur de vouloir supprimer le DVD : '" + dvdSelection.Titre + "'", "Validation !", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (dialogResult == DialogResult.Yes)
+                {
+                    // on remplit les variables a l'aide des champs textes et combo box 
+                    string idModif = txIdModifDvd.Text;
+                    string titreModif = txTitreModifDvd.Text;
+                    string synopsisModif = txSynopsisModifDvd.Text;
+                    string realisateurModif = txRealisateurModifDvd.Text;
+                    int dureeModif = Int32.Parse(txDureeModifDvd.Text);
+                    string imageModif = txImageModifDvd.Text;
+                    Categorie categorieModif = (Categorie)cbxCategorieDvdModif.SelectedItem;
+
+                    // création du dvd a supprimé
+                    Dvd dvdSuppr = new Dvd(idModif, titreModif, synopsisModif, realisateurModif, dureeModif, imageModif, categorieModif);
 
 
-                DAODocuments.supprimerDvd(dvdSuppr);
-                lesDvd = DAODocuments.getAllDvd();
+                    DAODocuments.supprimerDvd(dvdSuppr);
+                    lesDvd = DAODocuments.getAllDvd();
 
-                // ré-initialisation du dataGridView
-                dtDvd.Rows.Clear();
+                    // ré-initialisation du dataGridView
+                    dtDvd.Rows.Clear();
 
-                lesDvd = DAODocuments.getAllDvd();
+                    lesDvd = DAODocuments.getAllDvd();
 
-                // alimentation des différentes combo box lors de l'entrée dans la page dvd
-                cbxDvd.DataSource = lesDvd;
-                cbxDvd.DisplayMember = "titre";
+                    // alimentation des différentes combo box lors de l'entrée dans la page dvd
+                    cbxDvd.DataSource = lesDvd;
+                    cbxDvd.DisplayMember = "titre";
 
-                // Parcours de la collection des dvd et alimentation du datagridview
-                foreach (Dvd d in lesDvd)
+                    // Parcours de la collection des dvd et alimentation du datagridview
+                    foreach (Dvd d in lesDvd)
+                    {
+
+                        dtDvd.Rows.Add(d.IdDoc, d.synopsis, d.realisateur, d.duree, d.Titre, d.Image, d.LaCategorie.Libelle);
+                    }
+
+                    MessageBox.Show("Le dvd '" + dvdSelection.Titre + "' a été supprimé avec succès !", "Succès", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else if (dialogResult == DialogResult.No)
                 {
 
-                    dtDvd.Rows.Add(d.IdDoc, d.synopsis, d.realisateur, d.duree, d.Titre, d.Image, d.LaCategorie.Libelle);
                 }
-            }
-            else if (dialogResult == DialogResult.No)
-            {
 
             }
+            catch (System.Exception exc)
+            {
+                throw exc;
+            }
+
+
 
         }
 
@@ -712,72 +776,92 @@ namespace Mediateq_AP_SIO2
                 this.Hide();
             }
         }
+        private void btnFermerAppliDvd_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
 
 
         #endregion
 
 
+
         #region Commande
         private void btnCreerComande_Click(object sender, EventArgs e)
         {
-
-            // on remplit les variables a l'aide des champs textes et combo box 
-            int nbExemplaire = Int32.Parse(txNbExemplaire.Text);
-            int prix = Int32.Parse(txPrixUnitaire.Text);
-            string id = txIdDocument.Text;
-            double montant = prix * nbExemplaire;
-            string idEtat = "00001";
-            string libelle = "en cours";
-            
-            
-            //DateTime date = Convert.ToDateTime(dtpDocument);
-
-
-
-            Document docSelectionne = (Document)cbxDocument.SelectedItem;
-
-            EtatCommande etat = new EtatCommande(idEtat, libelle);
-            DateTime date = DateTime.Now;
-           
-            
+            try
+            {
+                DialogResult dialogResult = MessageBox.Show("Etes-vous sur de vouloir créer la commande ?", "Validation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (dialogResult == DialogResult.Yes)
+                {
+                    // on remplit les variables a l'aide des champs textes et combo box 
+                    int nbExemplaire = Int32.Parse(txNbExemplaire.Text);
+                    int prix = Int32.Parse(txPrixUnitaire.Text);
+                    string id = txIdDocument.Text;
+                    double montant = prix * nbExemplaire;
+                    string idEtat = "00001";
+                    string libelle = "en cours";
 
 
-            // création de la nouvelle commande
-            Commande com = new Commande(id, nbExemplaire, date, montant, docSelectionne, etat);
+                    bool trouve = false;
+                    foreach (Commande c in lesCommandes)
+                    {
+                        if (c.Id.Equals(id))
+                        {
+                            trouve = true;
+                        }
+                    }
+                    if (trouve)
+                    {
+                        lesCommandes = DAODocuments.getAllCommandes();
+                        foreach (Commande c in lesCommandes)
+                        {
+
+                            dtCrudCommande.Rows.Add(c.Id, c.NbExemplaire, c.DateCommande, c.Montant, c.Doc.Titre, c.Etat.Libelle);
+                        }
+                        MessageBox.Show("Une commande avec l'id : '" + id + "' existe deja", "Erreur", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
+                    }
+
+                    else
+                    {
+
+                        Document docSelectionne = (Document)cbxDocument.SelectedItem;
+
+                        EtatCommande etat = new EtatCommande(idEtat, libelle);
+                        DateTime date = DateTime.Now;
 
 
-            DAODocuments.creerCommande(com);
+                        // création de la nouvelle commande
+                        Commande com = new Commande(id, nbExemplaire, date, montant, docSelectionne, etat);
 
-            lesCommandes.Add(com);
 
-            lesDocuments = DAODocuments.getAllDocuments();
+                        DAODocuments.creerCommande(com);
 
-           /*cbxTitreDoc.DataSource = lesDocuments;
-            cbxTitreDoc.DisplayMember = "titre";*/
+                        lesCommandes.Add(com);
 
-            cbxDocument.DataSource = lesDocuments;
-            cbxDocument.DisplayMember = "idDoc";         
+                        lesDocuments = DAODocuments.getAllDocuments();
 
-            
+                        /*cbxTitreDoc.DataSource = lesDocuments;
+                         cbxTitreDoc.DisplayMember = "titre";*/
+
+                        cbxDocument.DataSource = lesDocuments;
+                        cbxDocument.DisplayMember = "idDoc";
+
+                        MessageBox.Show("La commande '" + id + "' a été créé avec succès !", "Succès", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+
+                }
+            }
+            catch (System.Exception exc)
+            {
+                throw exc;
+            }
 
         }
 
         private void cbxTitreDoc_SelectedIndexChanged(object sender, EventArgs e)
         {
-           /*
-            Document docSelection = (Document)cbxTitreDoc.SelectedItem;
-
-            // on remplit les champs text en fonction du dvd selectionné dans la combo box
-            foreach (Document d in lesDocuments)
-            {
-                if (d.IdDoc == docSelection.IdDoc)
-                {
-                    txIdDoc.Text = d.IdDoc;
-                    txIdCategorieDoc.Text = d.LaCategorie.Id;
-                    txImageDoc.Text = d.Image;
-                }
-
-            }*/
+          
         }
 
         private void tabCrudCommande_Enter(object sender, EventArgs e)
@@ -805,13 +889,12 @@ namespace Mediateq_AP_SIO2
             cbxModifEtat.DataSource = lesEtatsCommande2;
             cbxModifEtat.DisplayMember = "libelle";
 
-            cbxEtatModif.Text = "";
 
-
-
-
-
-
+            
+            foreach (Commande c in lesCommandes)
+            {
+                dtCrudCommande.Rows.Add(c.Id, c.NbExemplaire, c.DateCommande, c.Montant, c.Doc.Titre, c.Etat.Libelle);
+            }
         }
 
         private void cbxEtatModif_SelectedIndexChanged(object sender, EventArgs e)
@@ -910,10 +993,23 @@ namespace Mediateq_AP_SIO2
 
         private void btnModifEtatCommande_Click(object sender, EventArgs e)
         {
-            EtatCommande etat = (EtatCommande)cbxModifEtat.SelectedItem;
-            Commande com = (Commande)cbxCommandeModifEtat.SelectedItem;
+            try
+            {
+                DialogResult dialogResult = MessageBox.Show("Etes-vous sur de vouloir modifier la commande ?", "Validation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (dialogResult == DialogResult.Yes)
+                {
+                    EtatCommande etat = (EtatCommande)cbxModifEtat.SelectedItem;
+                    Commande com = (Commande)cbxCommandeModifEtat.SelectedItem;
 
-           DAODocuments.modifierEtatComande(com, etat);
+                    DAODocuments.modifierEtatComande(com, etat);
+
+                    MessageBox.Show("La commande a été modifiée avec succès !", "Succès", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            catch (System.Exception exc)
+            {
+                throw exc;
+            }
 
         }
 
@@ -925,45 +1021,37 @@ namespace Mediateq_AP_SIO2
 
         private void btnSupprimerCommande_Click(object sender, EventArgs e)
         {
-            Commande com = (Commande)cbxCommandeModifEtat.SelectedItem;
-            DAODocuments.supprimerCommande(com);
-            
+            try
+            {
+                DialogResult dialogResult = MessageBox.Show("Etes-vous sur de vouloir supprimer la commande ?", "Validation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (dialogResult == DialogResult.Yes)
+                {
+                    Commande com = (Commande)cbxCommandeModifEtat.SelectedItem;
+                    DAODocuments.supprimerCommande(com);
+
+                    MessageBox.Show("La commande a été supprimée avec succès !", "Succès", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            catch (System.Exception exc)
+            {
+                throw exc;
+            }
+
+        }
+
+        private void btnFermerAppliCommande_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
         }
         #endregion
 
 
-        #region procédures vides
 
-        private void btnAfficherCreation_Click(object sender, EventArgs e)
-        {
-
-
-        }
-        private void tabDVD_Click(object sender, EventArgs e)
-        {
-
-        }
-        private void tabPage1_Click(object sender, EventArgs e)
-        {
-
-        }
-        private void tabCrudLivre_Click(object sender, EventArgs e)
-        {
-
-
-        }
-        private void button1_Click(object sender, EventArgs e)
-        {
-
-
-
-        }
-
-
-
-
+        #region Procédures vides
 
         #endregion
+
+
 
         #region Visualisation
         //-----------------------------------------------------------
@@ -1006,129 +1094,6 @@ namespace Mediateq_AP_SIO2
 
         #endregion
 
-        private void btnCreerActeur_Click(object sender, EventArgs e)
-        {
-           
-            
-        }
-
-        private void cbxActeurDvd_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            
-            Acteur act = (Acteur)cbxActeurDvd.SelectedItem;
-
-
-            // création du nouveau dvd
-            
-
-            //dvd1.ajouterActeur(act);
-
-        }
-
-        private void label41_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label16_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void groupBox7_Enter(object sender, EventArgs e)
-        {
-
-        }
-
-        private void tabVisualisation_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label45_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void txNbExemplaire_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void txPrixUnitaire_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void txEtatEnCours_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label43_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label42_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label67_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label55_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void txMontantModif_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label53_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label51_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void txIdModif_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label54_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void txNbExemplaireModif_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label56_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void txDateModif_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label57_Click(object sender, EventArgs e)
-        {
-
-        }
     }
 
 
