@@ -105,6 +105,7 @@
     </Compile>
     <Compile Include="metier\Categorie.cs" />
     <Compile Include="metier\Acteur.cs" />
+    <Compile Include="metier\Service.cs" />
     <Compile Include="metier\Login.cs" />
     <Compile Include="metier\ExceptionSIO.cs" />
     <Compile Include="metier\EtatCommande.cs" />

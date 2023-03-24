@@ -123,24 +123,33 @@ namespace Mediateq_AP_SIO2
 
         public static Categorie getCategorieByLivre(Livre pLivre)
         {
-            Categorie categorie;
-            string req = "Select c.id,c.libelle from categorie c,document d where c.id = d.idCategorie and d.id='";
-            req += pLivre.IdDoc + "'";
-
-            DAOFactory.connecter();
-
-            MySqlDataReader reader = DAOFactory.execSQLRead(req);
-
-            if (reader.Read())
+            try
             {
-                categorie = new Categorie(reader[0].ToString(), reader[1].ToString());
+
+
+                Categorie categorie;
+                string req = "Select c.id,c.libelle from categorie c,document d where c.id = d.idCategorie and d.id='";
+                req += pLivre.IdDoc + "'";
+
+                DAOFactory.connecter();
+
+                MySqlDataReader reader = DAOFactory.execSQLRead(req);
+
+                if (reader.Read())
+                {
+                    categorie = new Categorie(reader[0].ToString(), reader[1].ToString());
+                }
+                else
+                {
+                    categorie = null;
+                }
+                DAOFactory.deconnecter();
+                return categorie;
             }
-            else
+            catch (System.Exception exc)
             {
-                categorie = null;
+                throw exc;
             }
-            DAOFactory.deconnecter();
-            return categorie;
         }
 
         public static List<Document> getAllDocuments()
@@ -172,6 +181,40 @@ namespace Mediateq_AP_SIO2
             }
 
             return lesDocuments;
+        }
+        public static List<Commande> getAllCommandes()
+        {
+            List<Commande> lesCommandes = new List<Commande>();
+            try
+            {
+                Commande com;
+                string req = "Select c.id, c.nbExemplaire, c.dateCommande, c.montant, d.id, d.titre, d.image, categ.id, categ.libelle, e.id, e.libelle FROM commande c JOIN document d ON c.idDoc = d.id JOIN etatcommande e ON c.idEtatCommande = e.id JOIN categorie categ ON d.idCategorie = categ.id WHERE c.idEtatCommande";
+
+                DAOFactory.connecter();
+
+                MySqlDataReader reader = DAOFactory.execSQLRead(req);
+
+                while (reader.Read())
+                {
+                    Categorie categ = new Categorie(reader[7].ToString(), reader[8].ToString());
+                    EtatCommande etat1 = new EtatCommande(reader[9].ToString(), reader[10].ToString());
+                    Document document = new Document(reader[4].ToString(), reader[5].ToString(), reader[6].ToString(), categ);
+                    com = new Commande(reader[0].ToString(), int.Parse(reader[1].ToString()), DateTime.Parse(reader[2].ToString()), Double.Parse(reader[3].ToString()),
+                    document, etat1);
+
+                    lesCommandes.Add(com);
+
+                }
+
+                DAOFactory.deconnecter();
+            }
+
+            catch (System.Exception exc)
+            {
+                throw exc;
+            }
+
+            return lesCommandes;
         }
 
         public static List<Dvd> getAllDvd()
@@ -218,7 +261,6 @@ namespace Mediateq_AP_SIO2
 
             return lesDvd;
         }
-
         public static List<Login> getAllUsers()
         {
             List<Login> lesUsers = new List<Login>();
@@ -227,7 +269,7 @@ namespace Mediateq_AP_SIO2
 
             try
             {
-                string req = "Select * FROM login";
+                string req = "Select l.id, l.pseudo, l.password, l.prenom, l.nom, l.idService, s.id, s.libelle FROM login l JOIN service s ON l.idService = s.id";
 
 
 
@@ -242,7 +284,8 @@ namespace Mediateq_AP_SIO2
 
                 while (reader.Read())
                 {
-                    Login user = new Login(int.Parse(reader[0].ToString()), reader[1].ToString(), reader[2].ToString());
+                    Service service = new Service(int.Parse(reader[6].ToString()), reader[7].ToString());
+                    Login user = new Login(int.Parse(reader[0].ToString()), reader[1].ToString(), reader[2].ToString(), reader[3].ToString(), reader[4].ToString(), service);
                     // On ne renseigne pas le genre et la catégorie car on ne peut pas ouvrir 2 dataReader dans la même connexion
                     lesUsers.Add(user);
                    
@@ -262,6 +305,138 @@ namespace Mediateq_AP_SIO2
 
             return lesUsers;
         }
+        public static List<Service> getAllService()
+        {
+            List<Service> lesServices = new List<Service>();
+
+
+
+            try
+            {
+                string req = "SELECT * FROM service";
+
+
+
+                DAOFactory.connecter();
+
+
+
+                MySqlDataReader reader = DAOFactory.execSQLRead(req);
+
+
+
+
+                while (reader.Read())
+                {
+                    Service service = new Service(int.Parse(reader[0].ToString()), reader[1].ToString());
+                   
+                  
+                    lesServices.Add(service);
+
+                }
+                DAOFactory.deconnecter();
+
+            }
+
+
+
+            catch (System.Exception exc)
+            {
+                throw exc;
+            }
+
+
+
+            return lesServices;
+        }
+        public static List<Login> getUserByPseudo(string pseudo)
+        {
+            List<Login> lesUsers = new List<Login>();
+
+
+
+            try
+            {
+                string req = "Select l.id, l.pseudo, l.password, l.prenom, l.nom, l.idService, s.id, s.libelle FROM login l JOIN service s ON l.idService = s.id WHERE pseudo = '" + pseudo+"'";
+
+
+
+                DAOFactory.connecter();
+
+
+
+                MySqlDataReader reader = DAOFactory.execSQLRead(req);
+
+
+
+
+                while (reader.Read())
+                {
+                    Service service = new Service(int.Parse(reader[6].ToString()), reader[7].ToString());
+                    Login user = new Login(int.Parse(reader[0].ToString()), reader[1].ToString(), reader[2].ToString(), reader[3].ToString(), reader[4].ToString(), service);
+                    // On ne renseigne pas le genre et la catégorie car on ne peut pas ouvrir 2 dataReader dans la même connexion
+                    lesUsers.Add(user);
+
+                }
+                DAOFactory.deconnecter();
+
+            }
+
+
+
+            catch (System.Exception exc)
+            {
+                throw exc;
+            }
+
+
+
+            return lesUsers;
+        }
+        public static List<Service> getServiecByUser(Login login)
+        {
+            List<Service> lesServices = new List<Service>();
+
+
+
+            try
+            {
+                string req = "Select s.id, s.libelle FROM service s JOIN login l on s.id = l.idService WHERE l.pseudo = '" + login.Pseudo + "'";
+
+
+
+                DAOFactory.connecter();
+
+
+
+                MySqlDataReader reader = DAOFactory.execSQLRead(req);
+
+
+
+
+                while (reader.Read())
+                {
+                    Service service = new Service(int.Parse(reader[0].ToString()), reader[1].ToString());
+                    // On ne renseigne pas le genre et la catégorie car on ne peut pas ouvrir 2 dataReader dans la même connexion
+                    lesServices.Add(service);
+
+                }
+                DAOFactory.deconnecter();
+
+            }
+
+
+
+            catch (System.Exception exc)
+            {
+                throw exc;
+            }
+
+
+
+            return lesServices;
+        }
+
 
         public static List<EtatCommande> getAllEtatsCommande()
         {
@@ -332,53 +507,68 @@ namespace Mediateq_AP_SIO2
         public static List<Document> getDocumentByEtatCommande(EtatCommande etat)
         {
             List<Document> lesDocumentsByEtat = new List<Document>();
-            Document document;
-            string req = "Select d.id, d.titre, d.image, categ.id, categ.libelle, e.id, e.libelle FROM commande c JOIN etatcommande e ON c.idEtatCommande = e.id JOIN document d ON c.idDoc = d.id JOIN categorie categ ON d.idCategorie = categ.id WHERE e.id ='"+etat.ID+"' ";
-
-
-            DAOFactory.connecter();
-
-            MySqlDataReader reader = DAOFactory.execSQLRead(req);
-
-            if (reader.Read())
+            try
             {
-                Categorie categ = new Categorie(reader[3].ToString(), reader[4].ToString());
-                EtatCommande etat1 = new EtatCommande(reader[6].ToString(), reader[7].ToString());
-                Document document1 = new Document(reader[0].ToString(), reader[1].ToString(), reader[2].ToString(), categ);
-                
+                Document document;
+                string req = "Select d.id, d.titre, d.image, categ.id, categ.libelle, e.id, e.libelle FROM commande c JOIN etatcommande e ON c.idEtatCommande = e.id JOIN document d ON c.idDoc = d.id JOIN categorie categ ON d.idCategorie = categ.id WHERE e.id ='" + etat.ID + "' ";
 
-                lesDocumentsByEtat.Add(document1);
 
+                DAOFactory.connecter();
+
+                MySqlDataReader reader = DAOFactory.execSQLRead(req);
+
+                if (reader.Read())
+                {
+                    Categorie categ = new Categorie(reader[3].ToString(), reader[4].ToString());
+                    EtatCommande etat1 = new EtatCommande(reader[6].ToString(), reader[7].ToString());
+                    Document document1 = new Document(reader[0].ToString(), reader[1].ToString(), reader[2].ToString(), categ);
+
+
+                    lesDocumentsByEtat.Add(document1);
+
+                }
+                else
+                {
+                    document = null;
+                }
+                DAOFactory.deconnecter();
+                return lesDocumentsByEtat;
             }
-            else
+            catch (System.Exception exc)
             {
-                document = null;
+                throw exc;
             }
-            DAOFactory.deconnecter();
-            return lesDocumentsByEtat;
         }
 
 
 
         public static void creerDvd(Dvd dvd)
         {
+            try
+            {
 
 
 
 
 
-            string req2 = "INSERT INTO document(id, titre, image, idCategorie) VALUES ('" + dvd.IdDoc + "','" + dvd.Titre + "','" + dvd.Image + "','" + dvd.LaCategorie.Id + "')";
-            string req = "INSERT INTO dvd(id, synopsis, réalisateur,duree) VALUES ('" + dvd.IdDoc + "','" + dvd.synopsis + "','" + dvd.realisateur + "','" + dvd.duree + "')";
 
-            DAOFactory.connecter();
+                string req2 = "INSERT INTO document(id, titre, image, idCategorie) VALUES ('" + dvd.IdDoc + "','" + dvd.Titre + "','" + dvd.Image + "','" + dvd.LaCategorie.Id + "')";
+                string req = "INSERT INTO dvd(id, synopsis, réalisateur,duree) VALUES ('" + dvd.IdDoc + "','" + dvd.synopsis + "','" + dvd.realisateur + "','" + dvd.duree + "')";
 
-            DAOFactory.execSQLWrite(req2);
-            DAOFactory.execSQLWrite(req);
+                DAOFactory.connecter();
+
+                DAOFactory.execSQLWrite(req2);
+                DAOFactory.execSQLWrite(req);
 
 
 
 
-            DAOFactory.deconnecter();
+                DAOFactory.deconnecter();
+            }
+            catch (System.Exception exc)
+            {
+                throw exc;
+            }
 
 
         }
@@ -387,86 +577,92 @@ namespace Mediateq_AP_SIO2
         {
 
 
+            try
+            {
+                string req2 = "INSERT INTO acteur(id, nom) VALUES ('" + act.Id + "','" + act.Nom + "')";
 
 
+                DAOFactory.connecter();
 
-            string req2 = "INSERT INTO acteur(id, nom) VALUES ('" + act.Id + "','" + act.Nom + "')";
-            
+                DAOFactory.execSQLWrite(req2);
 
-            DAOFactory.connecter();
-
-            DAOFactory.execSQLWrite(req2);
-            
-
-
-
-
-            DAOFactory.deconnecter();
+                DAOFactory.deconnecter();
+            }
+            catch (System.Exception exc)
+            {
+                throw exc;
+            }
 
 
         }
 
         public static void ajouterActeur(Dvd dvd, Acteur act)
         {
+            try
+            { 
+                string req2 = "INSERT INTO est_dans(idDvd, idActeur) VALUES ('" + dvd.IdDoc + "','" + act.Id + "')";
 
 
+                DAOFactory.connecter();
 
+                DAOFactory.execSQLWrite(req2);
 
-
-            string req2 = "INSERT INTO est_dans(idDvd, idActeur) VALUES ('" + dvd.IdDoc + "','" + act.Id + "')";
-
-
-            DAOFactory.connecter();
-
-            DAOFactory.execSQLWrite(req2);
-
-
-
-
-
-            DAOFactory.deconnecter();
+                DAOFactory.deconnecter();
+            }
+            catch (System.Exception exc)
+            {
+                throw exc;
+            }
 
 
         }
 
         public static void creerLivre(Livre livre)
         {
+            try
+            {
 
 
+                string req2 = "INSERT INTO document(id, titre, image, idCategorie) VALUES ('" + livre.IdDoc + "','" + livre.Titre + "','" + livre.Image + "','" + livre.LaCategorie.Id + "')";
+                string req = "INSERT INTO livre(id, ISBN, auteur, collection) VALUES ('" + livre.IdDoc + "', '" + livre.ISBN1 + "','" + livre.Auteur + "','" + livre.LaCollection + "')";
 
+                DAOFactory.connecter();
 
-
-            string req2 = "INSERT INTO document(id, titre, image, idCategorie) VALUES ('" + livre.IdDoc + "','" + livre.Titre + "','" + livre.Image + "','" + livre.LaCategorie.Id + "')";
-            string req = "INSERT INTO livre(id, ISBN, auteur, collection) VALUES ('" + livre.IdDoc + "', '" + livre.ISBN1 + "','" + livre.Auteur + "','" + livre.LaCollection + "')";
-
-            DAOFactory.connecter();
-
-            DAOFactory.execSQLWrite(req2);
-            DAOFactory.execSQLWrite(req);
-
-
-
-
-            DAOFactory.deconnecter();
+                DAOFactory.execSQLWrite(req2);
+                DAOFactory.execSQLWrite(req);
+                DAOFactory.deconnecter();
+            }
+            catch (System.Exception exc)
+            {
+                throw exc;
+            }
 
 
         }
 
         public static void supprimerDvd(Dvd dvd)
         {
-
-            string req2 = "DELETE FROM document WHERE id = '"+ dvd.IdDoc +"'";
-            string req = "DELETE FROM dvd WHERE id = '" + dvd.IdDoc + "'";
-
-            DAOFactory.connecter();
-
-            DAOFactory.execSQLWrite(req);
-            DAOFactory.execSQLWrite(req2);
+            try
+            {
 
 
+                string req2 = "DELETE FROM document WHERE id = '" + dvd.IdDoc + "'";
+                string req = "DELETE FROM dvd WHERE id = '" + dvd.IdDoc + "'";
+
+                DAOFactory.connecter();
+
+                DAOFactory.execSQLWrite(req);
+                DAOFactory.execSQLWrite(req2);
 
 
-            DAOFactory.deconnecter();
+
+
+                DAOFactory.deconnecter();
+            }
+            catch (System.Exception exc)
+            {
+                throw exc;
+            }
 
 
         }
@@ -474,60 +670,104 @@ namespace Mediateq_AP_SIO2
 
         public static void supprimerLivre(Livre livre)
         {
-
-            string req2 = "DELETE FROM document WHERE id = '" + livre.IdDoc + "'";
-            string req = "DELETE FROM livre WHERE id = '" + livre.IdDoc + "'";
-
-            DAOFactory.connecter();
-
-            DAOFactory.execSQLWrite(req);
-            DAOFactory.execSQLWrite(req2);
+            try
+            {
 
 
+                string req2 = "DELETE FROM document WHERE id = '" + livre.IdDoc + "'";
+                string req = "DELETE FROM livre WHERE id = '" + livre.IdDoc + "'";
+
+                DAOFactory.connecter();
+
+                DAOFactory.execSQLWrite(req);
+                DAOFactory.execSQLWrite(req2);
 
 
-            DAOFactory.deconnecter();
+
+
+                DAOFactory.deconnecter();
+            }
+            catch (System.Exception exc)
+            {
+                throw exc;
+            }
 
 
         }
         public static void supprimerCommande(Commande com)
         {
 
-         
-            string req = "DELETE FROM commande WHERE id = '" + com.Id + "'";
-
-            DAOFactory.connecter();
-
-            DAOFactory.execSQLWrite(req);
-       
+            try
+            {
 
 
+                string req = "DELETE FROM commande WHERE id = '" + com.Id + "'";
+
+                DAOFactory.connecter();
+
+                DAOFactory.execSQLWrite(req);
 
 
-            DAOFactory.deconnecter();
+
+
+
+                DAOFactory.deconnecter();
+            }
+            catch (System.Exception exc)
+            {
+                throw exc;
+            }
+
+
+        }
+        public static void supprimerUtilisateur(Login user)
+        {
+            try
+            {
+
+
+              
+                string req = "DELETE FROM login WHERE id = '" + user.Id + "'";
+
+                DAOFactory.connecter();
+
+                DAOFactory.execSQLWrite(req);
+             
+
+
+
+
+                DAOFactory.deconnecter();
+            }
+            catch (System.Exception exc)
+            {
+                throw exc;
+            }
 
 
         }
 
         public static void modifierDvd(Dvd dvd)
         {
+            try
+            {
+                string req2 = "UPDATE document SET id = '" + dvd.IdDoc + "', titre='" + dvd.Titre + "',image= '" + dvd.Image + "',idCategorie='" + dvd.LaCategorie.Id + "' WHERE id = '" + dvd.IdDoc + "'";
+                string req = "UPDATE dvd SET id='" + dvd.IdDoc + "', synopsis='" + dvd.synopsis + "', réalisateur='" + dvd.realisateur + "',duree='" + dvd.duree + "' WHERE id= '" + dvd.IdDoc + "'";
+
+                DAOFactory.connecter();
+
+                DAOFactory.execSQLWrite(req2);
+                DAOFactory.execSQLWrite(req);
 
 
 
 
-
-            string req2 = "UPDATE document SET id = '" + dvd.IdDoc + "', titre='" + dvd.Titre + "',image= '" + dvd.Image + "',idCategorie='" + dvd.LaCategorie.Id + "' WHERE id = '" + dvd.IdDoc + "'";
-            string req = "UPDATE dvd SET id='" + dvd.IdDoc + "', synopsis='" + dvd.synopsis + "', réalisateur='" + dvd.realisateur + "',duree='" + dvd.duree + "' WHERE id= '" + dvd.IdDoc + "'";
-
-            DAOFactory.connecter();
-
-            DAOFactory.execSQLWrite(req2);
-            DAOFactory.execSQLWrite(req);
-
-
-
-
-            DAOFactory.deconnecter();
+                DAOFactory.deconnecter();
+            }
+            catch (System.Exception exc)
+            {
+                throw exc;
+            }
 
 
         }
@@ -535,46 +775,51 @@ namespace Mediateq_AP_SIO2
 
         public static void modifierLivre(Livre livre)
         {
+            try
+            {
+                string req2 = "UPDATE document SET id = '" + livre.IdDoc + "', titre='" + livre.Titre + "', image= '" + livre.Image + "', idCategorie='" + livre.LaCategorie.Id + "' WHERE id = '" + livre.IdDoc + "'";
+                string req = "UPDATE livre SET id='" + livre.IdDoc + "', ISBN='" + livre.ISBN1 + "', auteur='" + livre.Auteur + "', collection='" + livre.LaCollection + "' WHERE id= '" + livre.IdDoc + "'";
+
+                DAOFactory.connecter();
+
+                DAOFactory.execSQLWrite(req2);
+                DAOFactory.execSQLWrite(req);
 
 
 
 
-
-            string req2 = "UPDATE document SET id = '" + livre.IdDoc + "', titre='" + livre.Titre + "', image= '" + livre.Image + "', idCategorie='" + livre.LaCategorie.Id + "' WHERE id = '" + livre.IdDoc + "'";
-            string req = "UPDATE livre SET id='" + livre.IdDoc + "', ISBN='" + livre.ISBN1 + "', auteur='" + livre.Auteur + "', collection='" + livre.LaCollection + "' WHERE id= '" + livre.IdDoc + "'";
-
-            DAOFactory.connecter();
-
-            DAOFactory.execSQLWrite(req2);
-            DAOFactory.execSQLWrite(req);
-
-
-
-
-            DAOFactory.deconnecter();
+                DAOFactory.deconnecter();
+            }
+            catch (System.Exception exc)
+            {
+                throw exc;
+            }
 
 
         }
 
         public static void modifierEtatComande(Commande com, EtatCommande etat)
         {
+            try
+            {
+
+
+                string req = "UPDATE commande SET idEtatCommande='" + etat.ID + "' WHERE id= '" + com.Id + "'";
+
+                DAOFactory.connecter();
+
+
+                DAOFactory.execSQLWrite(req);
 
 
 
 
-
-           
-            string req = "UPDATE commande SET idEtatCommande='" + etat.ID + "' WHERE id= '" + com.Id + "'";
-
-            DAOFactory.connecter();
-
-         
-            DAOFactory.execSQLWrite(req);
-
-
-
-
-            DAOFactory.deconnecter();
+                DAOFactory.deconnecter();
+            }
+            catch (System.Exception exc)
+            {
+                throw exc;
+            }
 
 
         }
@@ -583,6 +828,7 @@ namespace Mediateq_AP_SIO2
 
         public static void setDescripteurs(List<Livre> lesLivres)
         {
+
             DAOFactory.connecter();
 
             foreach (Livre livre in lesLivres)
@@ -626,46 +872,56 @@ namespace Mediateq_AP_SIO2
 
         public static void creerCommande(Commande com)
         {
+            try
+            {
+
+
+                //création d'une date au format string pour que la date soit interprétée par la base de donnée
+                string formattedDate = com.DateCommande.ToString("yyyy-MM-dd");
+
+
+
+                string req = "INSERT INTO commande(id, nbExemplaire, dateCommande, montant, idDoc, idEtatCommande) VALUES ('" + com.Id + "','" + com.NbExemplaire + "','" + formattedDate + "','" + com.Montant + "', '" + com.Doc.IdDoc + "', '" + com.Etat.ID + "')";
+
+
+                DAOFactory.connecter();
+
+
+                DAOFactory.execSQLWrite(req);
 
 
 
 
-
-            string req = "INSERT INTO commande(id, nbExemplaire, dateCommande, montant, idDoc, idEtatCommande) VALUES ('" + com.Id + "','" + com.NbExemplaire + "','" + com.DateCommande + "','" + com.Montant + "', '" + com.Doc.IdDoc + "', '" + com.Etat.ID + "')";
-          
-
-            DAOFactory.connecter();
-
-            
-            DAOFactory.execSQLWrite(req);
-
-
-
-
-            DAOFactory.deconnecter();
-
+                DAOFactory.deconnecter();
+            }
+            catch (System.Exception exc)
+            {
+                throw exc;
+            }
 
         }
 
         public static void creerUser(Login user)
         {
+            try
+            {
+                string req = "INSERT INTO login(id, pseudo, password, prenom, nom, idService) VALUES ('" + user.Id + "','" + user.Pseudo + "','" + user.Password + "', '" + user.Prenom + "', '" + user.Nom + "', '" + user.Service.Id + "' )";
+
+
+                DAOFactory.connecter();
+
+
+                DAOFactory.execSQLWrite(req);
 
 
 
 
-
-            string req = "INSERT INTO login(id, pseudo, password) VALUES ('" + user.Id + "','" + user.Pseudo+ "','" + user.Password+ "')";
-            
-
-            DAOFactory.connecter();
-
-        
-            DAOFactory.execSQLWrite(req);
-
-
-
-
-            DAOFactory.deconnecter();
+                DAOFactory.deconnecter();
+            }
+            catch (System.Exception exc)
+            {
+                throw exc;
+            }
 
 
         }

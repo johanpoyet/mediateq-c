@@ -33,17 +33,14 @@ namespace Mediateq_AP_SIO2
             }
             else
             {
-                string id = txtIdNew.Text;
-                string pseudo = txtLoginNew.Text;
-                string password = txtPasswordNew.Text;
-                string passwordConfirm = txtPasswordNewConfirm.Text;
+                DialogResult dialogResult = MessageBox.Show("Etes-vous sur de vouloir créer cet utilisateur ?", "Validation !", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (dialogResult == DialogResult.Yes)
+                {
+                    string id = txtIdNew.Text;
+                    string pseudo = txtLoginNew.Text;
+                    string password = txtPasswordNew.Text;
+                    string passwordConfirm = txtPasswordNewConfirm.Text;
 
-                if (password == "")
-                {
-                    MessageBox.Show("Veuillez entrez un mot de passe", "Erreur", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
-                }
-                else
-                {
                     bool trouve = false;
                     foreach (Login l in lesUsers)
                     {
@@ -83,7 +80,11 @@ namespace Mediateq_AP_SIO2
 
                             if (password == passwordConfirm)
                             {
-                                Login user = new Login(int.Parse(id), pseudo, password);
+                                string nom = "test";
+                                string prenom = "test";
+                                Service service = new Service (1, "Administratif");
+
+                                Login user = new Login(int.Parse(id), pseudo, password, prenom, nom, service);
                                 DAODocuments.creerUser(user);
                                 MessageBox.Show("Utilisateur créé avec succès !", "Succès", MessageBoxButtons.OK, MessageBoxIcon.Information);
                                 login login1 = new login();
@@ -100,6 +101,12 @@ namespace Mediateq_AP_SIO2
                         }
                     }
                 }
+                else if(dialogResult == DialogResult.No)
+                {
+
+                }
+
+
             }
            
             

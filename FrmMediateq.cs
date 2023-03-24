@@ -10,7 +10,9 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Mediateq_AP_SIO2.metier;
 using System.Text.RegularExpressions;
-
+using K4os.Compression.LZ4.Encoders;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace Mediateq_AP_SIO2
 {
@@ -20,6 +22,7 @@ namespace Mediateq_AP_SIO2
         #region Variables globales
         private login login;
         static List<Categorie> lesCategories;
+        static List<Categorie> lesCategoriesModif;
         static List<Descripteur> lesDescripteurs;
         static List<Revue> lesTitres;
         static List<Livre> lesLivres;
@@ -30,6 +33,8 @@ namespace Mediateq_AP_SIO2
         static List<EtatCommande> lesEtatsCommande;
         static List<EtatCommande> lesEtatsCommande2;
         static List<Acteur> lesActeurs;
+        static List<Login> lesUsers;
+        static List<Service> lesServices;
         static Dvd dvd1;
 
 
@@ -42,7 +47,7 @@ namespace Mediateq_AP_SIO2
         public FrmMediateq()
         {
             InitializeComponent();
-            
+
         }
 
         private void FrmMediateq_Load(object sender, EventArgs e)
@@ -54,13 +59,18 @@ namespace Mediateq_AP_SIO2
             lesDescripteurs = DAODocuments.getAllDescripteurs();
             lesTitres = DAOPresse.getAllTitre();
             lesCategories = DAODocuments.getAllCategories();
+            lesCategoriesModif = DAODocuments.getAllCategories();
             lesDvd = DAODocuments.getAllDvd();
             lesLivres = DAODocuments.getAllLivres();
             lesDocuments = DAODocuments.getAllDocuments();
             lesCommandes = DAODocuments.getAllCommandes();
             lesEtatsCommande = DAODocuments.getAllEtatsCommande();
             lesActeurs = DAODocuments.getAllActeurs();
-         
+            lesUsers = DAODocuments.getAllUsers();
+            lesServices = DAODocuments.getAllService();
+
+
+
 
 
 
@@ -83,20 +93,20 @@ namespace Mediateq_AP_SIO2
 
         private void cbxTitres_SelectedIndexChanged(object sender, EventArgs e)
         {
-                List<Parution> lesParutions;
+            List<Parution> lesParutions;
 
-                Revue titreSelectionne = (Revue)cbxTitres.SelectedItem;
-                lesParutions = DAOPresse.getParutionByTitre(titreSelectionne);
+            Revue titreSelectionne = (Revue)cbxTitres.SelectedItem;
+            lesParutions = DAOPresse.getParutionByTitre(titreSelectionne);
 
-                // ré-initialisation du dataGridView
-                dgvParutions.Rows.Clear();
+            // ré-initialisation du dataGridView
+            dgvParutions.Rows.Clear();
 
-                // Parcours de la collection des titres et alimentation du datagridview
-                foreach (Parution parution in lesParutions)
-                {
-                    dgvParutions.Rows.Add(parution.Numero, parution.DateParution, parution.Photo);
-                }
-            
+            // Parcours de la collection des titres et alimentation du datagridview
+            foreach (Parution parution in lesParutions)
+            {
+                dgvParutions.Rows.Add(parution.Numero, parution.DateParution, parution.Photo);
+            }
+
         }
         #endregion
 
@@ -123,26 +133,26 @@ namespace Mediateq_AP_SIO2
             // Parcours de la collection des titres et alimentation du datagridview
             foreach (Revue revue in lesTitres)
             {
-                if (revue.IdDescripteur==domaineSelectionne.Id)
+                if (revue.IdDescripteur == domaineSelectionne.Id)
                 {
                     dgvTitres.Rows.Add(revue.Id, revue.Titre, revue.Empruntable, revue.DateFinAbonnement, revue.DelaiMiseADispo);
                 }
             }
         }
 
-        
+
 
 
         private void tabDVD_Enter(object sender, EventArgs e)
         {
-           
+
 
         }
 
         private void cbxDVd_SelectedIndexChanged(object sender, EventArgs e)
         {
-                       
-            
+
+
         }
         #endregion
 
@@ -161,7 +171,7 @@ namespace Mediateq_AP_SIO2
             lesLivres = DAODocuments.getAllLivres();
             //DAODocuments.setDescripteurs(lesLivres);
         }
-   
+
         private void btnRechercher_Click(object sender, EventArgs e)
         {
             // On réinitialise les labels
@@ -178,7 +188,7 @@ namespace Mediateq_AP_SIO2
             bool trouve = false;
             foreach (Livre livre in lesLivres)
             {
-                if (livre.IdDoc==txbNumDoc.Text)
+                if (livre.IdDoc == txbNumDoc.Text)
                 {
                     lblNumero.Text = livre.IdDoc;
                     lblTitre.Text = livre.Titre;
@@ -211,7 +221,7 @@ namespace Mediateq_AP_SIO2
                 //on teste si le titre du livre contient ce qui a été saisi
                 if (titreMinuscules.Contains(saisieMinuscules))
                 {
-                    dgvLivres.Rows.Add(livre.IdDoc,livre.Titre,livre.Auteur,livre.ISBN1,livre.LaCollection);
+                    dgvLivres.Rows.Add(livre.IdDoc, livre.Titre, livre.Auteur, livre.ISBN1, livre.LaCollection);
                 }
             }
         }
@@ -243,75 +253,98 @@ namespace Mediateq_AP_SIO2
         {
             try
             {
-                // mise en place d'un message box pour que l'utilisateurs valide sa création 
-                DialogResult dialogResult = MessageBox.Show("Etes-vous sur de vouloir créer ce Livre ?", "Validation !", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                if (dialogResult == DialogResult.Yes)
+                string titre = txTitreLivre.Text;
+                string id = txIdLivre.Text;
+                string auteur = txAuteurLivre.Text;
+                string ISBN = txISBNLivre.Text;
+                bool verif = verifRegexInt(id);
+                bool verif2 = verifRegexInt(ISBN);
+                string[] entrees = { id, titre, auteur, ISBN };
+                bool verifEntrees = verifEntree(entrees);
+
+                if (!verifEntrees)
                 {
-                    // on remplit les variables a l'aide des champs textes et combo box 
-                    string titre = txTitreLivre.Text;
-                    string id = txIdLivre.Text;
-                    string auteur = txAuteurLivre.Text;
-                    string ISBN = txISBNLivre.Text;
-                    string collection = txCollectionLivre.Text;
-                    string image = txImageLivre.Text;
-
-                    Categorie categ = (Categorie)cbxCategorieLivre.SelectedItem;
-
-                    // création du nouveau livre
-                    Livre livre1 = new Livre(id, titre, ISBN, auteur, collection, image, categ);
-
-                    // On recherche le livre correspondant a l'id
-                    // S'il existe deja : on affiche un popup message d'erreur
-                    bool trouve = false;
-                    foreach (Livre l in lesLivres)
-                    {
-                        if (l.IdDoc.Equals(id))
-                        {
-                            trouve = true;
-                        }
-                        else
-                        {
-
-                        }
-                    }
-                    if (trouve)
-                    {
-                        MessageBox.Show("Un livre avec l'id : '" + id + "' existe deja", "Erreur", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
-                    }
-                    else if (!trouve)
-                    {
-                        DAODocuments.creerLivre(livre1);
-
-                        lesLivres = DAODocuments.getAllLivres();
-
-                        // on met a jour la combobox des livres pour que le livre qui veint d'etre ajouté soit dedans
-                        cbxLivre.DataSource = lesLivres;
-                        cbxLivre.DisplayMember = "titre";
-
-                        // ré-initialisation du dataGridView
-                        dtCrudLivre.Rows.Clear();
-
-                        // Parcours de la collection des livres et alimentation du datagridview
-                        foreach (Livre l in lesLivres)
-                        {
-
-                            dtCrudLivre.Rows.Add(l.IdDoc, l.Titre, l.Auteur, l.LaCollection, l.Image, l.LaCategorie.Libelle);
-                        }
-
-                        // vidage des champs texte
-                        txTitreLivre.Text = "";
-                        txIdLivre.Text = "";
-                        txAuteurLivre.Text = "";
-                        txISBNLivre.Text = "";
-                        txCollectionLivre.Text = "";
-                        txImageLivre.Text = "";
-
-                        MessageBox.Show("Le livre '" + titre + "' a été créé avec succès !", "Succès", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
+                    MessageBox.Show("Veuillez remplir tous les champs", "Erreur", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
                 }
-                else if (dialogResult == DialogResult.No)
+                else
                 {
+                    if (!verif)
+                    {
+                        MessageBox.Show("L'id ne doit contenir que des chiffres", "Erreur", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
+                    }
+                    else if (!verif2)
+                    {
+                        MessageBox.Show("L'ISBN ne doit contenir que des chiffres", "Erreur", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
+                    }
+                    else
+                    {
+                        // mise en place d'un message box pour que l'utilisateurs valide sa création 
+                        DialogResult dialogResult = MessageBox.Show("Etes-vous sur de vouloir créer ce Livre ?", "Validation !", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                        if (dialogResult == DialogResult.Yes)
+                        {
+                            // on remplit les variables a l'aide des champs textes et combo box 
+                            string collection = txCollectionLivre.Text;
+                            string image = txImageLivre.Text;
 
+                            Categorie categ = (Categorie)cbxCategorieLivre.SelectedItem;
+
+                            // création du nouveau livre
+                            Livre livre1 = new Livre(id, titre, ISBN, auteur, collection, image, categ);
+
+                            // On recherche le livre correspondant a l'id
+                            // S'il existe deja : on affiche un popup message d'erreur
+                            bool trouve = false;
+                            foreach (Livre l in lesLivres)
+                            {
+                                if (l.IdDoc.Equals(id))
+                                {
+                                    trouve = true;
+                                }
+                                else
+                                {
+
+                                }
+                            }
+                            if (trouve)
+                            {
+                                MessageBox.Show("Un livre avec l'id : '" + id + "' existe deja", "Erreur", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
+                            }
+                            else if (!trouve)
+                            {
+                                DAODocuments.creerLivre(livre1);
+
+                                lesLivres = DAODocuments.getAllLivres();
+
+                                // on met a jour la combobox des livres pour que le livre qui veint d'etre ajouté soit dedans
+                                cbxLivre.DataSource = lesLivres;
+                                cbxLivre.DisplayMember = "titre";
+
+                                // ré-initialisation du dataGridView
+                                dtCrudLivre.Rows.Clear();
+
+                                // Parcours de la collection des livres et alimentation du datagridview
+                                foreach (Livre l in lesLivres)
+                                {
+
+                                    dtCrudLivre.Rows.Add(l.IdDoc, l.Titre, l.Auteur, l.LaCollection, l.Image, l.LaCategorie.Libelle);
+                                }
+
+                                // vidage des champs texte
+                                txTitreLivre.Text = "";
+                                txIdLivre.Text = "";
+                                txAuteurLivre.Text = "";
+                                txISBNLivre.Text = "";
+                                txCollectionLivre.Text = "";
+                                txImageLivre.Text = "";
+
+                                MessageBox.Show("Le livre '" + titre + "' a été créé avec succès !", "Succès", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            }
+                        }
+                        else if (dialogResult == DialogResult.No)
+                        {
+
+                        }
+                    }
                 }
             }
             catch (System.Exception exc)
@@ -405,49 +438,65 @@ namespace Mediateq_AP_SIO2
         {
             try
             {
-                // Objet Livre sélectionné dans la comboBox
-                Livre livreSelection = (Livre)cbxLivre.SelectedItem;
 
-                // mise en place d'un message box pour que l'utilisateurs valide sa modification 
-                DialogResult dialogResult = MessageBox.Show("Etes-vous sur de vouloir modifier le livre : '" + livreSelection.Titre + "'", "Validation !", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                if (dialogResult == DialogResult.Yes)
+                string idModif = txIdModifLivre.Text;
+                string titreModif = txTitreLivreModif.Text;
+                string auteurModif = txAuteurLivreModif.Text;
+
+
+                string[] entrees = { idModif, titreModif, auteurModif };
+                bool verifEntrees = verifEntree(entrees);
+
+                if (!verifEntrees)
                 {
-                    string idModif = txIdModifLivre.Text;
-                    string titreModif = txTitreLivreModif.Text;
-                    string auteurModif = txAuteurLivreModif.Text;
-                    string ISBNModif = txISBNLivreModif.Text;
-                    string collectionModif = txCollectionLivreModif.Text;
-                    string imageModif = txImageLivreModif.Text;
-                    Categorie categorieModif = (Categorie)cbxCategorieLivreModif.SelectedItem;
-
-                    // création du livre a modifié
-                    Livre livreSuppr = new Livre(idModif, titreModif, ISBNModif, auteurModif, collectionModif, imageModif, categorieModif);
-
-
-                    DAODocuments.modifierLivre(livreSuppr);
-
-
-
-                    // ré-initialisation du dataGridView
-                    dtCrudLivre.Rows.Clear();
-
-                    lesLivres = DAODocuments.getAllLivres();
-
-                    // alimentation des différentes combo box lors de l'entrée dans la page crud livre
-                    cbxLivre.DataSource = lesLivres;
-                    cbxLivre.DisplayMember = "titre";
-
-                    // Parcours de la collection des livres et alimentation du datagridview
-                    foreach (Livre l in lesLivres)
-                    {
-                        dtCrudLivre.Rows.Add(l.IdDoc, l.Titre, l.Auteur, l.LaCollection, l.Image, l.LaCategorie.Libelle);
-                    }
-
-                    MessageBox.Show("Le livre '" + livreSelection.Titre + "' a été modifié avec succès !", "Succès", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Veuillez remplir tous les champs", "Erreur", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
                 }
-                else if (dialogResult == DialogResult.No)
+                else
                 {
 
+
+                    // Objet Livre sélectionné dans la comboBox
+                    Livre livreSelection = (Livre)cbxLivre.SelectedItem;
+
+                    // mise en place d'un message box pour que l'utilisateurs valide sa modification 
+                    DialogResult dialogResult = MessageBox.Show("Etes-vous sur de vouloir modifier le livre : '" + livreSelection.Titre + "'", "Validation !", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    if (dialogResult == DialogResult.Yes)
+                    {
+
+                        string ISBNModif = txISBNLivreModif.Text;
+                        string collectionModif = txCollectionLivreModif.Text;
+                        string imageModif = txImageLivreModif.Text;
+                        Categorie categorieModif = (Categorie)cbxCategorieLivreModif.SelectedItem;
+
+                        // création du livre a modifié
+                        Livre livreSuppr = new Livre(idModif, titreModif, ISBNModif, auteurModif, collectionModif, imageModif, categorieModif);
+
+
+                        DAODocuments.modifierLivre(livreSuppr);
+
+
+
+                        // ré-initialisation du dataGridView
+                        dtCrudLivre.Rows.Clear();
+
+                        lesLivres = DAODocuments.getAllLivres();
+
+                        // alimentation des différentes combo box lors de l'entrée dans la page crud livre
+                        cbxLivre.DataSource = lesLivres;
+                        cbxLivre.DisplayMember = "titre";
+
+                        // Parcours de la collection des livres et alimentation du datagridview
+                        foreach (Livre l in lesLivres)
+                        {
+                            dtCrudLivre.Rows.Add(l.IdDoc, l.Titre, l.Auteur, l.LaCollection, l.Image, l.LaCategorie.Libelle);
+                        }
+
+                        MessageBox.Show("Le livre '" + livreSelection.Titre + "' a été modifié avec succès !", "Succès", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else if (dialogResult == DialogResult.No)
+                    {
+
+                    }
                 }
             }
             catch (System.Exception exc)
@@ -488,90 +537,105 @@ namespace Mediateq_AP_SIO2
 
             try
             {
-                Regex rx = new Regex(@"[0-9]");
-                if (!rx.IsMatch(txId.Text))
+
+                string id = txId.Text;
+                string duree = txDuree.Text;
+                string synopsis = txSynopsis.Text;
+                string realisateur = txRealisateur.Text;
+                string titre = txTitre.Text;
+
+
+
+                string[] entrees = { id, duree, synopsis, realisateur, titre };
+                bool verifEntrees = verifEntree(entrees);
+                bool verif = verifRegexInt(id);
+                bool verif2 = verifRegexInt(duree);
+                if (!verifEntrees)
                 {
-                    MessageBox.Show("L'id ne doit contenir que des chiffres", "Erreur", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
-                }
-                else if (!rx.IsMatch(txDuree.Text))
-                {
-                    MessageBox.Show("La durée ne doit contenir que des chiffres", "Erreur", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
+                    MessageBox.Show("Veuillez remplir tous les champs", "Erreur", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
                 }
                 else
                 {
-                    // mise en place d'un message box pour que l'utilisateurs valide sa création 
-                    DialogResult dialogResult = MessageBox.Show("Etes-vous sur de vouloir créer ce DVD ?", "Validation !", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                    if (dialogResult == DialogResult.Yes)
+                    if (!verif)
                     {
-                        // on remplit les variables a l'aide des champs textes et combo box 
-                        string titre = txTitre.Text;
-                        string id = txId.Text;
-                        string synopsis = txSynopsis.Text;
-                        string realisateur = txRealisateur.Text;
-                        int duree = Int32.Parse(txDuree.Text);
-                        string image = txImage.Text;
-                        Categorie categ = (Categorie)cbxCategorie.SelectedItem;
-                        Acteur act = (Acteur)cbxActeurDvd.SelectedItem;
-
-
-                        // création du nouveau dvd
-                        Dvd dvd1 = new Dvd(id, titre, synopsis, realisateur, duree, image, categ);
-
-                        //DAODocuments.setActeur(lesDvd);
-
-
-                        // On recherche le dvd correspondant a l'id
-                        // S'il existe deja : on affiche un popup message d'erreur
-                        // si il n'existe pas on créer le DVD
-                        bool trouve = false;
-                        foreach (Dvd d in lesDvd)
+                        MessageBox.Show("L'id ne doit contenir que des chiffres", "Erreur", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
+                    }
+                    else if (!verif2)
+                    {
+                        MessageBox.Show("La durée ne doit contenir que des chiffres", "Erreur", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
+                    }
+                    else
+                    {
+                        // mise en place d'un message box pour que l'utilisateurs valide sa création 
+                        DialogResult dialogResult = MessageBox.Show("Etes-vous sur de vouloir créer ce DVD ?", "Validation !", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                        if (dialogResult == DialogResult.Yes)
                         {
-                            if (d.IdDoc.Equals(id))
-                            {
-                                trouve = true;
-                            }
-                        }
-                        if (trouve)
-                        {
-                            MessageBox.Show("Un dvd avec l'id : '" + id + "' existe deja", "Erreur", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
-                        }
-                        else if (!trouve)
-                        {
-                            DAODocuments.creerDvd(dvd1);
-
-                            lesDvd = DAODocuments.getAllDvd();
+                            // on remplit les variables a l'aide des champs textes et combo box 
+                            int duree2 = Int32.Parse(txDuree.Text);
+                            string image = txImage.Text;
+                            Categorie categ = (Categorie)cbxCategorie.SelectedItem;
+                            Acteur act = (Acteur)cbxActeurDvd.SelectedItem;
 
 
-                            // alimentation des différentes combo box lors de l'entrée dans la page dvd
-                            cbxDvd.DataSource = lesDvd;
-                            cbxDvd.DisplayMember = "titre";
+                            // création du nouveau dvd
+                            Dvd dvd1 = new Dvd(id, titre, synopsis, realisateur, duree2, image, categ);
 
-                            // ré-initialisation du dataGridView
-                            dtDvd.Rows.Clear();
+                            //DAODocuments.setActeur(lesDvd);
 
-                            // Parcours de la collection des dvd et alimentation du datagridview
+
+                            // On recherche le dvd correspondant a l'id
+                            // S'il existe deja : on affiche un popup message d'erreur
+                            // si il n'existe pas on créer le DVD
+                            bool trouve = false;
                             foreach (Dvd d in lesDvd)
                             {
+                                if (d.IdDoc.Equals(id))
+                                {
+                                    trouve = true;
+                                }
+                            }
+                            if (trouve)
+                            {
+                                MessageBox.Show("Un dvd avec l'id : '" + id + "' existe deja", "Erreur", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
+                            }
+                            else if (!trouve)
+                            {
+                                DAODocuments.creerDvd(dvd1);
 
-                                dtDvd.Rows.Add(d.IdDoc, d.synopsis, d.realisateur, d.duree, d.Titre, d.Image, d.LaCategorie.Libelle);
+                                lesDvd = DAODocuments.getAllDvd();
+
+
+                                // alimentation des différentes combo box lors de l'entrée dans la page dvd
+                                cbxDvd.DataSource = lesDvd;
+                                cbxDvd.DisplayMember = "titre";
+
+                                // ré-initialisation du dataGridView
+                                dtDvd.Rows.Clear();
+
+                                // Parcours de la collection des dvd et alimentation du datagridview
+                                foreach (Dvd d in lesDvd)
+                                {
+
+                                    dtDvd.Rows.Add(d.IdDoc, d.synopsis, d.realisateur, d.duree, d.Titre, d.Image, d.LaCategorie.Libelle);
+                                }
+
+                                // vidage des champs texte
+                                txTitre.Text = "";
+                                txId.Text = "";
+                                txSynopsis.Text = "";
+                                txRealisateur.Text = "";
+                                txDuree.Text = "";
+                                txImage.Text = "";
+
+                                MessageBox.Show("Le dvd '" + titre + "' a été créé avec succès !", "Succès", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
                             }
 
-                            // vidage des champs texte
-                            txTitre.Text = "";
-                            txId.Text = "";
-                            txSynopsis.Text = "";
-                            txRealisateur.Text = "";
-                            txDuree.Text = "";
-                            txImage.Text = "";
-
-                            MessageBox.Show("Le dvd '" + titre + "' a été créé avec succès !", "Succès", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                        else if (dialogResult == DialogResult.No)
+                        {
 
                         }
-
-                    }
-                    else if (dialogResult == DialogResult.No)
-                    {
-
                     }
                 }
             }
@@ -596,9 +660,11 @@ namespace Mediateq_AP_SIO2
             // alimentation des différentes combo box lors de l'entrée dans la page dvd
             cbxDvd.DataSource = lesDvd;
             cbxDvd.DisplayMember = "titre";
+
             cbxCategorie.DataSource = lesCategories;
             cbxCategorie.DisplayMember = "libelle";
-            cbxCategorieDvdModif.DataSource = lesCategories;
+
+            cbxCategorieDvdModif.DataSource = lesCategoriesModif;
             cbxCategorieDvdModif.DisplayMember = "libelle";
 
             cbxActeurDvd.DataSource = lesActeurs;
@@ -643,59 +709,78 @@ namespace Mediateq_AP_SIO2
         {
             try
             {
-                Regex rx = new Regex("[0-9]");
-                if (!rx.IsMatch(txDureeModifDvd.Text))
+                string duree = txDureeModifDvd.Text;
+                string synopsis = txSynopsisModifDvd.Text;
+                string realisateur = txRealisateurModifDvd.Text;
+                string titre = txTitreModifDvd.Text;
+
+                string[] entrees = { duree, synopsis, realisateur, titre };
+                bool verifEntrees = verifEntree(entrees);
+                bool verif = verifRegexInt(duree);
+                if (!verifEntrees)
                 {
-                    MessageBox.Show("La durée ne doit contenir que des chiffres", "Erreur", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
+                    MessageBox.Show("Veuillez remplir tous les champs", "Erreur", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
                 }
                 else
                 {
 
 
-                    // Objet Dvd sélectionné dans la comboBox
-                    Dvd DvdSelection = (Dvd)cbxDvd.SelectedItem;
 
-                    // mise en place d'un message box pour que l'utilisateurs valide sa modification 
-                    DialogResult dialogResult = MessageBox.Show("Etes-vous sur de vouloir modifier le DVD :  '" + DvdSelection.Titre + "'  ", "Validation !", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                    if (dialogResult == DialogResult.Yes)
+
+                    //Regex rx1 = new Regex("[0-9]");
+                    if (!verif)
                     {
-                        // on remplit les variables a l'aide des champs textes et combo box 
-                        string idModif = txIdModifDvd.Text;
-                        string titreModif = txTitreModifDvd.Text;
-                        string synopsisModif = txSynopsisModifDvd.Text;
-                        string realisateurModif = txRealisateurModifDvd.Text;
-                        int dureeModif = Int32.Parse(txDureeModifDvd.Text);
-                        string imageModif = txImageModifDvd.Text;
-                        Categorie categorieModif = (Categorie)cbxCategorieDvdModif.SelectedItem;
-
-                        // création du dvd modifié
-                        Dvd dvdModif = new Dvd(idModif, titreModif, synopsisModif, realisateurModif, dureeModif, imageModif, categorieModif);
-
-                        DAODocuments.modifierDvd(dvdModif);
-
-                        lesDvd = DAODocuments.getAllDvd();
+                        MessageBox.Show("La durée ne doit contenir que des chiffres", "Erreur", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
+                    }
+                    else
+                    {
 
 
-                        // alimentation des différentes combo box lors de l'entrée dans la page dvd
-                        cbxDvd.DataSource = lesDvd;
-                        cbxDvd.DisplayMember = "titre";
+                        // Objet Dvd sélectionné dans la comboBox
+                        Dvd DvdSelection = (Dvd)cbxDvd.SelectedItem;
 
-                        // ré-initialisation du dataGridView
-                        dtDvd.Rows.Clear();
+                        // mise en place d'un message box pour que l'utilisateurs valide sa modification 
+                        DialogResult dialogResult = MessageBox.Show("Etes-vous sur de vouloir modifier le DVD :  '" + DvdSelection.Titre + "'  ", "Validation !", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                        if (dialogResult == DialogResult.Yes)
+                        {
+                            // on remplit les variables a l'aide des champs textes et combo box 
+                            string idModif = txIdModifDvd.Text;
+                            string titreModif = txTitreModifDvd.Text;
+                            string synopsisModif = txSynopsisModifDvd.Text;
+                            string realisateurModif = txRealisateurModifDvd.Text;
+                            int dureeModif = Int32.Parse(txDureeModifDvd.Text);
+                            string imageModif = txImageModifDvd.Text;
+                            Categorie categorieModif = (Categorie)cbxCategorieDvdModif.SelectedItem;
 
-                        // Parcours de la collection des dvd et alimentation du datagridview
-                        foreach (Dvd d in lesDvd)
+                            // création du dvd modifié
+                            Dvd dvdModif = new Dvd(idModif, titreModif, synopsisModif, realisateurModif, dureeModif, imageModif, categorieModif);
+
+                            DAODocuments.modifierDvd(dvdModif);
+
+                            lesDvd = DAODocuments.getAllDvd();
+
+
+                            // alimentation des différentes combo box lors de l'entrée dans la page dvd
+                            cbxDvd.DataSource = lesDvd;
+                            cbxDvd.DisplayMember = "titre";
+
+                            // ré-initialisation du dataGridView
+                            dtDvd.Rows.Clear();
+
+                            // Parcours de la collection des dvd et alimentation du datagridview
+                            foreach (Dvd d in lesDvd)
+                            {
+
+                                dtDvd.Rows.Add(d.IdDoc, d.synopsis, d.realisateur, d.duree, d.Titre, d.Image, d.LaCategorie.Libelle);
+                            }
+                            MessageBox.Show("Le dvd '" + DvdSelection.Titre + "' a été modifié avec succès !", "Succès", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+
+                        }
+                        else if (dialogResult == DialogResult.No)
                         {
 
-                            dtDvd.Rows.Add(d.IdDoc, d.synopsis, d.realisateur, d.duree, d.Titre, d.Image, d.LaCategorie.Libelle);
                         }
-                        MessageBox.Show("Le dvd '" + DvdSelection.Titre + "' a été modifié avec succès !", "Succès", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-
-                    }
-                    else if (dialogResult == DialogResult.No)
-                    {
-
                     }
                 }
             }
@@ -791,65 +876,98 @@ namespace Mediateq_AP_SIO2
         {
             try
             {
-                DialogResult dialogResult = MessageBox.Show("Etes-vous sur de vouloir créer la commande ?", "Validation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                if (dialogResult == DialogResult.Yes)
+                string id = txIdDocument.Text;
+                string prix = txPrixUnitaire.Text;
+                string nbExemplaire = txNbExemplaire.Text;
+                bool verif = verifRegexInt(id);
+                bool verif2 = verifRegexInt(prix);
+                bool verif3 = verifRegexInt(nbExemplaire);
+                string[] entrees = { id, prix, nbExemplaire };
+                bool verifEntrees = verifEntree(entrees);
+
+                if (!verifEntrees)
                 {
-                    // on remplit les variables a l'aide des champs textes et combo box 
-                    int nbExemplaire = Int32.Parse(txNbExemplaire.Text);
-                    int prix = Int32.Parse(txPrixUnitaire.Text);
-                    string id = txIdDocument.Text;
-                    double montant = prix * nbExemplaire;
-                    string idEtat = "00001";
-                    string libelle = "en cours";
-
-
-                    bool trouve = false;
-                    foreach (Commande c in lesCommandes)
+                    MessageBox.Show("Veuillez remplir tous les champs", "Erreur", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
+                }
+                else
+                {
+                    if (!verif)
                     {
-                        if (c.Id.Equals(id))
-                        {
-                            trouve = true;
-                        }
+                        MessageBox.Show("L'id ne doit contenir que des chiffres", "Erreur", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
                     }
-                    if (trouve)
+                    else if (!verif2)
                     {
-                        lesCommandes = DAODocuments.getAllCommandes();
-                        foreach (Commande c in lesCommandes)
-                        {
-
-                            dtCrudCommande.Rows.Add(c.Id, c.NbExemplaire, c.DateCommande, c.Montant, c.Doc.Titre, c.Etat.Libelle);
-                        }
-                        MessageBox.Show("Une commande avec l'id : '" + id + "' existe deja", "Erreur", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
+                        MessageBox.Show("Le prix unitaire ne doit contenir que des chiffres", "Erreur", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
                     }
-
+                    else if (!verif3)
+                    {
+                        MessageBox.Show("Le nombre d'exemplaire ne doit contenir que des chiffres", "Erreur", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
+                    }
                     else
                     {
+                        DialogResult dialogResult = MessageBox.Show("Etes-vous sur de vouloir créer la commande ?", "Validation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                        if (dialogResult == DialogResult.Yes)
+                        {
+                            // on remplit les variables a l'aide des champs textes et combo box 
+                            int nbExemplaire2 = Int32.Parse(txNbExemplaire.Text);
+                            int prix2 = Int32.Parse(txPrixUnitaire.Text);
 
-                        Document docSelectionne = (Document)cbxDocument.SelectedItem;
-
-                        EtatCommande etat = new EtatCommande(idEtat, libelle);
-                        DateTime date = DateTime.Now;
-
-
-                        // création de la nouvelle commande
-                        Commande com = new Commande(id, nbExemplaire, date, montant, docSelectionne, etat);
+                            double montant = prix2 * nbExemplaire2;
+                            string idEtat = "00001";
+                            string libelle = "en cours";
 
 
-                        DAODocuments.creerCommande(com);
+                            bool trouve = false;
+                            foreach (Commande c in lesCommandes)
+                            {
+                                if (c.Id.Equals(id))
+                                {
+                                    trouve = true;
+                                }
+                            }
+                            if (trouve)
+                            {
+                                lesCommandes = DAODocuments.getAllCommandes();
+                                foreach (Commande c in lesCommandes)
+                                {
 
-                        lesCommandes.Add(com);
+                                    dtCrudCommande.Rows.Add(c.Id, c.NbExemplaire, c.DateCommande, c.Montant, c.Doc.Titre, c.Etat.Libelle);
+                                }
+                                MessageBox.Show("Une commande avec l'id : '" + id + "' existe deja", "Erreur", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
+                            }
 
-                        lesDocuments = DAODocuments.getAllDocuments();
+                            else
+                            {
 
-                        /*cbxTitreDoc.DataSource = lesDocuments;
-                         cbxTitreDoc.DisplayMember = "titre";*/
+                                Document docSelectionne = (Document)cbxDocument.SelectedItem;
 
-                        cbxDocument.DataSource = lesDocuments;
-                        cbxDocument.DisplayMember = "idDoc";
+                                EtatCommande etat = new EtatCommande(idEtat, libelle);
+                                DateTime date = DateTime.Now;
 
-                        MessageBox.Show("La commande '" + id + "' a été créé avec succès !", "Succès", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+
+
+                                // création de la nouvelle commande
+                                Commande com = new Commande(id, nbExemplaire2, date, montant, docSelectionne, etat);
+
+
+                                DAODocuments.creerCommande(com);
+
+                                lesCommandes.Add(com);
+
+                                lesDocuments = DAODocuments.getAllDocuments();
+
+                                /*cbxTitreDoc.DataSource = lesDocuments;
+                                 cbxTitreDoc.DisplayMember = "titre";*/
+
+                                cbxDocument.DataSource = lesDocuments;
+                                cbxDocument.DisplayMember = "idDoc";
+
+                                MessageBox.Show("La commande '" + id + "' a été créé avec succès !", "Succès", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            }
+
+                        }
                     }
-
                 }
             }
             catch (System.Exception exc)
@@ -861,20 +979,20 @@ namespace Mediateq_AP_SIO2
 
         private void cbxTitreDoc_SelectedIndexChanged(object sender, EventArgs e)
         {
-          
+
         }
 
         private void tabCrudCommande_Enter(object sender, EventArgs e)
         {
 
-            
+
             lesDocuments = DAODocuments.getAllDocuments();
             lesEtatsCommande = DAODocuments.getAllEtatsCommande();
             lesEtatsCommande2 = DAODocuments.getAllEtatsCommande();
 
 
             // alimentation des différentes combo box lors de l'entrée dans la page commande
-           
+
 
             cbxDocument.DataSource = lesDocuments;
             cbxDocument.DisplayMember = "titre";
@@ -890,27 +1008,27 @@ namespace Mediateq_AP_SIO2
             cbxModifEtat.DisplayMember = "libelle";
 
 
-            
+
             foreach (Commande c in lesCommandes)
             {
-                dtCrudCommande.Rows.Add(c.Id, c.NbExemplaire, c.DateCommande, c.Montant, c.Doc.Titre, c.Etat.Libelle);
+                dtCrudCommande.Rows.Add(c.Id, c.NbExemplaire, c.DateCommande.ToString("d"), c.Montant, c.Doc.Titre, c.Etat.Libelle);
             }
         }
 
         private void cbxEtatModif_SelectedIndexChanged(object sender, EventArgs e)
         {
 
-           
-            
+
+
 
 
             List<Commande> lesCommandesByEtat;
-            
+
             // Objet Dvd sélectionné dans la comboBox
             EtatCommande etat = (EtatCommande)cbxEtatModif.SelectedItem;
 
-          
-            
+
+
 
 
 
@@ -926,12 +1044,12 @@ namespace Mediateq_AP_SIO2
 
 
             // on remplit les champs text en fonction du dvd selectionné dans la combo box
-            if(lesCommandesByEtat.Count == 0)
+            if (lesCommandesByEtat.Count == 0)
             {
                 txIdModif.Text = "";
                 txDocumentModif.Text = "";
                 txNbExemplaireModif.Text = "";
-                txMontantModif.Text ="";
+                txMontantModif.Text = "";
                 txDateModif.Text = "";
                 cbxCommandeModifEtat.Text = "";
                 cbxModifEtat.Text = "";
@@ -943,7 +1061,7 @@ namespace Mediateq_AP_SIO2
                 {
                     if (c.Etat.ID == etat.ID)
                     {
-                    
+
                         txIdModif.Text = c.Id;
                         txDocumentModif.Text = c.Doc.Titre;
                         txNbExemplaireModif.Text = c.NbExemplaire.ToString();
@@ -1012,6 +1130,12 @@ namespace Mediateq_AP_SIO2
             }
 
         }
+        private void btnDeconnexionCommande_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            login login = new login();
+            login.Show();
+        }
 
         private void cbxModifEtat_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -1047,6 +1171,219 @@ namespace Mediateq_AP_SIO2
 
 
 
+        #region Utilisateurs
+
+        private void btnCreerUtilisateur_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string id = txNewId.Text;
+                string pseudo = txNewPseudo.Text;
+                string password = txNewPassword.Text;
+                string passwordConfirm = txNewPasswordConfirm.Text;
+                string nom = txNewNom.Text;
+                string prenom = txNewPrenom.Text;
+                string[] entrees = { id, pseudo, password, passwordConfirm};
+                bool verifEntrees = verifEntree(entrees);
+                bool verifInt = verifRegexInt(id);
+                bool verifStringPrenom = verifRegexString(prenom);
+                bool verifStringNom = verifRegexString(nom);
+
+                if (!verifEntrees)
+                {
+                    MessageBox.Show("Veuillez remplir tous les champs", "Erreur", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
+                }
+                else
+                {
+                    if (!verifInt)
+                    {
+                        MessageBox.Show("L'id ne doit contenir que des chiffres", "Erreur", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
+                    }
+                    else
+                    {
+                        Regex rx = new Regex(@"^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$");
+
+                        if (!rx.IsMatch(txNewPassword.Text))
+                        {
+                            MessageBox.Show("Le mot de passe doit comporter au moin 8 caractères dont 1 lettre majuscule, 1 caractère spécial, les caractères alphanumériques", "Erreur", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
+                        }
+                        else
+                        {
+                            
+                            if (!verifStringPrenom || !verifStringNom)
+                            {
+                                MessageBox.Show("Le prénom et le nom ne doivent contenir que des lettres", "Erreur", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
+                            }
+                            else
+                            {
+                                bool trouve = false;
+                                foreach (Login l in lesUsers)
+                                {
+                                    if (l.Id.Equals(int.Parse(id)))
+                                    {
+                                        trouve = true;
+                                    }
+                                    else
+                                    {
+
+                                    }
+                                }
+                                if (trouve)
+                                {
+                                    MessageBox.Show("Un utilisateur avec l'id : '" + id + "' existe deja", "Erreur", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
+                                }
+                                else if (!trouve)
+                                {
+
+                                    foreach (Login l in lesUsers)
+                                    {
+                                        if (l.Pseudo.Equals(pseudo))
+                                        {
+                                            trouve = true;
+                                        }
+                                        else
+                                        {
+
+                                        }
+                                    }
+                                    if (trouve)
+                                    {
+                                        MessageBox.Show("L'utilisateur '" + pseudo + "' existe deja", "Erreur", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
+                                    }
+                                    else
+                                    {
+
+                                        if (password == passwordConfirm)
+                                        {
+                                            DialogResult dialogResult = MessageBox.Show("Etes-vous sur de vouloir créer cet utilisateur ?", "Validation !", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                                            if (dialogResult == DialogResult.Yes)
+                                            {
+                                                
+                                                string hashedPassword = hashPassword(password);
+                                                Service service = (Service)cbxService.SelectedItem;
+
+                                                Login user = new Login(int.Parse(id), pseudo, hashedPassword, prenom, nom, service);
+                                                DAODocuments.creerUser(user);
+                                                MessageBox.Show("Utilisateur créé avec succès !", "Succès", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                                                lesUsers = DAODocuments.getAllUsers();
+
+                                                cbxPseudo.DataSource = lesUsers;
+                                                cbxPseudo.DisplayMember = "pseudo";
+
+                                                txNewId.Text = "";
+                                                txNewPseudo.Text = "";
+                                                txNewPassword.Text = "";
+                                                txNewNom.Text = "";
+                                                txNewPrenom.Text = "";
+                                                txNewPasswordConfirm.Text = "";
+                                            }
+                                            else if (dialogResult == DialogResult.No)
+                                            {
+
+                                            }
+                                        }
+                                        else
+                                        {
+                                            MessageBox.Show("Les mots de passe ne correspondent pas", "Erreur", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
+                                        }
+
+
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (System.Exception exc)
+            {
+                throw exc;
+            }
+        }
+
+        private void tabCrudUtilisateurs_Enter(object sender, EventArgs e)
+        {
+            lesServices = DAODocuments.getAllService();
+            lesUsers = DAODocuments.getAllUsers();
+
+
+            // alimentation des différentes combo box lors de l'entrée dans la page utilisateur
+            cbxService.DataSource = lesServices;
+            cbxService.DisplayMember = "libelle";
+
+            cbxPseudo.DataSource = lesUsers;
+            cbxPseudo.DisplayMember = "pseudo";
+
+        }
+
+        private void cbxPseudo_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Login userSelection = (Login)cbxPseudo.SelectedItem;
+
+            // on remplit les champs text en fonction du dvd selectionné dans la combo box
+            foreach (Login l in lesUsers)
+            {
+                if (l.Id == userSelection.Id)
+                {
+                    txIdSuppr.Text = l.Id.ToString();
+                    txServiceSuppr.Text = l.Service.Libelle;
+                    txPrenomSuppr.Text = l.Prenom;
+                    txNomSuppr.Text = l.Nom;
+
+                }
+
+            }
+
+        }
+
+        private void btnSupprimerUtilisateur_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Objet login sélectionné dans la comboBox
+                Login user = (Login)cbxPseudo.SelectedItem;
+
+                // mise en place d'un message box pour que l'utilisateur valide sa suppression 
+                DialogResult dialogResult = MessageBox.Show("Etes-vous sur de vouloir supprimer l'utilisateur : '" + user.Pseudo + "' ?", "Validation !", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (dialogResult == DialogResult.Yes)
+                {
+                    DAODocuments.supprimerUtilisateur(user);
+
+                    MessageBox.Show("L'utilisateur '" + user.Pseudo + "' a été supprimé avec succès !", "Succès", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    lesUsers = DAODocuments.getAllUsers();
+
+                    cbxPseudo.DataSource = lesUsers;
+                    cbxPseudo.DisplayMember = "pseudo";
+                }
+                else if (dialogResult == DialogResult.No)
+                {
+
+                }
+
+            }
+            catch (System.Exception exc)
+            {
+                throw exc;
+            }
+        }
+
+        private void btnDeconnexionUtilisateur_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            login login = new login();
+            login.Show();
+        }
+        private void btnFermerAppliUtilisateur_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        #endregion
+
+
+
         #region Procédures vides
 
         #endregion
@@ -1063,11 +1400,6 @@ namespace Mediateq_AP_SIO2
 
             lesDvd = DAODocuments.getAllDvd();
             lesActeurs = DAODocuments.getAllActeurs();
-
-
-
-
-
 
             // Parcours de la collection des dvd et alimentation du datagridview
             foreach (Dvd d in lesDvd)
@@ -1091,14 +1423,78 @@ namespace Mediateq_AP_SIO2
 
         }
 
+        private void btnFermerAppliVisu_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
 
         #endregion
 
+
+
+        #region Fonctions utilisateurs
+        //-----------------------------------------------------------
+        // ONGLET "Fonctions utilisateurs"
+        //-----------------------------------------------------------
+
+        public bool verifRegexInt(string chaine)
+        {
+            int longueur = chaine.Count();
+            bool regexValid = true;
+            for (int i = 0; i < longueur; i++)
+            {
+                Regex rx = new Regex("[0-9]");
+                if (!rx.IsMatch(chaine[i].ToString()))
+                {
+                    regexValid = false;
+                }
+
+            }
+            return regexValid;
+        }
+        public bool verifRegexString(string chaine)
+        {
+            int longueur = chaine.Count();
+            bool regexValid = true;
+            for (int i = 0; i < longueur; i++)
+            {
+                Regex rx = new Regex("[A-Za-z]");
+                if (!rx.IsMatch(chaine[i].ToString()))
+                {
+                    regexValid = false;
+                }
+
+            }
+            return regexValid;
+        }
+        public bool verifEntree(string[] entrees)
+        {
+            foreach (string e in entrees)
+            {
+                if (string.IsNullOrEmpty(e))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+        public string hashPassword(string password)
+        {
+            var sha = SHA256.Create();
+            var asByteArray = Encoding.Default.GetBytes(password);
+            var hashedPassword = sha.ComputeHash(asByteArray);
+            return Convert.ToBase64String(hashedPassword);
+        }
+
+
+
+
+
+        #endregion
+
+        
     }
-
-
-
-
 }
 
         

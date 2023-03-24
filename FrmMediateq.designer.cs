@@ -179,7 +179,7 @@ namespace Mediateq_AP_SIO2
             this.dataGridViewTextBoxColumn13 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabCrudCommande = new System.Windows.Forms.TabPage();
             this.btnFermerAppliCommande = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.btnDeconnexionCommande = new System.Windows.Forms.Button();
             this.groupBox11 = new System.Windows.Forms.GroupBox();
             this.label50 = new System.Windows.Forms.Label();
             this.dtCrudCommande = new System.Windows.Forms.DataGridView();
@@ -224,6 +224,7 @@ namespace Mediateq_AP_SIO2
             this.txDateModif = new System.Windows.Forms.TextBox();
             this.tabVisualisation = new System.Windows.Forms.TabPage();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.btnFermerAppliVisu = new System.Windows.Forms.Button();
             this.label65 = new System.Windows.Forms.Label();
             this.dtDvdVisu = new System.Windows.Forms.DataGridView();
             this.dataGridViewTextBoxColumn19 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -242,6 +243,39 @@ namespace Mediateq_AP_SIO2
             this.dataGridViewTextBoxColumn16 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn17 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn18 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tabCrudUtilisateurs = new System.Windows.Forms.TabPage();
+            this.groupBox12 = new System.Windows.Forms.GroupBox();
+            this.label52 = new System.Windows.Forms.Label();
+            this.cbxService = new System.Windows.Forms.ComboBox();
+            this.label69 = new System.Windows.Forms.Label();
+            this.txNewId = new System.Windows.Forms.TextBox();
+            this.label70 = new System.Windows.Forms.Label();
+            this.txNewPrenom = new System.Windows.Forms.TextBox();
+            this.label71 = new System.Windows.Forms.Label();
+            this.txNewPseudo = new System.Windows.Forms.TextBox();
+            this.label72 = new System.Windows.Forms.Label();
+            this.btnCreerUtilisateur = new System.Windows.Forms.Button();
+            this.txNewNom = new System.Windows.Forms.TextBox();
+            this.label73 = new System.Windows.Forms.Label();
+            this.groupBox13 = new System.Windows.Forms.GroupBox();
+            this.txNomSuppr = new System.Windows.Forms.TextBox();
+            this.label74 = new System.Windows.Forms.Label();
+            this.label75 = new System.Windows.Forms.Label();
+            this.cbxPseudo = new System.Windows.Forms.ComboBox();
+            this.label76 = new System.Windows.Forms.Label();
+            this.txIdSuppr = new System.Windows.Forms.TextBox();
+            this.label77 = new System.Windows.Forms.Label();
+            this.txPrenomSuppr = new System.Windows.Forms.TextBox();
+            this.label78 = new System.Windows.Forms.Label();
+            this.txServiceSuppr = new System.Windows.Forms.TextBox();
+            this.label79 = new System.Windows.Forms.Label();
+            this.btnSupprimerUtilisateur = new System.Windows.Forms.Button();
+            this.txNewPassword = new System.Windows.Forms.TextBox();
+            this.label80 = new System.Windows.Forms.Label();
+            this.txNewPasswordConfirm = new System.Windows.Forms.TextBox();
+            this.label81 = new System.Windows.Forms.Label();
+            this.btnFermerAppliUtilisateur = new System.Windows.Forms.Button();
+            this.btnDeconnexionUtilisateur = new System.Windows.Forms.Button();
             this.tab.SuspendLayout();
             this.tabParutions.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvParutions)).BeginInit();
@@ -271,6 +305,9 @@ namespace Mediateq_AP_SIO2
             ((System.ComponentModel.ISupportInitialize)(this.dtDvdVisu)).BeginInit();
             this.groupBox7.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dtLivreVisu)).BeginInit();
+            this.tabCrudUtilisateurs.SuspendLayout();
+            this.groupBox12.SuspendLayout();
+            this.groupBox13.SuspendLayout();
             this.SuspendLayout();
             // 
             // tab
@@ -282,6 +319,7 @@ namespace Mediateq_AP_SIO2
             this.tab.Controls.Add(this.tabCrudLivre);
             this.tab.Controls.Add(this.tabCrudCommande);
             this.tab.Controls.Add(this.tabVisualisation);
+            this.tab.Controls.Add(this.tabCrudUtilisateurs);
             this.tab.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tab.Location = new System.Drawing.Point(0, 0);
             this.tab.Name = "tab";
@@ -924,9 +962,9 @@ namespace Mediateq_AP_SIO2
             this.label16.ForeColor = System.Drawing.Color.MidnightBlue;
             this.label16.Location = new System.Drawing.Point(365, 98);
             this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(61, 23);
+            this.label16.Size = new System.Drawing.Size(138, 23);
             this.label16.TabIndex = 23;
-            this.label16.Text = "Durée :";
+            this.label16.Text = "Durée (en heure) :";
             // 
             // label18
             // 
@@ -1689,6 +1727,7 @@ namespace Mediateq_AP_SIO2
             // txISBNLivreModif
             // 
             this.txISBNLivreModif.BackColor = System.Drawing.SystemColors.Info;
+            this.txISBNLivreModif.Enabled = false;
             this.txISBNLivreModif.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txISBNLivreModif.ForeColor = System.Drawing.SystemColors.HotTrack;
             this.txISBNLivreModif.Location = new System.Drawing.Point(278, 148);
@@ -1868,7 +1907,7 @@ namespace Mediateq_AP_SIO2
             // 
             this.tabCrudCommande.BackColor = System.Drawing.Color.Transparent;
             this.tabCrudCommande.Controls.Add(this.btnFermerAppliCommande);
-            this.tabCrudCommande.Controls.Add(this.button2);
+            this.tabCrudCommande.Controls.Add(this.btnDeconnexionCommande);
             this.tabCrudCommande.Controls.Add(this.groupBox11);
             this.tabCrudCommande.Controls.Add(this.label47);
             this.tabCrudCommande.Controls.Add(this.label46);
@@ -1896,18 +1935,19 @@ namespace Mediateq_AP_SIO2
             this.btnFermerAppliCommande.UseVisualStyleBackColor = false;
             this.btnFermerAppliCommande.Click += new System.EventHandler(this.btnFermerAppliCommande_Click);
             // 
-            // button2
+            // btnDeconnexionCommande
             // 
-            this.button2.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.button2.BackColor = System.Drawing.Color.MidnightBlue;
-            this.button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button2.ForeColor = System.Drawing.SystemColors.Menu;
-            this.button2.Location = new System.Drawing.Point(1018, 542);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(208, 68);
-            this.button2.TabIndex = 110;
-            this.button2.Text = "Se déconnecter";
-            this.button2.UseVisualStyleBackColor = false;
+            this.btnDeconnexionCommande.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnDeconnexionCommande.BackColor = System.Drawing.Color.MidnightBlue;
+            this.btnDeconnexionCommande.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnDeconnexionCommande.ForeColor = System.Drawing.SystemColors.Menu;
+            this.btnDeconnexionCommande.Location = new System.Drawing.Point(1018, 542);
+            this.btnDeconnexionCommande.Name = "btnDeconnexionCommande";
+            this.btnDeconnexionCommande.Size = new System.Drawing.Size(208, 68);
+            this.btnDeconnexionCommande.TabIndex = 110;
+            this.btnDeconnexionCommande.Text = "Se déconnecter";
+            this.btnDeconnexionCommande.UseVisualStyleBackColor = false;
+            this.btnDeconnexionCommande.Click += new System.EventHandler(this.btnDeconnexionCommande_Click);
             // 
             // groupBox11
             // 
@@ -2166,6 +2206,7 @@ namespace Mediateq_AP_SIO2
             // txDocumentModif
             // 
             this.txDocumentModif.BackColor = System.Drawing.SystemColors.Info;
+            this.txDocumentModif.Enabled = false;
             this.txDocumentModif.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txDocumentModif.ForeColor = System.Drawing.SystemColors.HotTrack;
             this.txDocumentModif.Location = new System.Drawing.Point(82, 279);
@@ -2282,6 +2323,7 @@ namespace Mediateq_AP_SIO2
             // txMontantModif
             // 
             this.txMontantModif.BackColor = System.Drawing.SystemColors.Info;
+            this.txMontantModif.Enabled = false;
             this.txMontantModif.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txMontantModif.ForeColor = System.Drawing.SystemColors.HotTrack;
             this.txMontantModif.Location = new System.Drawing.Point(350, 282);
@@ -2314,6 +2356,7 @@ namespace Mediateq_AP_SIO2
             // txIdModif
             // 
             this.txIdModif.BackColor = System.Drawing.SystemColors.Info;
+            this.txIdModif.Enabled = false;
             this.txIdModif.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txIdModif.ForeColor = System.Drawing.SystemColors.HotTrack;
             this.txIdModif.Location = new System.Drawing.Point(82, 346);
@@ -2335,6 +2378,7 @@ namespace Mediateq_AP_SIO2
             // txNbExemplaireModif
             // 
             this.txNbExemplaireModif.BackColor = System.Drawing.SystemColors.Info;
+            this.txNbExemplaireModif.Enabled = false;
             this.txNbExemplaireModif.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txNbExemplaireModif.ForeColor = System.Drawing.SystemColors.HotTrack;
             this.txNbExemplaireModif.Location = new System.Drawing.Point(350, 221);
@@ -2356,6 +2400,7 @@ namespace Mediateq_AP_SIO2
             // txDateModif
             // 
             this.txDateModif.BackColor = System.Drawing.SystemColors.Info;
+            this.txDateModif.Enabled = false;
             this.txDateModif.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txDateModif.ForeColor = System.Drawing.SystemColors.HotTrack;
             this.txDateModif.Location = new System.Drawing.Point(350, 148);
@@ -2379,6 +2424,7 @@ namespace Mediateq_AP_SIO2
             // groupBox8
             // 
             this.groupBox8.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.groupBox8.Controls.Add(this.btnFermerAppliVisu);
             this.groupBox8.Controls.Add(this.label65);
             this.groupBox8.Controls.Add(this.dtDvdVisu);
             this.groupBox8.Location = new System.Drawing.Point(671, 6);
@@ -2386,6 +2432,20 @@ namespace Mediateq_AP_SIO2
             this.groupBox8.Size = new System.Drawing.Size(763, 741);
             this.groupBox8.TabIndex = 109;
             this.groupBox8.TabStop = false;
+            // 
+            // btnFermerAppliVisu
+            // 
+            this.btnFermerAppliVisu.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.btnFermerAppliVisu.BackColor = System.Drawing.Color.MidnightBlue;
+            this.btnFermerAppliVisu.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnFermerAppliVisu.ForeColor = System.Drawing.SystemColors.Menu;
+            this.btnFermerAppliVisu.Location = new System.Drawing.Point(288, 652);
+            this.btnFermerAppliVisu.Name = "btnFermerAppliVisu";
+            this.btnFermerAppliVisu.Size = new System.Drawing.Size(208, 68);
+            this.btnFermerAppliVisu.TabIndex = 110;
+            this.btnFermerAppliVisu.Text = "Fermer l\'application";
+            this.btnFermerAppliVisu.UseVisualStyleBackColor = false;
+            this.btnFermerAppliVisu.Click += new System.EventHandler(this.btnFermerAppliVisu_Click);
             // 
             // label65
             // 
@@ -2412,7 +2472,7 @@ namespace Mediateq_AP_SIO2
             this.dataGridViewTextBoxColumn25});
             this.dtDvdVisu.Location = new System.Drawing.Point(6, 73);
             this.dtDvdVisu.Name = "dtDvdVisu";
-            this.dtDvdVisu.Size = new System.Drawing.Size(751, 662);
+            this.dtDvdVisu.Size = new System.Drawing.Size(751, 554);
             this.dtDvdVisu.TabIndex = 28;
             // 
             // dataGridViewTextBoxColumn19
@@ -2518,13 +2578,407 @@ namespace Mediateq_AP_SIO2
             this.dataGridViewTextBoxColumn18.HeaderText = "categorie";
             this.dataGridViewTextBoxColumn18.Name = "dataGridViewTextBoxColumn18";
             // 
+            // tabCrudUtilisateurs
+            // 
+            this.tabCrudUtilisateurs.Controls.Add(this.btnFermerAppliUtilisateur);
+            this.tabCrudUtilisateurs.Controls.Add(this.btnDeconnexionUtilisateur);
+            this.tabCrudUtilisateurs.Controls.Add(this.groupBox13);
+            this.tabCrudUtilisateurs.Controls.Add(this.groupBox12);
+            this.tabCrudUtilisateurs.Location = new System.Drawing.Point(4, 22);
+            this.tabCrudUtilisateurs.Name = "tabCrudUtilisateurs";
+            this.tabCrudUtilisateurs.Padding = new System.Windows.Forms.Padding(3);
+            this.tabCrudUtilisateurs.Size = new System.Drawing.Size(1442, 755);
+            this.tabCrudUtilisateurs.TabIndex = 7;
+            this.tabCrudUtilisateurs.Text = "Utilisateurs";
+            this.tabCrudUtilisateurs.UseVisualStyleBackColor = true;
+            this.tabCrudUtilisateurs.Enter += new System.EventHandler(this.tabCrudUtilisateurs_Enter);
+            // 
+            // groupBox12
+            // 
+            this.groupBox12.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.groupBox12.Controls.Add(this.txNewPasswordConfirm);
+            this.groupBox12.Controls.Add(this.label81);
+            this.groupBox12.Controls.Add(this.txNewPassword);
+            this.groupBox12.Controls.Add(this.label80);
+            this.groupBox12.Controls.Add(this.txNewNom);
+            this.groupBox12.Controls.Add(this.label73);
+            this.groupBox12.Controls.Add(this.label52);
+            this.groupBox12.Controls.Add(this.cbxService);
+            this.groupBox12.Controls.Add(this.label69);
+            this.groupBox12.Controls.Add(this.txNewId);
+            this.groupBox12.Controls.Add(this.label70);
+            this.groupBox12.Controls.Add(this.txNewPrenom);
+            this.groupBox12.Controls.Add(this.label71);
+            this.groupBox12.Controls.Add(this.txNewPseudo);
+            this.groupBox12.Controls.Add(this.label72);
+            this.groupBox12.Controls.Add(this.btnCreerUtilisateur);
+            this.groupBox12.Location = new System.Drawing.Point(19, 23);
+            this.groupBox12.Name = "groupBox12";
+            this.groupBox12.Size = new System.Drawing.Size(701, 573);
+            this.groupBox12.TabIndex = 81;
+            this.groupBox12.TabStop = false;
+            // 
+            // label52
+            // 
+            this.label52.AutoSize = true;
+            this.label52.Font = new System.Drawing.Font("Comic Sans MS", 21.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label52.ForeColor = System.Drawing.Color.MidnightBlue;
+            this.label52.Location = new System.Drawing.Point(218, 51);
+            this.label52.Name = "label52";
+            this.label52.Size = new System.Drawing.Size(294, 41);
+            this.label52.TabIndex = 105;
+            this.label52.Text = "Créer un utilisateur";
+            // 
+            // cbxService
+            // 
+            this.cbxService.BackColor = System.Drawing.SystemColors.Info;
+            this.cbxService.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbxService.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.cbxService.FormattingEnabled = true;
+            this.cbxService.Location = new System.Drawing.Point(423, 401);
+            this.cbxService.Name = "cbxService";
+            this.cbxService.Size = new System.Drawing.Size(211, 32);
+            this.cbxService.TabIndex = 27;
+            // 
+            // label69
+            // 
+            this.label69.AutoSize = true;
+            this.label69.Font = new System.Drawing.Font("Arial Narrow", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label69.ForeColor = System.Drawing.Color.MidnightBlue;
+            this.label69.Location = new System.Drawing.Point(419, 377);
+            this.label69.Name = "label69";
+            this.label69.Size = new System.Drawing.Size(69, 23);
+            this.label69.TabIndex = 28;
+            this.label69.Text = "Service :";
+            // 
+            // txNewId
+            // 
+            this.txNewId.BackColor = System.Drawing.SystemColors.Info;
+            this.txNewId.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txNewId.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.txNewId.Location = new System.Drawing.Point(93, 211);
+            this.txNewId.Name = "txNewId";
+            this.txNewId.Size = new System.Drawing.Size(211, 29);
+            this.txNewId.TabIndex = 30;
+            // 
+            // label70
+            // 
+            this.label70.AutoSize = true;
+            this.label70.Font = new System.Drawing.Font("Arial Narrow", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label70.ForeColor = System.Drawing.Color.MidnightBlue;
+            this.label70.Location = new System.Drawing.Point(89, 184);
+            this.label70.Name = "label70";
+            this.label70.Size = new System.Drawing.Size(98, 23);
+            this.label70.TabIndex = 31;
+            this.label70.Text = "Id utilisateur :";
+            // 
+            // txNewPrenom
+            // 
+            this.txNewPrenom.BackColor = System.Drawing.SystemColors.Info;
+            this.txNewPrenom.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txNewPrenom.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.txNewPrenom.Location = new System.Drawing.Point(93, 346);
+            this.txNewPrenom.Name = "txNewPrenom";
+            this.txNewPrenom.Size = new System.Drawing.Size(211, 29);
+            this.txNewPrenom.TabIndex = 24;
+            // 
+            // label71
+            // 
+            this.label71.AutoSize = true;
+            this.label71.Font = new System.Drawing.Font("Arial Narrow", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label71.ForeColor = System.Drawing.Color.MidnightBlue;
+            this.label71.Location = new System.Drawing.Point(89, 256);
+            this.label71.Name = "label71";
+            this.label71.Size = new System.Drawing.Size(72, 23);
+            this.label71.TabIndex = 25;
+            this.label71.Text = "Pseudo :";
+            // 
+            // txNewPseudo
+            // 
+            this.txNewPseudo.BackColor = System.Drawing.SystemColors.Info;
+            this.txNewPseudo.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txNewPseudo.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.txNewPseudo.Location = new System.Drawing.Point(93, 282);
+            this.txNewPseudo.Name = "txNewPseudo";
+            this.txNewPseudo.Size = new System.Drawing.Size(211, 29);
+            this.txNewPseudo.TabIndex = 23;
+            // 
+            // label72
+            // 
+            this.label72.AutoSize = true;
+            this.label72.Font = new System.Drawing.Font("Arial Narrow", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label72.ForeColor = System.Drawing.Color.MidnightBlue;
+            this.label72.Location = new System.Drawing.Point(89, 320);
+            this.label72.Name = "label72";
+            this.label72.Size = new System.Drawing.Size(73, 23);
+            this.label72.TabIndex = 26;
+            this.label72.Text = "Prénom :";
+            // 
+            // btnCreerUtilisateur
+            // 
+            this.btnCreerUtilisateur.BackColor = System.Drawing.Color.MidnightBlue;
+            this.btnCreerUtilisateur.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnCreerUtilisateur.ForeColor = System.Drawing.SystemColors.Menu;
+            this.btnCreerUtilisateur.Location = new System.Drawing.Point(268, 479);
+            this.btnCreerUtilisateur.Name = "btnCreerUtilisateur";
+            this.btnCreerUtilisateur.Size = new System.Drawing.Size(172, 71);
+            this.btnCreerUtilisateur.TabIndex = 29;
+            this.btnCreerUtilisateur.Text = "Créer l\'utilisateur";
+            this.btnCreerUtilisateur.UseVisualStyleBackColor = false;
+            this.btnCreerUtilisateur.Click += new System.EventHandler(this.btnCreerUtilisateur_Click);
+            // 
+            // txNewNom
+            // 
+            this.txNewNom.BackColor = System.Drawing.SystemColors.Info;
+            this.txNewNom.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txNewNom.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.txNewNom.Location = new System.Drawing.Point(93, 404);
+            this.txNewNom.Name = "txNewNom";
+            this.txNewNom.Size = new System.Drawing.Size(211, 29);
+            this.txNewNom.TabIndex = 106;
+            // 
+            // label73
+            // 
+            this.label73.AutoSize = true;
+            this.label73.Font = new System.Drawing.Font("Arial Narrow", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label73.ForeColor = System.Drawing.Color.MidnightBlue;
+            this.label73.Location = new System.Drawing.Point(89, 378);
+            this.label73.Name = "label73";
+            this.label73.Size = new System.Drawing.Size(51, 23);
+            this.label73.TabIndex = 107;
+            this.label73.Text = "Nom :";
+            // 
+            // groupBox13
+            // 
+            this.groupBox13.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.groupBox13.Controls.Add(this.txNomSuppr);
+            this.groupBox13.Controls.Add(this.label74);
+            this.groupBox13.Controls.Add(this.label75);
+            this.groupBox13.Controls.Add(this.cbxPseudo);
+            this.groupBox13.Controls.Add(this.label76);
+            this.groupBox13.Controls.Add(this.txIdSuppr);
+            this.groupBox13.Controls.Add(this.label77);
+            this.groupBox13.Controls.Add(this.txPrenomSuppr);
+            this.groupBox13.Controls.Add(this.label78);
+            this.groupBox13.Controls.Add(this.txServiceSuppr);
+            this.groupBox13.Controls.Add(this.label79);
+            this.groupBox13.Controls.Add(this.btnSupprimerUtilisateur);
+            this.groupBox13.Location = new System.Drawing.Point(737, 23);
+            this.groupBox13.Name = "groupBox13";
+            this.groupBox13.Size = new System.Drawing.Size(659, 573);
+            this.groupBox13.TabIndex = 108;
+            this.groupBox13.TabStop = false;
+            // 
+            // txNomSuppr
+            // 
+            this.txNomSuppr.BackColor = System.Drawing.SystemColors.Info;
+            this.txNomSuppr.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txNomSuppr.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.txNomSuppr.Location = new System.Drawing.Point(381, 340);
+            this.txNomSuppr.Name = "txNomSuppr";
+            this.txNomSuppr.Size = new System.Drawing.Size(211, 29);
+            this.txNomSuppr.TabIndex = 106;
+            // 
+            // label74
+            // 
+            this.label74.AutoSize = true;
+            this.label74.Font = new System.Drawing.Font("Arial Narrow", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label74.ForeColor = System.Drawing.Color.MidnightBlue;
+            this.label74.Location = new System.Drawing.Point(377, 314);
+            this.label74.Name = "label74";
+            this.label74.Size = new System.Drawing.Size(51, 23);
+            this.label74.TabIndex = 107;
+            this.label74.Text = "Nom :";
+            // 
+            // label75
+            // 
+            this.label75.AutoSize = true;
+            this.label75.Font = new System.Drawing.Font("Comic Sans MS", 21.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label75.ForeColor = System.Drawing.Color.MidnightBlue;
+            this.label75.Location = new System.Drawing.Point(159, 41);
+            this.label75.Name = "label75";
+            this.label75.Size = new System.Drawing.Size(358, 41);
+            this.label75.TabIndex = 105;
+            this.label75.Text = "Supprimer un utilisateur";
+            // 
+            // cbxPseudo
+            // 
+            this.cbxPseudo.BackColor = System.Drawing.SystemColors.Info;
+            this.cbxPseudo.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbxPseudo.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.cbxPseudo.FormattingEnabled = true;
+            this.cbxPseudo.Location = new System.Drawing.Point(66, 238);
+            this.cbxPseudo.Name = "cbxPseudo";
+            this.cbxPseudo.Size = new System.Drawing.Size(211, 32);
+            this.cbxPseudo.TabIndex = 27;
+            this.cbxPseudo.SelectedIndexChanged += new System.EventHandler(this.cbxPseudo_SelectedIndexChanged);
+            // 
+            // label76
+            // 
+            this.label76.AutoSize = true;
+            this.label76.Font = new System.Drawing.Font("Arial Narrow", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label76.ForeColor = System.Drawing.Color.MidnightBlue;
+            this.label76.Location = new System.Drawing.Point(62, 214);
+            this.label76.Name = "label76";
+            this.label76.Size = new System.Drawing.Size(72, 23);
+            this.label76.TabIndex = 28;
+            this.label76.Text = "Pseudo :";
+            // 
+            // txIdSuppr
+            // 
+            this.txIdSuppr.BackColor = System.Drawing.SystemColors.Info;
+            this.txIdSuppr.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txIdSuppr.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.txIdSuppr.Location = new System.Drawing.Point(66, 319);
+            this.txIdSuppr.Name = "txIdSuppr";
+            this.txIdSuppr.Size = new System.Drawing.Size(211, 29);
+            this.txIdSuppr.TabIndex = 30;
+            // 
+            // label77
+            // 
+            this.label77.AutoSize = true;
+            this.label77.Font = new System.Drawing.Font("Arial Narrow", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label77.ForeColor = System.Drawing.Color.MidnightBlue;
+            this.label77.Location = new System.Drawing.Point(62, 292);
+            this.label77.Name = "label77";
+            this.label77.Size = new System.Drawing.Size(98, 23);
+            this.label77.TabIndex = 31;
+            this.label77.Text = "Id utilisateur :";
+            // 
+            // txPrenomSuppr
+            // 
+            this.txPrenomSuppr.BackColor = System.Drawing.SystemColors.Info;
+            this.txPrenomSuppr.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txPrenomSuppr.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.txPrenomSuppr.Location = new System.Drawing.Point(381, 274);
+            this.txPrenomSuppr.Name = "txPrenomSuppr";
+            this.txPrenomSuppr.Size = new System.Drawing.Size(211, 29);
+            this.txPrenomSuppr.TabIndex = 24;
+            // 
+            // label78
+            // 
+            this.label78.AutoSize = true;
+            this.label78.Font = new System.Drawing.Font("Arial Narrow", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label78.ForeColor = System.Drawing.Color.MidnightBlue;
+            this.label78.Location = new System.Drawing.Point(377, 184);
+            this.label78.Name = "label78";
+            this.label78.Size = new System.Drawing.Size(69, 23);
+            this.label78.TabIndex = 25;
+            this.label78.Text = "Service :";
+            // 
+            // txServiceSuppr
+            // 
+            this.txServiceSuppr.BackColor = System.Drawing.SystemColors.Info;
+            this.txServiceSuppr.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txServiceSuppr.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.txServiceSuppr.Location = new System.Drawing.Point(381, 210);
+            this.txServiceSuppr.Name = "txServiceSuppr";
+            this.txServiceSuppr.Size = new System.Drawing.Size(211, 29);
+            this.txServiceSuppr.TabIndex = 23;
+            // 
+            // label79
+            // 
+            this.label79.AutoSize = true;
+            this.label79.Font = new System.Drawing.Font("Arial Narrow", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label79.ForeColor = System.Drawing.Color.MidnightBlue;
+            this.label79.Location = new System.Drawing.Point(377, 248);
+            this.label79.Name = "label79";
+            this.label79.Size = new System.Drawing.Size(73, 23);
+            this.label79.TabIndex = 26;
+            this.label79.Text = "Prénom :";
+            // 
+            // btnSupprimerUtilisateur
+            // 
+            this.btnSupprimerUtilisateur.BackColor = System.Drawing.Color.MidnightBlue;
+            this.btnSupprimerUtilisateur.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSupprimerUtilisateur.ForeColor = System.Drawing.SystemColors.Menu;
+            this.btnSupprimerUtilisateur.Location = new System.Drawing.Point(256, 423);
+            this.btnSupprimerUtilisateur.Name = "btnSupprimerUtilisateur";
+            this.btnSupprimerUtilisateur.Size = new System.Drawing.Size(172, 71);
+            this.btnSupprimerUtilisateur.TabIndex = 29;
+            this.btnSupprimerUtilisateur.Text = "Supprimer l\'utilisateur";
+            this.btnSupprimerUtilisateur.UseVisualStyleBackColor = false;
+            this.btnSupprimerUtilisateur.Click += new System.EventHandler(this.btnSupprimerUtilisateur_Click);
+            // 
+            // txNewPassword
+            // 
+            this.txNewPassword.BackColor = System.Drawing.SystemColors.Info;
+            this.txNewPassword.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txNewPassword.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.txNewPassword.Location = new System.Drawing.Point(423, 237);
+            this.txNewPassword.Name = "txNewPassword";
+            this.txNewPassword.PasswordChar = '*';
+            this.txNewPassword.Size = new System.Drawing.Size(211, 29);
+            this.txNewPassword.TabIndex = 108;
+            // 
+            // label80
+            // 
+            this.label80.AutoSize = true;
+            this.label80.Font = new System.Drawing.Font("Arial Narrow", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label80.ForeColor = System.Drawing.Color.MidnightBlue;
+            this.label80.Location = new System.Drawing.Point(419, 211);
+            this.label80.Name = "label80";
+            this.label80.Size = new System.Drawing.Size(112, 23);
+            this.label80.TabIndex = 109;
+            this.label80.Text = "Mot de passe :";
+            // 
+            // txNewPasswordConfirm
+            // 
+            this.txNewPasswordConfirm.BackColor = System.Drawing.SystemColors.Info;
+            this.txNewPasswordConfirm.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txNewPasswordConfirm.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.txNewPasswordConfirm.Location = new System.Drawing.Point(423, 317);
+            this.txNewPasswordConfirm.Name = "txNewPasswordConfirm";
+            this.txNewPasswordConfirm.PasswordChar = '*';
+            this.txNewPasswordConfirm.Size = new System.Drawing.Size(211, 29);
+            this.txNewPasswordConfirm.TabIndex = 110;
+            // 
+            // label81
+            // 
+            this.label81.AutoSize = true;
+            this.label81.Font = new System.Drawing.Font("Arial Narrow", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label81.ForeColor = System.Drawing.Color.MidnightBlue;
+            this.label81.Location = new System.Drawing.Point(419, 291);
+            this.label81.Name = "label81";
+            this.label81.Size = new System.Drawing.Size(171, 23);
+            this.label81.TabIndex = 111;
+            this.label81.Text = "Retaper mot de passe :";
+            // 
+            // btnFermerAppliUtilisateur
+            // 
+            this.btnFermerAppliUtilisateur.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnFermerAppliUtilisateur.BackColor = System.Drawing.Color.MidnightBlue;
+            this.btnFermerAppliUtilisateur.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnFermerAppliUtilisateur.ForeColor = System.Drawing.SystemColors.Menu;
+            this.btnFermerAppliUtilisateur.Location = new System.Drawing.Point(803, 635);
+            this.btnFermerAppliUtilisateur.Name = "btnFermerAppliUtilisateur";
+            this.btnFermerAppliUtilisateur.Size = new System.Drawing.Size(208, 68);
+            this.btnFermerAppliUtilisateur.TabIndex = 113;
+            this.btnFermerAppliUtilisateur.Text = "Fermer l\'application";
+            this.btnFermerAppliUtilisateur.UseVisualStyleBackColor = false;
+            this.btnFermerAppliUtilisateur.Click += new System.EventHandler(this.btnFermerAppliUtilisateur_Click);
+            // 
+            // btnDeconnexionUtilisateur
+            // 
+            this.btnDeconnexionUtilisateur.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnDeconnexionUtilisateur.BackColor = System.Drawing.Color.MidnightBlue;
+            this.btnDeconnexionUtilisateur.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnDeconnexionUtilisateur.ForeColor = System.Drawing.SystemColors.Menu;
+            this.btnDeconnexionUtilisateur.Location = new System.Drawing.Point(445, 635);
+            this.btnDeconnexionUtilisateur.Name = "btnDeconnexionUtilisateur";
+            this.btnDeconnexionUtilisateur.Size = new System.Drawing.Size(208, 68);
+            this.btnDeconnexionUtilisateur.TabIndex = 112;
+            this.btnDeconnexionUtilisateur.Text = "Se déconnecter";
+            this.btnDeconnexionUtilisateur.UseVisualStyleBackColor = false;
+            this.btnDeconnexionUtilisateur.Click += new System.EventHandler(this.btnDeconnexionUtilisateur_Click);
+            // 
             // FrmMediateq
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1450, 781);
             this.Controls.Add(this.tab);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Name = "FrmMediateq";
             this.Text = "Gestion Médiathèque";
             this.Load += new System.EventHandler(this.FrmMediateq_Load);
@@ -2573,6 +3027,11 @@ namespace Mediateq_AP_SIO2
             this.groupBox7.ResumeLayout(false);
             this.groupBox7.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dtLivreVisu)).EndInit();
+            this.tabCrudUtilisateurs.ResumeLayout(false);
+            this.groupBox12.ResumeLayout(false);
+            this.groupBox12.PerformLayout();
+            this.groupBox13.ResumeLayout(false);
+            this.groupBox13.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -2778,10 +3237,9 @@ namespace Mediateq_AP_SIO2
         private System.Windows.Forms.Label label48;
         private System.Windows.Forms.Label label49;
         public System.Windows.Forms.TabPage tabCrudCommande;
-        private System.Windows.Forms.Button btnFermerAppliDvd;
         private System.Windows.Forms.Button btnFermerAppliLivre;
         private System.Windows.Forms.Button btnFermerAppliCommande;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button btnDeconnexionCommande;
         private System.Windows.Forms.GroupBox groupBox11;
         private System.Windows.Forms.Label label50;
         private System.Windows.Forms.DataGridView dtCrudCommande;
@@ -2791,6 +3249,41 @@ namespace Mediateq_AP_SIO2
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn29;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn30;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn31;
+        public System.Windows.Forms.Button btnFermerAppliDvd;
+        private System.Windows.Forms.Button btnFermerAppliVisu;
+        private System.Windows.Forms.TabPage tabCrudUtilisateurs;
+        private System.Windows.Forms.GroupBox groupBox13;
+        private System.Windows.Forms.TextBox txNomSuppr;
+        private System.Windows.Forms.Label label74;
+        private System.Windows.Forms.Label label75;
+        private System.Windows.Forms.ComboBox cbxPseudo;
+        private System.Windows.Forms.Label label76;
+        private System.Windows.Forms.TextBox txIdSuppr;
+        private System.Windows.Forms.Label label77;
+        private System.Windows.Forms.TextBox txPrenomSuppr;
+        private System.Windows.Forms.Label label78;
+        private System.Windows.Forms.TextBox txServiceSuppr;
+        private System.Windows.Forms.Label label79;
+        private System.Windows.Forms.Button btnSupprimerUtilisateur;
+        private System.Windows.Forms.GroupBox groupBox12;
+        private System.Windows.Forms.TextBox txNewPasswordConfirm;
+        private System.Windows.Forms.Label label81;
+        private System.Windows.Forms.TextBox txNewPassword;
+        private System.Windows.Forms.Label label80;
+        private System.Windows.Forms.TextBox txNewNom;
+        private System.Windows.Forms.Label label73;
+        private System.Windows.Forms.Label label52;
+        private System.Windows.Forms.ComboBox cbxService;
+        private System.Windows.Forms.Label label69;
+        private System.Windows.Forms.TextBox txNewId;
+        private System.Windows.Forms.Label label70;
+        private System.Windows.Forms.TextBox txNewPrenom;
+        private System.Windows.Forms.Label label71;
+        private System.Windows.Forms.TextBox txNewPseudo;
+        private System.Windows.Forms.Label label72;
+        private System.Windows.Forms.Button btnCreerUtilisateur;
+        private System.Windows.Forms.Button btnFermerAppliUtilisateur;
+        private System.Windows.Forms.Button btnDeconnexionUtilisateur;
     }
 }
 
