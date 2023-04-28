@@ -52,29 +52,29 @@ namespace Mediateq_AP_SIO2
 
         private void FrmMediateq_Load(object sender, EventArgs e)
         {
-            // Création de la connexion avec la base de données
-            DAOFactory.creerConnection();
+            try
+            {
+                // Création de la connexion avec la base de données
+                DAOFactory.creerConnection();
 
-            // Chargement des objets en mémoire
-            lesDescripteurs = DAODocuments.getAllDescripteurs();
-            lesTitres = DAOPresse.getAllTitre();
-            lesCategories = DAODocuments.getAllCategories();
-            lesCategoriesModif = DAODocuments.getAllCategories();
-            lesDvd = DAODocuments.getAllDvd();
-            lesLivres = DAODocuments.getAllLivres();
-            lesDocuments = DAODocuments.getAllDocuments();
-            lesCommandes = DAODocuments.getAllCommandes();
-            lesEtatsCommande = DAODocuments.getAllEtatsCommande();
-            lesActeurs = DAODocuments.getAllActeurs();
-            lesUsers = DAODocuments.getAllUsers();
-            lesServices = DAODocuments.getAllService();
-
-
-
-
-
-
-
+                // Chargement des objets en mémoire
+                lesDescripteurs = DAODocuments.getAllDescripteurs();
+                lesTitres = DAOPresse.getAllTitre();
+                lesCategories = DAODocuments.getAllCategories();
+                lesCategoriesModif = DAODocuments.getAllCategories();
+                lesDvd = DAODocuments.getAllDvd();
+                lesLivres = DAODocuments.getAllLivres();
+                lesDocuments = DAODocuments.getAllDocuments();
+                lesCommandes = DAODocuments.getAllCommandes();
+                lesEtatsCommande = DAODocuments.getAllEtatsCommande();
+                lesActeurs = DAODocuments.getAllActeurs();
+                lesUsers = DAODocuments.getAllUsers();
+                lesServices = DAODocuments.getAllService();
+            }
+            catch(ExceptionSIO exc)
+            {
+                MessageBox.Show(exc.NiveauExc + " - " + exc.LibelleExc + " - " + exc.Message);
+            }
         }
 
         #endregion
@@ -87,12 +87,14 @@ namespace Mediateq_AP_SIO2
         //------------------------------------------------------------
         private void tabParutions_Enter(object sender, EventArgs e)
         {
+            //alimentation de la combobox avec les titres
             cbxTitres.DataSource = lesTitres;
             cbxTitres.DisplayMember = "titre";
         }
 
         private void cbxTitres_SelectedIndexChanged(object sender, EventArgs e)
         {
+            //création de la liste lesParutions d'objets Parution
             List<Parution> lesParutions;
 
             Revue titreSelectionne = (Revue)cbxTitres.SelectedItem;
@@ -174,7 +176,7 @@ namespace Mediateq_AP_SIO2
 
         private void btnRechercher_Click(object sender, EventArgs e)
         {
-            // On réinitialise les labels
+            // On réinitialise les champs
             lblNumero.Text = "";
             lblTitre.Text = "";
             lblAuteur.Text = "";
@@ -183,8 +185,8 @@ namespace Mediateq_AP_SIO2
             lblImage.Text = "";
             lblCategorie.Text = "";
 
-            // On recherche le livre correspondant au numéro de document saisi.
-            // S'il n'existe pas: on affiche un popup message d'erreur
+            // On recherche le livre correspondant au numéro de document saisi en parcourant la listes des livres.
+            // S'il n'existe pas: on affiche une popup avec un message d'erreur
             bool trouve = false;
             foreach (Livre livre in lesLivres)
             {
@@ -231,6 +233,7 @@ namespace Mediateq_AP_SIO2
             // ré-initialisation du dataGridView
             dtCrudLivre.Rows.Clear();
 
+            //alimentation de la 
             lesLivres = DAODocuments.getAllLivres();
 
             // alimentation des différentes combo box lors de l'entrée dans la page crud livre

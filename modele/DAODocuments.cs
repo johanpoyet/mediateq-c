@@ -349,15 +349,16 @@ namespace Mediateq_AP_SIO2
 
             return lesServices;
         }
-        public static List<Login> getUserByPseudo(string pseudo)
+
+        public static Login getUserByPseudo(string pseudo)
         {
-            List<Login> lesUsers = new List<Login>();
+            Login utilisateur = null;
 
 
 
             try
             {
-                string req = "Select l.id, l.pseudo, l.password, l.prenom, l.nom, l.idService, s.id, s.libelle FROM login l JOIN service s ON l.idService = s.id WHERE pseudo = '" + pseudo+"'";
+                string req = "Select l.id, l.pseudo, l.password, l.prenom, l.nom, l.idService, s.id, s.libelle FROM login l JOIN service s ON l.idService = s.id WHERE pseudo = '" + pseudo + "'";
 
 
 
@@ -373,9 +374,9 @@ namespace Mediateq_AP_SIO2
                 while (reader.Read())
                 {
                     Service service = new Service(int.Parse(reader[6].ToString()), reader[7].ToString());
-                    Login user = new Login(int.Parse(reader[0].ToString()), reader[1].ToString(), reader[2].ToString(), reader[3].ToString(), reader[4].ToString(), service);
+                    utilisateur = new Login(int.Parse(reader[0].ToString()), reader[1].ToString(), reader[2].ToString(), reader[3].ToString(), reader[4].ToString(), service);
                     // On ne renseigne pas le genre et la catégorie car on ne peut pas ouvrir 2 dataReader dans la même connexion
-                    lesUsers.Add(user);
+                   
 
                 }
                 DAOFactory.deconnecter();
@@ -391,7 +392,7 @@ namespace Mediateq_AP_SIO2
 
 
 
-            return lesUsers;
+            return utilisateur;
         }
         public static List<Service> getServiecByUser(Login login)
         {

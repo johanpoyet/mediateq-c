@@ -39,7 +39,8 @@ namespace Mediateq_AP_SIO2
 
         private void btnConnexion_Click(object sender, EventArgs e)
         {
-            lesUsers = DAODocuments.getUserByPseudo(txtLogin.Text);
+           
+            Login user = DAODocuments.getUserByPseudo(txtLogin.Text);
 
             connexion.Open();
             string hashedPassword = hashPassword(txtPassword.Text);
@@ -53,9 +54,8 @@ namespace Mediateq_AP_SIO2
                
                 int serv = 0;
 
-                foreach(Login l in lesUsers)
-                {
-                    Login user = new Login(l.Id, l.Pseudo, l.Password, l.Prenom, l.Nom, l.Service);
+                
+                    
                     lesServices = DAODocuments.getServiecByUser(user);
                     if (user.Service.Libelle == "Administratif")
                     {
@@ -69,15 +69,23 @@ namespace Mediateq_AP_SIO2
                     {
                         serv = 3;
                     }
+                    else if (user.Service.Libelle == "Administrateur")
+                    {
+                        serv = 4;
+                    }
 
-                    MessageBox.Show("Vous etes connecté en tant que personne du service "+l.Service.Libelle+"", "Succès", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Vous etes connecté en tant que personne du service "+user.Service.Libelle+"", "Succès", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                }
+                
                 if(serv == 1)
                 {
                     FrmMediateq FrmMediateq = new FrmMediateq();
+                    FrmMediateq.Owner = this;
                     FrmMediateq.Show();
                     this.Hide();
+                    TabPage tabUtilisateur = FrmMediateq.tab.TabPages[7];
+                    FrmMediateq.tab.TabPages.Remove(tabUtilisateur);
+
                 }
                 if(serv == 2 || serv == 3)
                 {
@@ -94,13 +102,13 @@ namespace Mediateq_AP_SIO2
                     FrmMediateq.tab.TabPages.Remove(tabCommande);
                     FrmMediateq.tab.TabPages.Remove(tabUtilisateur);
                 }
-                
+                if (serv == 4)
+                {
+                    FrmMediateq FrmMediateq = new FrmMediateq();
+                    FrmMediateq.Show();
+                    this.Hide();
 
-
-
-               
-
-
+                }
             }
             else
             {

@@ -96,7 +96,7 @@
             this.btnConnexion.BackColor = System.Drawing.Color.MidnightBlue;
             this.btnConnexion.Font = new System.Drawing.Font("Arial Narrow", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnConnexion.ForeColor = System.Drawing.SystemColors.Menu;
-            this.btnConnexion.Location = new System.Drawing.Point(172, 504);
+            this.btnConnexion.Location = new System.Drawing.Point(93, 489);
             this.btnConnexion.Name = "btnConnexion";
             this.btnConnexion.Size = new System.Drawing.Size(131, 61);
             this.btnConnexion.TabIndex = 4;
@@ -108,14 +108,16 @@
             // 
             this.btnRedirectCreerUser.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btnRedirectCreerUser.BackColor = System.Drawing.Color.MidnightBlue;
+            this.btnRedirectCreerUser.Enabled = false;
             this.btnRedirectCreerUser.Font = new System.Drawing.Font("Arial Narrow", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnRedirectCreerUser.ForeColor = System.Drawing.SystemColors.Menu;
-            this.btnRedirectCreerUser.Location = new System.Drawing.Point(12, 504);
+            this.btnRedirectCreerUser.Location = new System.Drawing.Point(172, 571);
             this.btnRedirectCreerUser.Name = "btnRedirectCreerUser";
             this.btnRedirectCreerUser.Size = new System.Drawing.Size(131, 61);
             this.btnRedirectCreerUser.TabIndex = 5;
             this.btnRedirectCreerUser.Text = "Créer un utilisateur";
             this.btnRedirectCreerUser.UseVisualStyleBackColor = false;
+            this.btnRedirectCreerUser.Visible = false;
             this.btnRedirectCreerUser.Click += new System.EventHandler(this.btnRedirectCreerUser_Click);
             // 
             // label3
@@ -139,7 +141,7 @@
             this.btnVisualisation.Cursor = System.Windows.Forms.Cursors.Default;
             this.btnVisualisation.Font = new System.Drawing.Font("Arial Narrow", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnVisualisation.ForeColor = System.Drawing.SystemColors.Menu;
-            this.btnVisualisation.Location = new System.Drawing.Point(323, 504);
+            this.btnVisualisation.Location = new System.Drawing.Point(249, 489);
             this.btnVisualisation.Name = "btnVisualisation";
             this.btnVisualisation.Size = new System.Drawing.Size(131, 61);
             this.btnVisualisation.TabIndex = 7;
