@@ -43,7 +43,7 @@ namespace Mediateq_AP_SIO2
 
 
         #region Procédures évènementielles
-
+        
         public FrmMediateq()
         {
             InitializeComponent();
@@ -208,6 +208,7 @@ namespace Mediateq_AP_SIO2
 
         private void txbTitre_TextChanged(object sender, EventArgs e)
         {
+            //réinitialisation du dataGridView
             dgvLivres.Rows.Clear();
 
             // On parcourt tous les livres. Si le titre matche avec la saisie, on l'affiche dans le datagrid.
@@ -256,12 +257,18 @@ namespace Mediateq_AP_SIO2
         {
             try
             {
+                // on remplit les variables a l'aide des champs textes
                 string titre = txTitreLivre.Text;
                 string id = txIdLivre.Text;
                 string auteur = txAuteurLivre.Text;
                 string ISBN = txISBNLivre.Text;
+
+                //on vérifie que les entrées id et isbn sont bien des int avec la fonction verifRegexInt
                 bool verif = verifRegexInt(id);
                 bool verif2 = verifRegexInt(ISBN);
+
+                //on met les variables dans un tableau qu'on parcours pour vérifier si tous les champs sont remplis,
+                //et si l'id et l'isbn sont des int en mettant des messages d'erreurs si ce n'est pas le cas
                 string[] entrees = { id, titre, auteur, ISBN };
                 bool verifEntrees = verifEntree(entrees);
 
@@ -380,7 +387,7 @@ namespace Mediateq_AP_SIO2
                     // création du livre a supprimé
                     Livre livreSuppr = new Livre(idModif, titreModif, auteurModif, ISBNModif, collectionModif, imageModif, categorieModif);
 
-
+                    // suppréssion du livre
                     DAODocuments.supprimerLivre(livreSuppr);
 
 
@@ -388,6 +395,7 @@ namespace Mediateq_AP_SIO2
                     // ré-initialisation du dataGridView
                     dtDvd.Rows.Clear();
 
+                    // alimentation de la liste lesLivres avec les livres
                     lesLivres = DAODocuments.getAllLivres();
 
                     // alimentation des différentes combo box lors de l'entrée dans la page crud livre
@@ -441,13 +449,15 @@ namespace Mediateq_AP_SIO2
         {
             try
             {
-
+                // on remplit les variables a l'aide des champs textes
                 string idModif = txIdModifLivre.Text;
                 string titreModif = txTitreLivreModif.Text;
                 string auteurModif = txAuteurLivreModif.Text;
 
-
+                // on les met dans un tableaux
                 string[] entrees = { idModif, titreModif, auteurModif };
+
+                // on vérifie que tous les champs sont renseignés, sinon, on affiche un message d'erreur
                 bool verifEntrees = verifEntree(entrees);
 
                 if (!verifEntrees)
@@ -465,17 +475,19 @@ namespace Mediateq_AP_SIO2
                     DialogResult dialogResult = MessageBox.Show("Etes-vous sur de vouloir modifier le livre : '" + livreSelection.Titre + "'", "Validation !", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                     if (dialogResult == DialogResult.Yes)
                     {
-
+                        // on remplit les variables a l'aide des champs textes
                         string ISBNModif = txISBNLivreModif.Text;
                         string collectionModif = txCollectionLivreModif.Text;
                         string imageModif = txImageLivreModif.Text;
+
+                        // Objet catégorie sélectionné dans la comboBox
                         Categorie categorieModif = (Categorie)cbxCategorieLivreModif.SelectedItem;
 
                         // création du livre a modifié
-                        Livre livreSuppr = new Livre(idModif, titreModif, ISBNModif, auteurModif, collectionModif, imageModif, categorieModif);
+                        Livre livreModif = new Livre(idModif, titreModif, ISBNModif, auteurModif, collectionModif, imageModif, categorieModif);
 
-
-                        DAODocuments.modifierLivre(livreSuppr);
+                        // modification du livre
+                        DAODocuments.modifierLivre(livreModif);
 
 
 
@@ -513,18 +525,21 @@ namespace Mediateq_AP_SIO2
 
         private void btnDeconnexion_Click(object sender, EventArgs e)
         {
+            // popup de validation de deconnexion
             DialogResult dialogResult = MessageBox.Show("Etes-vous sur de vouloir vous déconnecter ?", "Déconnexion", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (dialogResult == DialogResult.Yes)
             {
+                //affichage du formulaire de connexion et fermeture de l'interface utilisateur
                 login login1 = new login();
                 login1.Show();
-                this.Hide();
+                this.Close();
             }
 
         }
 
         private void btnFermerAppliLivre_Click(object sender, EventArgs e)
         {
+            //fermeture de l'application
             Application.Exit();
         }
         #endregion
@@ -540,7 +555,7 @@ namespace Mediateq_AP_SIO2
 
             try
             {
-
+                // on remplit les variables a l'aide des champs textes
                 string id = txId.Text;
                 string duree = txDuree.Text;
                 string synopsis = txSynopsis.Text;
@@ -548,11 +563,14 @@ namespace Mediateq_AP_SIO2
                 string titre = txTitre.Text;
 
 
-
+                // on les met dans un tableaux
                 string[] entrees = { id, duree, synopsis, realisateur, titre };
+
+                //on vérifie que les champs sont tous renseignés et que id et durée sont des int, sinon on affihce des messages d'erreur
                 bool verifEntrees = verifEntree(entrees);
                 bool verif = verifRegexInt(id);
                 bool verif2 = verifRegexInt(duree);
+
                 if (!verifEntrees)
                 {
                     MessageBox.Show("Veuillez remplir tous les champs", "Erreur", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
@@ -712,12 +730,16 @@ namespace Mediateq_AP_SIO2
         {
             try
             {
+                // on les met dans un tableaux
                 string duree = txDureeModifDvd.Text;
                 string synopsis = txSynopsisModifDvd.Text;
                 string realisateur = txRealisateurModifDvd.Text;
                 string titre = txTitreModifDvd.Text;
 
+                // on les met dans un tableaux
                 string[] entrees = { duree, synopsis, realisateur, titre };
+
+                //on vérifie que les champs sont tous renseignés durée est un int, sinon on affihce un message d'erreur
                 bool verifEntrees = verifEntree(entrees);
                 bool verif = verifRegexInt(duree);
                 if (!verifEntrees)
@@ -758,6 +780,7 @@ namespace Mediateq_AP_SIO2
                             // création du dvd modifié
                             Dvd dvdModif = new Dvd(idModif, titreModif, synopsisModif, realisateurModif, dureeModif, imageModif, categorieModif);
 
+                            //modification du dvd
                             DAODocuments.modifierDvd(dvdModif);
 
                             lesDvd = DAODocuments.getAllDvd();
@@ -856,12 +879,14 @@ namespace Mediateq_AP_SIO2
 
         private void btnDeconnexionDvd_Click(object sender, EventArgs e)
         {
+            //popup de validation de déconnexion
             DialogResult dialogResult = MessageBox.Show("Etes-vous sur de vouloir vous déconnecter ?", "Déconnexion", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (dialogResult == DialogResult.Yes)
             {
+                //affichage du formulaire de connexion et fermeture de l'interface utilisateur
                 login login1 = new login();
                 login1.Show();
-                this.Hide();
+                this.Close();
             }
         }
         private void btnFermerAppliDvd_Click(object sender, EventArgs e)
@@ -879,9 +904,11 @@ namespace Mediateq_AP_SIO2
         {
             try
             {
+                // on remplit les variables a l'aide des champs textes 
                 string id = txIdDocument.Text;
                 string prix = txPrixUnitaire.Text;
                 string nbExemplaire = txNbExemplaire.Text;
+
                 bool verif = verifRegexInt(id);
                 bool verif2 = verifRegexInt(prix);
                 bool verif3 = verifRegexInt(nbExemplaire);
@@ -1119,7 +1146,10 @@ namespace Mediateq_AP_SIO2
                 DialogResult dialogResult = MessageBox.Show("Etes-vous sur de vouloir modifier la commande ?", "Validation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (dialogResult == DialogResult.Yes)
                 {
+                    //objet EtatCommande de la combobox
                     EtatCommande etat = (EtatCommande)cbxModifEtat.SelectedItem;
+
+                    //objet Commande de la combobox
                     Commande com = (Commande)cbxCommandeModifEtat.SelectedItem;
 
                     DAODocuments.modifierEtatComande(com, etat);
@@ -1135,13 +1165,15 @@ namespace Mediateq_AP_SIO2
         }
         private void btnDeconnexionCommande_Click(object sender, EventArgs e)
         {
-            this.Hide();
+            //affichage du formulaire de connexion et fermeture de l'interface utilisateur
+            this.Close();
             login login = new login();
             login.Show();
         }
 
         private void cbxModifEtat_SelectedIndexChanged(object sender, EventArgs e)
         {
+            // objetc EtatCommande de la combobox
             EtatCommande etat = (EtatCommande)cbxModifEtat.SelectedItem;
         }
 
@@ -1186,12 +1218,17 @@ namespace Mediateq_AP_SIO2
                 string passwordConfirm = txNewPasswordConfirm.Text;
                 string nom = txNewNom.Text;
                 string prenom = txNewPrenom.Text;
+
                 string[] entrees = { id, pseudo, password, passwordConfirm};
+
+
                 bool verifEntrees = verifEntree(entrees);
                 bool verifInt = verifRegexInt(id);
                 bool verifStringPrenom = verifRegexString(prenom);
                 bool verifStringNom = verifRegexString(nom);
 
+                //vérification des différentes entrées et vérification du contenu du mot de passe (si il respecte des règles de sécurité)
+                // ensuite, on vérifie que l'id et le pseudos ne sont pas deja existants dans la base de données
                 if (!verifEntrees)
                 {
                     MessageBox.Show("Veuillez remplir tous les champs", "Erreur", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
@@ -1374,7 +1411,7 @@ namespace Mediateq_AP_SIO2
 
         private void btnDeconnexionUtilisateur_Click(object sender, EventArgs e)
         {
-            this.Hide();
+            this.Close();
             login login = new login();
             login.Show();
         }
@@ -1443,6 +1480,9 @@ namespace Mediateq_AP_SIO2
 
         public bool verifRegexInt(string chaine)
         {
+            // cette fonction vérifie que tous les caractères de la chaine en parametre sont des int
+            //  comptage du nombre de caractère de la chaine et parcours de la chaine en vérifiant
+            //  que chaque caractère est un int ou non. si non, renvoi false, si oui, renvoi true
             int longueur = chaine.Count();
             bool regexValid = true;
             for (int i = 0; i < longueur; i++)
@@ -1458,6 +1498,9 @@ namespace Mediateq_AP_SIO2
         }
         public bool verifRegexString(string chaine)
         {
+            // cette fonction vérifie que tous les caractères de la chaine en parametre sont des lettres
+            //  comptage du nombre de caractère de la chaine et parcours de la chaine en vérifiant
+            //  que chaque caractère est une lettre ou non. si non, renvoi false, si oui, renvoi true
             int longueur = chaine.Count();
             bool regexValid = true;
             for (int i = 0; i < longueur; i++)
@@ -1473,6 +1516,9 @@ namespace Mediateq_AP_SIO2
         }
         public bool verifEntree(string[] entrees)
         {
+            // cette fonction vérifie que tous les champs du tableau en parametre ne sont pas vides
+            //  parocurs du tableau et vérification pour chaque élément qu'il n'est pas vide ou null
+            // renvoi false si une chaine est vide ou true sinon
             foreach (string e in entrees)
             {
                 if (string.IsNullOrEmpty(e))
@@ -1484,6 +1530,8 @@ namespace Mediateq_AP_SIO2
         }
         public string hashPassword(string password)
         {
+            // cette fonction hash la chaine passée en parametre
+            // renvoi la chaine hashée sous forme de string
             var sha = SHA256.Create();
             var asByteArray = Encoding.Default.GetBytes(password);
             var hashedPassword = sha.ComputeHash(asByteArray);

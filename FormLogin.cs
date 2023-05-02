@@ -44,7 +44,7 @@ namespace Mediateq_AP_SIO2
 
             connexion.Open();
             string hashedPassword = hashPassword(txtPassword.Text);
-            MySqlDataAdapter adap = new MySqlDataAdapter("SELECT COUNT(*) FROM login WHERE pseudo='" + txtLogin.Text + "' AND password='" + hashedPassword  + "'", connexion);
+            MySqlDataAdapter adap = new MySqlDataAdapter("SELECT COUNT(*) FROM login WHERE pseudo='" + txtLogin.Text + "' AND password='" + hashedPassword + "'", connexion);
             DataTable dt = new DataTable();
 
             adap.Fill(dt);
@@ -56,7 +56,7 @@ namespace Mediateq_AP_SIO2
 
                 
                     
-                    lesServices = DAODocuments.getServiecByUser(user);
+                    //Service service = DAODocuments.getServiecByUser(user);
                     if (user.Service.Libelle == "Administratif")
                     {
                         serv = 1;

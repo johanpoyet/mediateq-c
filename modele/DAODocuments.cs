@@ -10,6 +10,10 @@ namespace Mediateq_AP_SIO2
 {
     class DAODocuments
     {
+        /// <summary>
+        /// getter sur les catégories
+        /// </summary>
+        /// <returns>liste des catégories</returns>
         public static List<Categorie> getAllCategories()
         {
             List<Categorie> lesCategories = new List<Categorie>();
@@ -36,6 +40,10 @@ namespace Mediateq_AP_SIO2
             return lesCategories;
         }
 
+        /// <summary>
+        /// getter sur les descripteurs
+        /// </summary>
+        /// <returns>liste des descripteur</returns>
         public static List<Descripteur> getAllDescripteurs()
         {
             List<Descripteur> lesDescripteurs = new List<Descripteur>();
@@ -62,6 +70,10 @@ namespace Mediateq_AP_SIO2
             return lesDescripteurs;
         }
 
+        /// <summary>
+        /// getter sur les acteurs
+        /// </summary>
+        /// <returns>liste des acteurs</returns>
         public static List<Acteur> getAllActeurs()
         {
             List<Acteur> lesActeurs = new List<Acteur>();
@@ -88,6 +100,10 @@ namespace Mediateq_AP_SIO2
             return lesActeurs;
         }
 
+        /// <summary>
+        /// getter sur les livres
+        /// </summary>
+        /// <returns>liste des livres</returns>
         public static List<Livre> getAllLivres()
         {
             List<Livre> lesLivres = new List<Livre>();
@@ -121,6 +137,12 @@ namespace Mediateq_AP_SIO2
             return lesLivres;
         }
 
+
+        /// <summary>
+        /// renvoi la ctégorie du livre en paramètre
+        /// </summary>
+        /// <param name="pLivre"></param>
+        /// <returns>ctégorie</returns>
         public static Categorie getCategorieByLivre(Livre pLivre)
         {
             try
@@ -152,6 +174,11 @@ namespace Mediateq_AP_SIO2
             }
         }
 
+
+        /// <summary>
+        /// getter sur les documents
+        /// </summary>
+        /// <returns>liste de documents</returns>
         public static List<Document> getAllDocuments()
         {
             List<Document> lesDocuments = new List<Document>();
@@ -182,6 +209,11 @@ namespace Mediateq_AP_SIO2
 
             return lesDocuments;
         }
+
+        /// <summary>
+        /// getter sur les commandes
+        /// </summary>
+        /// <returns>liste de commandes</returns>
         public static List<Commande> getAllCommandes()
         {
             List<Commande> lesCommandes = new List<Commande>();
@@ -217,6 +249,11 @@ namespace Mediateq_AP_SIO2
             return lesCommandes;
         }
 
+
+        /// <summary>
+        /// getter sur les Dvd
+        /// </summary>
+        /// <returns>liste de DVD</returns>
         public static List<Dvd> getAllDvd()
         {
             List<Dvd> lesDvd = new List<Dvd>();
@@ -261,6 +298,11 @@ namespace Mediateq_AP_SIO2
 
             return lesDvd;
         }
+
+        /// <summary>
+        /// getter sur les users
+        /// </summary>
+        /// <returns>liste d'users</returns>
         public static List<Login> getAllUsers()
         {
             List<Login> lesUsers = new List<Login>();
@@ -305,6 +347,11 @@ namespace Mediateq_AP_SIO2
 
             return lesUsers;
         }
+
+        /// <summary>
+        /// getter sur les services
+        /// </summary>
+        /// <returns>liste de services</returns>
         public static List<Service> getAllService()
         {
             List<Service> lesServices = new List<Service>();
@@ -350,6 +397,12 @@ namespace Mediateq_AP_SIO2
             return lesServices;
         }
 
+
+        /// <summary>
+        /// renvoi l'utilisateur du pseudo en parametre
+        /// </summary>
+        /// <param name="pseudo"></param>
+        /// <returns>login (user)</returns>
         public static Login getUserByPseudo(string pseudo)
         {
             Login utilisateur = null;
@@ -394,9 +447,16 @@ namespace Mediateq_AP_SIO2
 
             return utilisateur;
         }
-        public static List<Service> getServiecByUser(Login login)
+
+        /// <summary>
+        /// renvoi le service de l'utilisateur
+        /// </summary>
+        /// <param name="login"></param>
+        /// <returns>service</returns>
+        public static Service getServiecByUser(Login login)
         {
-            List<Service> lesServices = new List<Service>();
+            //List<Service> lesServices = new List<Service>();
+            Service serv = null;
 
 
 
@@ -417,9 +477,9 @@ namespace Mediateq_AP_SIO2
 
                 while (reader.Read())
                 {
-                    Service service = new Service(int.Parse(reader[0].ToString()), reader[1].ToString());
+                    serv = new Service(int.Parse(reader[0].ToString()), reader[1].ToString());
                     // On ne renseigne pas le genre et la catégorie car on ne peut pas ouvrir 2 dataReader dans la même connexion
-                    lesServices.Add(service);
+                    //lesServices.Add(service);
 
                 }
                 DAOFactory.deconnecter();
@@ -435,10 +495,14 @@ namespace Mediateq_AP_SIO2
 
 
 
-            return lesServices;
+            return serv;
         }
 
 
+        /// <summary>
+        /// getter sur les etatsCommande
+        /// </summary>
+        /// <returns>liste d'etatsCommande</returns>
         public static List<EtatCommande> getAllEtatsCommande()
         {
             List<EtatCommande> lesEtatsCommande = new List<EtatCommande>();
@@ -466,6 +530,12 @@ namespace Mediateq_AP_SIO2
             return lesEtatsCommande;
         }
 
+
+        /// <summary>
+        /// renvoi la commande de etatCommande en parametre
+        /// </summary>
+        /// <param name="etat"></param>
+        /// <returns>liste de commandes</returns>
         public static List<Commande> getCommandeByEtatCommande(EtatCommande etat)
         {
             List<Commande> lesCommandesByEtat = new List<Commande>();
@@ -505,6 +575,12 @@ namespace Mediateq_AP_SIO2
             return lesCommandesByEtat;
         }
 
+
+        /// <summary>
+        /// renvoi les documents de l'etatCommande en parametre
+        /// </summary>
+        /// <param name="etat"></param>
+        /// <returns>liste de documents</returns>
         public static List<Document> getDocumentByEtatCommande(EtatCommande etat)
         {
             List<Document> lesDocumentsByEtat = new List<Document>();
@@ -542,7 +618,10 @@ namespace Mediateq_AP_SIO2
         }
 
 
-
+        /// <summary>
+        /// créer un dvd
+        /// </summary>
+        /// <param name="dvd"></param>
         public static void creerDvd(Dvd dvd)
         {
             try
@@ -574,6 +653,10 @@ namespace Mediateq_AP_SIO2
 
         }
 
+        /// <summary>
+        /// créer un acteur
+        /// </summary>
+        /// <param name="act"></param>
         public static void creerActeur(Acteur act)
         {
 
@@ -597,6 +680,12 @@ namespace Mediateq_AP_SIO2
 
         }
 
+
+        /// <summary>
+        /// ajoute un acteur
+        /// </summary>
+        /// <param name="dvd"></param>
+        /// <param name="act"></param>
         public static void ajouterActeur(Dvd dvd, Acteur act)
         {
             try
@@ -618,6 +707,11 @@ namespace Mediateq_AP_SIO2
 
         }
 
+
+        /// <summary>
+        /// créer un livre
+        /// </summary>
+        /// <param name="livre"></param>
         public static void creerLivre(Livre livre)
         {
             try
@@ -641,6 +735,11 @@ namespace Mediateq_AP_SIO2
 
         }
 
+
+        /// <summary>
+        /// supprimer un DVD
+        /// </summary>
+        /// <param name="dvd"></param>
         public static void supprimerDvd(Dvd dvd)
         {
             try
@@ -669,6 +768,10 @@ namespace Mediateq_AP_SIO2
         }
 
 
+        /// <summary>
+        /// supprime un livre
+        /// </summary>
+        /// <param name="livre"></param>
         public static void supprimerLivre(Livre livre)
         {
             try
@@ -695,6 +798,11 @@ namespace Mediateq_AP_SIO2
 
 
         }
+
+        /// <summary>
+        /// supprim une commande
+        /// </summary>
+        /// <param name="com"></param>
         public static void supprimerCommande(Commande com)
         {
 
@@ -721,6 +829,11 @@ namespace Mediateq_AP_SIO2
 
 
         }
+
+        /// <summary>
+        /// supprime un utilisateur
+        /// </summary>
+        /// <param name="user"></param>
         public static void supprimerUtilisateur(Login user)
         {
             try
@@ -748,6 +861,10 @@ namespace Mediateq_AP_SIO2
 
         }
 
+        /// <summary>
+        /// modifie un dvd
+        /// </summary>
+        /// <param name="dvd"></param>
         public static void modifierDvd(Dvd dvd)
         {
             try
@@ -773,7 +890,10 @@ namespace Mediateq_AP_SIO2
 
         }
 
-
+        /// <summary>
+        /// modifie un livre
+        /// </summary>
+        /// <param name="livre"></param>
         public static void modifierLivre(Livre livre)
         {
             try
@@ -799,6 +919,11 @@ namespace Mediateq_AP_SIO2
 
         }
 
+        /// <summary>
+        /// modifie un etatCommande
+        /// </summary>
+        /// <param name="com"></param>
+        /// <param name="etat"></param>
         public static void modifierEtatComande(Commande com, EtatCommande etat)
         {
             try
@@ -826,7 +951,10 @@ namespace Mediateq_AP_SIO2
         }
 
 
-
+        /// <summary>
+        /// setter sur descripteur
+        /// </summary>
+        /// <param name="lesLivres"></param>
         public static void setDescripteurs(List<Livre> lesLivres)
         {
 
@@ -849,6 +977,10 @@ namespace Mediateq_AP_SIO2
             DAOFactory.deconnecter();
         }
 
+        /// <summary>
+        /// setter sur acteur
+        /// </summary>
+        /// <param name="lesDvd"></param>
         public static void setActeur(List<Dvd> lesDvd)
         {
             DAOFactory.connecter();
@@ -870,7 +1002,10 @@ namespace Mediateq_AP_SIO2
             DAOFactory.deconnecter();
         }
 
-
+        /// <summary>
+        /// créer une commande
+        /// </summary>
+        /// <param name="com"></param>
         public static void creerCommande(Commande com)
         {
             try
@@ -902,6 +1037,11 @@ namespace Mediateq_AP_SIO2
 
         }
 
+
+        /// <summary>
+        /// créer un utilisateur
+        /// </summary>
+        /// <param name="user"></param>
         public static void creerUser(Login user)
         {
             try
