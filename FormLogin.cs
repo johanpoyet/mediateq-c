@@ -30,8 +30,8 @@ namespace Mediateq_AP_SIO2
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            txtLogin.Text = "test1";
-            txtPassword.Text = "Johan!38230";
+            //txtLogin.Text = "test1";
+            //txtPassword.Text = "Johan!38230";
             DAOFactory.creerConnection();
             lesUsers = DAODocuments.getAllUsers();
 
@@ -136,12 +136,14 @@ namespace Mediateq_AP_SIO2
             TabPage tabDVD = FrmMediateq.tab.TabPages[3] ;
             TabPage tabLivre = FrmMediateq.tab.TabPages[4];
             TabPage tabCommande = FrmMediateq.tab.TabPages[5];
+            TabPage tabUtilisateur = FrmMediateq.tab.TabPages[7];
             //FrmMediateq.tabDVD.Enabled = false;
             //FrmMediateq.tabCrudLivre.Enabled = false;
             //FrmMediateq.tabCrudCommande.Enabled = false;
             FrmMediateq.tab.TabPages.Remove(tabDVD);
             FrmMediateq.tab.TabPages.Remove(tabLivre);
             FrmMediateq.tab.TabPages.Remove(tabCommande);
+            FrmMediateq.tab.TabPages.Remove(tabUtilisateur);
 
 
 

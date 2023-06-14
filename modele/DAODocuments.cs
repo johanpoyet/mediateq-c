@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Mediateq_AP_SIO2
 {
@@ -340,6 +341,7 @@ namespace Mediateq_AP_SIO2
 
             catch (System.Exception exc)
             {
+                MessageBox.Show("Erreur a la connexion BDD");
                 throw exc;
             }
 

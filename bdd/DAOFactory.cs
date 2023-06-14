@@ -1,6 +1,7 @@
 ﻿using System;
 using MySql.Data.MySqlClient;
 using Mediateq_AP_SIO2.divers;
+using System.Windows.Forms;
 
 namespace Mediateq_AP_SIO2
 {
@@ -88,6 +89,7 @@ namespace Mediateq_AP_SIO2
             }
             catch (Exception e)
             {
+                MessageBox.Show("Erreur connexion BDD");
                 throw new ExceptionSio(1, "Erreur écriture BDD", e.Message);
             }
             
